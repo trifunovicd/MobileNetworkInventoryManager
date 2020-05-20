@@ -3,18 +3,27 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B80BA4448D3F84AE900312E /* Pods_MobileNetworkInventoryManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A6074FD2511C7978FCBC97 /* Pods_MobileNetworkInventoryManager.framework */; };
+		AB01007BA2B410D965D76396 /* Pods_MobileNetworkInventoryManagerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2CDFC920A757E5FFD6BBC /* Pods_MobileNetworkInventoryManagerTests.framework */; };
 		B98D18BD2475952B0053ABF5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18BC2475952B0053ABF5 /* AppDelegate.swift */; };
 		B98D18BF2475952B0053ABF5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18BE2475952B0053ABF5 /* SceneDelegate.swift */; };
-		B98D18C12475952B0053ABF5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18C02475952B0053ABF5 /* ContentView.swift */; };
 		B98D18C32475952C0053ABF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B98D18C22475952C0053ABF5 /* Assets.xcassets */; };
 		B98D18C62475952C0053ABF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B98D18C52475952C0053ABF5 /* Preview Assets.xcassets */; };
 		B98D18C92475952C0053ABF5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B98D18C72475952C0053ABF5 /* LaunchScreen.storyboard */; };
 		B98D18D42475952D0053ABF5 /* MobileNetworkInventoryManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18D32475952D0053ABF5 /* MobileNetworkInventoryManagerTests.swift */; };
 		B98D18DF2475952D0053ABF5 /* MobileNetworkInventoryManagerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18DE2475952D0053ABF5 /* MobileNetworkInventoryManagerUITests.swift */; };
+		B98D18EE247597090053ABF5 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18ED247597090053ABF5 /* Coordinator.swift */; };
+		B98D18F12475975E0053ABF5 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18F02475975E0053ABF5 /* AppCoordinator.swift */; };
+		B98D18F3247597860053ABF5 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18F2247597860053ABF5 /* HomeCoordinator.swift */; };
+		B98D18F82475A2FE0053ABF5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18F72475A2FE0053ABF5 /* HomeViewController.swift */; };
+		B98D18FC2475A37A0053ABF5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18FB2475A37A0053ABF5 /* HomeViewModel.swift */; };
+		B98D19012475A9C40053ABF5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B98D19032475A9C40053ABF5 /* Localizable.strings */; };
+		B98D19062475AAC50053ABF5 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D19052475AAC50053ABF5 /* R.generated.swift */; };
+		CAE9057E7E00FFE1C5CC5195 /* Pods_MobileNetworkInventoryManager_MobileNetworkInventoryManagerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 122FD36CCF12F42EAD29E2F3 /* Pods_MobileNetworkInventoryManager_MobileNetworkInventoryManagerUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,10 +44,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0178B5125814F0A3DE99A3D6 /* Pods-MobileNetworkInventoryManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileNetworkInventoryManager.release.xcconfig"; path = "Target Support Files/Pods-MobileNetworkInventoryManager/Pods-MobileNetworkInventoryManager.release.xcconfig"; sourceTree = "<group>"; };
+		122FD36CCF12F42EAD29E2F3 /* Pods_MobileNetworkInventoryManager_MobileNetworkInventoryManagerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MobileNetworkInventoryManager_MobileNetworkInventoryManagerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		198E2B40870B0231B0899829 /* Pods-MobileNetworkInventoryManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileNetworkInventoryManagerTests.release.xcconfig"; path = "Target Support Files/Pods-MobileNetworkInventoryManagerTests/Pods-MobileNetworkInventoryManagerTests.release.xcconfig"; sourceTree = "<group>"; };
+		62A6074FD2511C7978FCBC97 /* Pods_MobileNetworkInventoryManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MobileNetworkInventoryManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		70C2CDFC920A757E5FFD6BBC /* Pods_MobileNetworkInventoryManagerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MobileNetworkInventoryManagerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		763BB18B6C3637227FBB7651 /* Pods-MobileNetworkInventoryManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileNetworkInventoryManager.debug.xcconfig"; path = "Target Support Files/Pods-MobileNetworkInventoryManager/Pods-MobileNetworkInventoryManager.debug.xcconfig"; sourceTree = "<group>"; };
+		9B4791EFB61DA4141953D1E9 /* Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.release.xcconfig"; path = "Target Support Files/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		9F59E51D23D8D1F150DF0B86 /* Pods-MobileNetworkInventoryManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileNetworkInventoryManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-MobileNetworkInventoryManagerTests/Pods-MobileNetworkInventoryManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B98D18B92475952B0053ABF5 /* MobileNetworkInventoryManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileNetworkInventoryManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B98D18BC2475952B0053ABF5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B98D18BE2475952B0053ABF5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B98D18C02475952B0053ABF5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B98D18C22475952C0053ABF5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B98D18C52475952C0053ABF5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B98D18C82475952C0053ABF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +65,14 @@
 		B98D18DA2475952D0053ABF5 /* MobileNetworkInventoryManagerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileNetworkInventoryManagerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B98D18DE2475952D0053ABF5 /* MobileNetworkInventoryManagerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileNetworkInventoryManagerUITests.swift; sourceTree = "<group>"; };
 		B98D18E02475952D0053ABF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B98D18ED247597090053ABF5 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		B98D18F02475975E0053ABF5 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		B98D18F2247597860053ABF5 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		B98D18F72475A2FE0053ABF5 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		B98D18FB2475A37A0053ABF5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		B98D19022475A9C40053ABF5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B98D19052475AAC50053ABF5 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
+		FBD38ED969EA95C250BB8EBC /* Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.debug.xcconfig"; path = "Target Support Files/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B80BA4448D3F84AE900312E /* Pods_MobileNetworkInventoryManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB01007BA2B410D965D76396 /* Pods_MobileNetworkInventoryManagerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,12 +96,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAE9057E7E00FFE1C5CC5195 /* Pods_MobileNetworkInventoryManager_MobileNetworkInventoryManagerUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		76D98BC212072DCE9A2586C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				62A6074FD2511C7978FCBC97 /* Pods_MobileNetworkInventoryManager.framework */,
+				122FD36CCF12F42EAD29E2F3 /* Pods_MobileNetworkInventoryManager_MobileNetworkInventoryManagerUITests.framework */,
+				70C2CDFC920A757E5FFD6BBC /* Pods_MobileNetworkInventoryManagerTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9F464AE88ECCFA5F4497948D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				763BB18B6C3637227FBB7651 /* Pods-MobileNetworkInventoryManager.debug.xcconfig */,
+				0178B5125814F0A3DE99A3D6 /* Pods-MobileNetworkInventoryManager.release.xcconfig */,
+				FBD38ED969EA95C250BB8EBC /* Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.debug.xcconfig */,
+				9B4791EFB61DA4141953D1E9 /* Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.release.xcconfig */,
+				9F59E51D23D8D1F150DF0B86 /* Pods-MobileNetworkInventoryManagerTests.debug.xcconfig */,
+				198E2B40870B0231B0899829 /* Pods-MobileNetworkInventoryManagerTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		B98D18B02475952B0053ABF5 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +133,8 @@
 				B98D18D22475952D0053ABF5 /* MobileNetworkInventoryManagerTests */,
 				B98D18DD2475952D0053ABF5 /* MobileNetworkInventoryManagerUITests */,
 				B98D18BA2475952B0053ABF5 /* Products */,
+				9F464AE88ECCFA5F4497948D /* Pods */,
+				76D98BC212072DCE9A2586C9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,7 +153,10 @@
 			children = (
 				B98D18BC2475952B0053ABF5 /* AppDelegate.swift */,
 				B98D18BE2475952B0053ABF5 /* SceneDelegate.swift */,
-				B98D18C02475952B0053ABF5 /* ContentView.swift */,
+				B98D18EF2475973C0053ABF5 /* Coordinators */,
+				B98D18EC247596EB0053ABF5 /* Protocols */,
+				B98D18F42475A2A00053ABF5 /* Home */,
+				B98D18FD2475A51E0053ABF5 /* Utilities */,
 				B98D18C22475952C0053ABF5 /* Assets.xcassets */,
 				B98D18C72475952C0053ABF5 /* LaunchScreen.storyboard */,
 				B98D18CA2475952C0053ABF5 /* Info.plist */,
@@ -136,6 +191,65 @@
 			path = MobileNetworkInventoryManagerUITests;
 			sourceTree = "<group>";
 		};
+		B98D18EC247596EB0053ABF5 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				B98D18ED247597090053ABF5 /* Coordinator.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		B98D18EF2475973C0053ABF5 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				B98D18F02475975E0053ABF5 /* AppCoordinator.swift */,
+				B98D18F2247597860053ABF5 /* HomeCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		B98D18F42475A2A00053ABF5 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				B98D18F92475A3420053ABF5 /* View */,
+				B98D18FA2475A34E0053ABF5 /* ViewModel */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		B98D18F92475A3420053ABF5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B98D18F72475A2FE0053ABF5 /* HomeViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B98D18FA2475A34E0053ABF5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B98D18FB2475A37A0053ABF5 /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B98D18FD2475A51E0053ABF5 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B98D18FE2475A5310053ABF5 /* Strings */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		B98D18FE2475A5310053ABF5 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				B98D19052475AAC50053ABF5 /* R.generated.swift */,
+				B98D19032475A9C40053ABF5 /* Localizable.strings */,
+			);
+			path = Strings;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,9 +257,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B98D18E32475952D0053ABF5 /* Build configuration list for PBXNativeTarget "MobileNetworkInventoryManager" */;
 			buildPhases = (
+				C0CEA46888E342282225F702 /* [CP] Check Pods Manifest.lock */,
+				B98D19042475A9E90053ABF5 /* Rswift */,
 				B98D18B52475952B0053ABF5 /* Sources */,
 				B98D18B62475952B0053ABF5 /* Frameworks */,
 				B98D18B72475952B0053ABF5 /* Resources */,
+				F58D6B08A8886A626B61AAAA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -160,6 +277,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B98D18E62475952D0053ABF5 /* Build configuration list for PBXNativeTarget "MobileNetworkInventoryManagerTests" */;
 			buildPhases = (
+				B401A7788CC47014D20D4DFB /* [CP] Check Pods Manifest.lock */,
 				B98D18CB2475952D0053ABF5 /* Sources */,
 				B98D18CC2475952D0053ABF5 /* Frameworks */,
 				B98D18CD2475952D0053ABF5 /* Resources */,
@@ -178,9 +296,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B98D18E92475952D0053ABF5 /* Build configuration list for PBXNativeTarget "MobileNetworkInventoryManagerUITests" */;
 			buildPhases = (
+				BF03870743A71742C12741C6 /* [CP] Check Pods Manifest.lock */,
 				B98D18D62475952D0053ABF5 /* Sources */,
 				B98D18D72475952D0053ABF5 /* Frameworks */,
 				B98D18D82475952D0053ABF5 /* Resources */,
+				F2093564F098B64826C1E3E4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -241,6 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B98D18C92475952C0053ABF5 /* LaunchScreen.storyboard in Resources */,
+				B98D19012475A9C40053ABF5 /* Localizable.strings in Resources */,
 				B98D18C62475952C0053ABF5 /* Preview Assets.xcassets in Resources */,
 				B98D18C32475952C0053ABF5 /* Assets.xcassets in Resources */,
 			);
@@ -262,14 +383,142 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B401A7788CC47014D20D4DFB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MobileNetworkInventoryManagerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B98D19042475A9E90053ABF5 /* Rswift */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$TEMP_DIR/rswift-lastrun",
+			);
+			name = Rswift;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				$SRCROOT/R.generated.swift,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/R.generated.swift\"\n";
+		};
+		BF03870743A71742C12741C6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C0CEA46888E342282225F702 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MobileNetworkInventoryManager-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F2093564F098B64826C1E3E4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F58D6B08A8886A626B61AAAA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MobileNetworkInventoryManager/Pods-MobileNetworkInventoryManager-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MobileNetworkInventoryManager/Pods-MobileNetworkInventoryManager-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MobileNetworkInventoryManager/Pods-MobileNetworkInventoryManager-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B98D18B52475952B0053ABF5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B98D18F12475975E0053ABF5 /* AppCoordinator.swift in Sources */,
 				B98D18BD2475952B0053ABF5 /* AppDelegate.swift in Sources */,
+				B98D18FC2475A37A0053ABF5 /* HomeViewModel.swift in Sources */,
+				B98D19062475AAC50053ABF5 /* R.generated.swift in Sources */,
+				B98D18F3247597860053ABF5 /* HomeCoordinator.swift in Sources */,
 				B98D18BF2475952B0053ABF5 /* SceneDelegate.swift in Sources */,
-				B98D18C12475952B0053ABF5 /* ContentView.swift in Sources */,
+				B98D18EE247597090053ABF5 /* Coordinator.swift in Sources */,
+				B98D18F82475A2FE0053ABF5 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +560,14 @@
 				B98D18C82475952C0053ABF5 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		B98D19032475A9C40053ABF5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B98D19022475A9C40053ABF5 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -432,12 +689,14 @@
 		};
 		B98D18E42475952D0053ABF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 763BB18B6C3637227FBB7651 /* Pods-MobileNetworkInventoryManager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MobileNetworkInventoryManager/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = MobileNetworkInventoryManager/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -445,18 +704,20 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.danijeltrifunovic.MobileNetworkInventoryManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		B98D18E52475952D0053ABF5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0178B5125814F0A3DE99A3D6 /* Pods-MobileNetworkInventoryManager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MobileNetworkInventoryManager/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = MobileNetworkInventoryManager/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -464,12 +725,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.danijeltrifunovic.MobileNetworkInventoryManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		B98D18E72475952D0053ABF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9F59E51D23D8D1F150DF0B86 /* Pods-MobileNetworkInventoryManagerTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -491,6 +753,7 @@
 		};
 		B98D18E82475952D0053ABF5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 198E2B40870B0231B0899829 /* Pods-MobileNetworkInventoryManagerTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -512,6 +775,7 @@
 		};
 		B98D18EA2475952D0053ABF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBD38ED969EA95C250BB8EBC /* Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -531,6 +795,7 @@
 		};
 		B98D18EB2475952D0053ABF5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B4791EFB61DA4141953D1E9 /* Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
