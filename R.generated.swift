@@ -105,15 +105,87 @@ struct R: Rswift.Validatable {
   }
   #endif
 
-  /// This `R.image` struct is generated, and contains static references to 1 images.
+  /// This `R.image` struct is generated, and contains static references to 9 images.
   struct image {
     /// Image `avatar`.
     static let avatar = Rswift.ImageResource(bundle: R.hostingBundle, name: "avatar")
+    /// Image `map-filled`.
+    static let mapFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "map-filled")
+    /// Image `map`.
+    static let map = Rswift.ImageResource(bundle: R.hostingBundle, name: "map")
+    /// Image `sites-filled`.
+    static let sitesFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "sites-filled")
+    /// Image `sites`.
+    static let sites = Rswift.ImageResource(bundle: R.hostingBundle, name: "sites")
+    /// Image `tasks-filled`.
+    static let tasksFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "tasks-filled")
+    /// Image `tasks`.
+    static let tasks = Rswift.ImageResource(bundle: R.hostingBundle, name: "tasks")
+    /// Image `user-filled`.
+    static let userFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "user-filled")
+    /// Image `user`.
+    static let user = Rswift.ImageResource(bundle: R.hostingBundle, name: "user")
 
     #if os(iOS) || os(tvOS)
     /// `UIImage(named: "avatar", bundle: ..., traitCollection: ...)`
     static func avatar(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.avatar, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "map", bundle: ..., traitCollection: ...)`
+    static func map(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.map, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "map-filled", bundle: ..., traitCollection: ...)`
+    static func mapFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.mapFilled, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "sites", bundle: ..., traitCollection: ...)`
+    static func sites(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.sites, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "sites-filled", bundle: ..., traitCollection: ...)`
+    static func sitesFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.sitesFilled, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "tasks", bundle: ..., traitCollection: ...)`
+    static func tasks(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.tasks, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "tasks-filled", bundle: ..., traitCollection: ...)`
+    static func tasksFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.tasksFilled, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "user", bundle: ..., traitCollection: ...)`
+    static func user(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.user, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "user-filled", bundle: ..., traitCollection: ...)`
+    static func userFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.userFilled, compatibleWith: traitCollection)
     }
     #endif
 
@@ -152,26 +224,83 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 1 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 4 localization keys.
     struct localizable {
-      /// en translation: app
+      /// en translation: Map
       ///
       /// Locales: en
-      static let app = Rswift.StringResource(key: "app", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      static let map = Rswift.StringResource(key: "map", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Sites
+      ///
+      /// Locales: en
+      static let sites = Rswift.StringResource(key: "sites", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Tasks
+      ///
+      /// Locales: en
+      static let tasks = Rswift.StringResource(key: "tasks", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: User
+      ///
+      /// Locales: en
+      static let user = Rswift.StringResource(key: "user", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
 
-      /// en translation: app
+      /// en translation: Map
       ///
       /// Locales: en
-      static func app(preferredLanguages: [String]? = nil) -> String {
+      static func map(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("app", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("map", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "app"
+          return "map"
         }
 
-        return NSLocalizedString("app", bundle: bundle, comment: "")
+        return NSLocalizedString("map", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Sites
+      ///
+      /// Locales: en
+      static func sites(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("sites", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "sites"
+        }
+
+        return NSLocalizedString("sites", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Tasks
+      ///
+      /// Locales: en
+      static func tasks(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("tasks", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "tasks"
+        }
+
+        return NSLocalizedString("tasks", bundle: bundle, comment: "")
+      }
+
+      /// en translation: User
+      ///
+      /// Locales: en
+      static func user(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("user", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "user"
+        }
+
+        return NSLocalizedString("user", bundle: bundle, comment: "")
       }
 
       fileprivate init() {}

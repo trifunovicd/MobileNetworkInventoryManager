@@ -1,5 +1,5 @@
 //
-//  HomeViewModel.swift
+//  TasksViewModel.swift
 //  MobileNetworkInventoryManager
 //
 //  Created by Internship on 20/05/2020.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HomeViewModel {
+class TasksViewModel {
     
-    weak var homeCoordinatorDelegate: HomeCoordinator?
+    weak var tasksCoordinatorDelegate: TasksCoordinator?
 }

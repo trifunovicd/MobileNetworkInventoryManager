@@ -21,8 +21,53 @@ class AppCoordinator: Coordinator {
     func start() {
         window.rootViewController = presenter
         window.makeKeyAndVisible()
-        let homeCoordinator = HomeCoordinator(presenter: presenter)
-        childCoordinators.append(homeCoordinator)
-        homeCoordinator.start()
+        let loginCoordinator = LoginCoordinator(presenter: presenter)
+        loginCoordinator.parentCoordinator = self
+        childCoordinators.append(loginCoordinator)
+        loginCoordinator.start()
+    }
+    
+    func startApp() {
+        let tabController = UITabBarController()
+
+        let sitesCoordinator = SitesCoordinator(presenter: UINavigationController())
+        let tasksCoordinator = TasksCoordinator(presenter: UINavigationController())
+        let mapCoordinator = MapCoordinator(presenter: UINavigationController())
+        let userCoordinator = UserCoordinator(presenter: UINavigationController())
+        
+        childCoordinators.append(sitesCoordinator)
+        childCoordinators.append(tasksCoordinator)
+        childCoordinators.append(mapCoordinator)
+        childCoordinators.append(userCoordinator)
+
+        sitesCoordinator.start()
+        tasksCoordinator.start()
+        mapCoordinator.start()
+        userCoordinator.start()
+
+        let tabBarList = [sitesCoordinator.presenter, tasksCoordinator.presenter, mapCoordinator.presenter, userCoordinator.presenter]
+
+        tabController.viewControllers = tabBarList
+        
+        window.rootViewController = tabController
+        window.makeKeyAndVisible()
+    }
+}
+
+
+extension AppCoordinator: CoordinatorDelegate {
+    
+    func childDidFinish(child: Coordinator) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === child {
+                childCoordinators.remove(at: index)
+                
+                if child is LoginCoordinator {
+                    startApp()
+                }
+                
+                break
+            }
+        }
     }
 }

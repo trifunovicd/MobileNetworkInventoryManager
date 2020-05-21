@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  TasksViewController.swift
 //  MobileNetworkInventoryManager
 //
 //  Created by Internship on 20/05/2020.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class TasksViewController: UIViewController {
 
-    var viewModel: HomeViewModel!
+    var viewModel: TasksViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-    }
 
+    }
+    
 }
