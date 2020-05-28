@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7B80BA4448D3F84AE900312E /* Pods_MobileNetworkInventoryManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A6074FD2511C7978FCBC97 /* Pods_MobileNetworkInventoryManager.framework */; };
 		AB01007BA2B410D965D76396 /* Pods_MobileNetworkInventoryManagerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2CDFC920A757E5FFD6BBC /* Pods_MobileNetworkInventoryManagerTests.framework */; };
+		B965F66A247D5F9E00E2E4A2 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = B965F669247D5F9E00E2E4A2 /* Login.swift */; };
 		B98D18BD2475952B0053ABF5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18BC2475952B0053ABF5 /* AppDelegate.swift */; };
 		B98D18BF2475952B0053ABF5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18BE2475952B0053ABF5 /* SceneDelegate.swift */; };
 		B98D18C32475952C0053ABF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B98D18C22475952C0053ABF5 /* Assets.xcassets */; };
@@ -19,7 +20,6 @@
 		B98D18EE247597090053ABF5 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18ED247597090053ABF5 /* Coordinator.swift */; };
 		B98D18F12475975E0053ABF5 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18F02475975E0053ABF5 /* AppCoordinator.swift */; };
 		B98D18F3247597860053ABF5 /* SitesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18F2247597860053ABF5 /* SitesCoordinator.swift */; };
-		B98D18F82475A2FE0053ABF5 /* SitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18F72475A2FE0053ABF5 /* SitesViewController.swift */; };
 		B98D18FC2475A37A0053ABF5 /* SitesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18FB2475A37A0053ABF5 /* SitesViewModel.swift */; };
 		B98D19012475A9C40053ABF5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B98D19032475A9C40053ABF5 /* Localizable.strings */; };
 		B98D19062475AAC50053ABF5 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D19052475AAC50053ABF5 /* R.generated.swift */; };
@@ -40,6 +40,12 @@
 		B98D19302475DFE20053ABF5 /* CoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D192F2475DFE20053ABF5 /* CoordinatorDelegate.swift */; };
 		B98D19322475E1720053ABF5 /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D19312475E1720053ABF5 /* ViewControllerDelegate.swift */; };
 		B9EF08D4247662BD00D4C7A8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EF08D3247662BD00D4C7A8 /* User.swift */; };
+		B9F293DF247EA76900ABF197 /* LoginDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293DE247EA76900ABF197 /* LoginDelegate.swift */; };
+		B9F293E1247EAD1D00ABF197 /* UserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293E0247EAD1D00ABF197 /* UserDelegate.swift */; };
+		B9F293E4247EED5D00ABF197 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293E3247EED5D00ABF197 /* Site.swift */; };
+		B9F293E7247EF52100ABF197 /* SitePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293E6247EF52100ABF197 /* SitePreview.swift */; };
+		B9F293E9247F010E00ABF197 /* SitesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293E8247F010E00ABF197 /* SitesTableViewController.swift */; };
+		B9F293EB247F024E00ABF197 /* SitesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293EA247F024E00ABF197 /* SitesTableViewCell.swift */; };
 		CAE9057E7E00FFE1C5CC5195 /* Pods_MobileNetworkInventoryManager_MobileNetworkInventoryManagerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 122FD36CCF12F42EAD29E2F3 /* Pods_MobileNetworkInventoryManager_MobileNetworkInventoryManagerUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +75,7 @@
 		763BB18B6C3637227FBB7651 /* Pods-MobileNetworkInventoryManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileNetworkInventoryManager.debug.xcconfig"; path = "Target Support Files/Pods-MobileNetworkInventoryManager/Pods-MobileNetworkInventoryManager.debug.xcconfig"; sourceTree = "<group>"; };
 		9B4791EFB61DA4141953D1E9 /* Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.release.xcconfig"; path = "Target Support Files/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		9F59E51D23D8D1F150DF0B86 /* Pods-MobileNetworkInventoryManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileNetworkInventoryManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-MobileNetworkInventoryManagerTests/Pods-MobileNetworkInventoryManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B965F669247D5F9E00E2E4A2 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		B98D18B92475952B0053ABF5 /* MobileNetworkInventoryManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileNetworkInventoryManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B98D18BC2475952B0053ABF5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B98D18BE2475952B0053ABF5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,7 +92,6 @@
 		B98D18ED247597090053ABF5 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		B98D18F02475975E0053ABF5 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B98D18F2247597860053ABF5 /* SitesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitesCoordinator.swift; sourceTree = "<group>"; };
-		B98D18F72475A2FE0053ABF5 /* SitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitesViewController.swift; sourceTree = "<group>"; };
 		B98D18FB2475A37A0053ABF5 /* SitesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitesViewModel.swift; sourceTree = "<group>"; };
 		B98D19022475A9C40053ABF5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B98D19052475AAC50053ABF5 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
@@ -106,6 +112,12 @@
 		B98D192F2475DFE20053ABF5 /* CoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorDelegate.swift; sourceTree = "<group>"; };
 		B98D19312475E1720053ABF5 /* ViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerDelegate.swift; sourceTree = "<group>"; };
 		B9EF08D3247662BD00D4C7A8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B9F293DE247EA76900ABF197 /* LoginDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDelegate.swift; sourceTree = "<group>"; };
+		B9F293E0247EAD1D00ABF197 /* UserDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDelegate.swift; sourceTree = "<group>"; };
+		B9F293E3247EED5D00ABF197 /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
+		B9F293E6247EF52100ABF197 /* SitePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitePreview.swift; sourceTree = "<group>"; };
+		B9F293E8247F010E00ABF197 /* SitesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitesTableViewController.swift; sourceTree = "<group>"; };
+		B9F293EA247F024E00ABF197 /* SitesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitesTableViewCell.swift; sourceTree = "<group>"; };
 		FBD38ED969EA95C250BB8EBC /* Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.debug.xcconfig"; path = "Target Support Files/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests/Pods-MobileNetworkInventoryManager-MobileNetworkInventoryManagerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -235,6 +247,8 @@
 				B98D18ED247597090053ABF5 /* Coordinator.swift */,
 				B98D192F2475DFE20053ABF5 /* CoordinatorDelegate.swift */,
 				B98D19312475E1720053ABF5 /* ViewControllerDelegate.swift */,
+				B9F293DE247EA76900ABF197 /* LoginDelegate.swift */,
+				B9F293E0247EAD1D00ABF197 /* UserDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -255,6 +269,7 @@
 		B98D18F42475A2A00053ABF5 /* Sites */ = {
 			isa = PBXGroup;
 			children = (
+				B9F293E2247EED4E00ABF197 /* Model */,
 				B98D18F92475A3420053ABF5 /* View */,
 				B98D18FA2475A34E0053ABF5 /* ViewModel */,
 			);
@@ -264,7 +279,8 @@
 		B98D18F92475A3420053ABF5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B98D18F72475A2FE0053ABF5 /* SitesViewController.swift */,
+				B9F293EA247F024E00ABF197 /* SitesTableViewCell.swift */,
+				B9F293E8247F010E00ABF197 /* SitesTableViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -401,6 +417,7 @@
 		B9EF08D22476616E00D4C7A8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B965F669247D5F9E00E2E4A2 /* Login.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -411,6 +428,23 @@
 				B9EF08D3247662BD00D4C7A8 /* User.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		B9F293E2247EED4E00ABF197 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B9F293E3247EED5D00ABF197 /* Site.swift */,
+				B9F293E5247EF4FC00ABF197 /* Preview */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B9F293E5247EF4FC00ABF197 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				B9F293E6247EF52100ABF197 /* SitePreview.swift */,
+			);
+			path = Preview;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -689,15 +723,21 @@
 				B98D18BF2475952B0053ABF5 /* SceneDelegate.swift in Sources */,
 				B98D190D2475B6950053ABF5 /* TasksViewController.swift in Sources */,
 				B98D19182475B96E0053ABF5 /* MapCoordinator.swift in Sources */,
+				B965F66A247D5F9E00E2E4A2 /* Login.swift in Sources */,
 				B98D19212475BABC0053ABF5 /* UserCoordinator.swift in Sources */,
 				B98D19302475DFE20053ABF5 /* CoordinatorDelegate.swift in Sources */,
 				B98D192E2475DE9B0053ABF5 /* Request.swift in Sources */,
+				B9F293E1247EAD1D00ABF197 /* UserDelegate.swift in Sources */,
+				B9F293E4247EED5D00ABF197 /* Site.swift in Sources */,
+				B9F293E7247EF52100ABF197 /* SitePreview.swift in Sources */,
+				B9F293E9247F010E00ABF197 /* SitesTableViewController.swift in Sources */,
 				B98D19322475E1720053ABF5 /* ViewControllerDelegate.swift in Sources */,
 				B98D18EE247597090053ABF5 /* Coordinator.swift in Sources */,
-				B98D18F82475A2FE0053ABF5 /* SitesViewController.swift in Sources */,
 				B98D190F2475B6B20053ABF5 /* TasksViewModel.swift in Sources */,
 				B98D191D2475BA610053ABF5 /* UserViewModel.swift in Sources */,
 				B98D19282475CD9D0053ABF5 /* LoginViewModel.swift in Sources */,
+				B9F293DF247EA76900ABF197 /* LoginDelegate.swift in Sources */,
+				B9F293EB247F024E00ABF197 /* SitesTableViewCell.swift in Sources */,
 				B98D19142475B90C0053ABF5 /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

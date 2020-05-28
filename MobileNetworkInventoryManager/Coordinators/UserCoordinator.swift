@@ -25,16 +25,8 @@ class UserCoordinator: Coordinator {
     }
     
     func start() {
-        setupNavigationBar()
+        presenter.setupNavigationBar(barTintColor: .systemBlue, titleTextAttributes: [.foregroundColor: UIColor.white], tintColor: .white, barStyle: .black, isTranslucent: false)
         controller.viewModel.userCoordinatorDelegate = self
         presenter.pushViewController(controller, animated: true)
-    }
-    
-    private func setupNavigationBar() {
-        presenter.navigationBar.barTintColor = .systemBlue
-        presenter.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
-        presenter.navigationBar.tintColor = UIColor.white
-        presenter.navigationBar.barStyle = .black
-        presenter.navigationBar.isTranslucent = false
     }
 }

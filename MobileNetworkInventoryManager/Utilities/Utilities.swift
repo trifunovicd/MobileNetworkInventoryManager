@@ -23,3 +23,20 @@ extension UITextField {
         self.leftViewMode = .always
     }
 }
+
+extension UINavigationController {
+    func setupNavigationBar(barTintColor: UIColor, titleTextAttributes: [NSAttributedString.Key : Any], tintColor: UIColor, barStyle: UIBarStyle, isTranslucent: Bool) {
+        self.navigationBar.barTintColor = barTintColor
+        self.navigationBar.titleTextAttributes = titleTextAttributes
+        self.navigationBar.tintColor = tintColor
+        self.navigationBar.barStyle = barStyle
+        self.navigationBar.isTranslucent = isTranslucent
+    }
+}
+
+func getAlert(title: String, message: String, actionTitle: String) -> UIAlertController {
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: actionTitle, style: .cancel, handler: nil))
+
+    return alert
+}

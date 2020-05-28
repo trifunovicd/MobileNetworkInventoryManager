@@ -11,7 +11,7 @@ import Alamofire
 import RxSwift
 
 enum Urls: String {
-    case baseUrl = "student.vsmti.hr/dtrifunovic/PIS/json.php"
+    case baseUrl = "http://student.vsmti.hr/dtrifunovic/PIS/json.php"
 }
 
 enum DataError: Error {
@@ -19,6 +19,33 @@ enum DataError: Error {
     case canNotProcessData
 }
 
+enum Action {
+    case getAllSites
+    case getAllUsers
+    case getTasksForUser
+}
+
+func makeUrl(username: String, password: String) -> String {
+    let url = Urls.baseUrl.rawValue + R.string.localizable.check_if_user_exists(username, password)
+    guard let urlString = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return url }
+    return urlString
+}
+
+func makeUrl(action: Action, userId: Int?) -> String {
+    var url = Urls.baseUrl.rawValue
+    
+    switch action {
+    case .getAllSites:
+        url = url + R.string.localizable.get_all_sites()
+    case .getAllUsers:
+        url = url + R.string.localizable.get_all_users()
+    case .getTasksForUser:
+        guard let userId = userId else { break }
+        url = url + R.string.localizable.get_tasks_for_user(userId)
+    }
+    
+    return url
+}
 
 func getRequest<Data: Codable> (url: String) -> Observable<Data> {
     

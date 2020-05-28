@@ -11,12 +11,13 @@ import UIKit
 class SitesCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
-    let controller: SitesViewController
+    let controller: SitesTableViewController
     
-    init(presenter: UINavigationController) {
+    init(presenter: UINavigationController, userId: Int) {
         self.presenter = presenter
-        let sitesViewController = SitesViewController()
+        let sitesViewController = SitesTableViewController()
         let sitesViewModel = SitesViewModel()
+        sitesViewModel.userId = userId
         sitesViewController.viewModel = sitesViewModel
         sitesViewController.tabBarItem = UITabBarItem(title: R.string.localizable.sites(), image: #imageLiteral(resourceName: "sites"), selectedImage: #imageLiteral(resourceName: "sites-filled"))
         sitesViewController.view.backgroundColor = .white
@@ -25,16 +26,8 @@ class SitesCoordinator: Coordinator {
     }
     
     func start() {
-        setupNavigationBar()
+        presenter.setupNavigationBar(barTintColor: .systemBlue, titleTextAttributes: [.foregroundColor: UIColor.white], tintColor: .white, barStyle: .black, isTranslucent: false)
         controller.viewModel.sitesCoordinatorDelegate = self
         presenter.pushViewController(controller, animated: true)
-    }
-    
-    private func setupNavigationBar() {
-        presenter.navigationBar.barTintColor = .systemBlue
-        presenter.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
-        presenter.navigationBar.tintColor = UIColor.white
-        presenter.navigationBar.barStyle = .black
-        presenter.navigationBar.isTranslucent = false
     }
 }

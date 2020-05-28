@@ -12,6 +12,7 @@ class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     let window: UIWindow
     var presenter: UINavigationController
+    var userId: Int!
     
     init(window: UIWindow) {
         self.window = window
@@ -30,7 +31,7 @@ class AppCoordinator: Coordinator {
     func startApp() {
         let tabController = UITabBarController()
 
-        let sitesCoordinator = SitesCoordinator(presenter: UINavigationController())
+        let sitesCoordinator = SitesCoordinator(presenter: UINavigationController(), userId: userId)
         let tasksCoordinator = TasksCoordinator(presenter: UINavigationController())
         let mapCoordinator = MapCoordinator(presenter: UINavigationController())
         let userCoordinator = UserCoordinator(presenter: UINavigationController())
@@ -51,6 +52,14 @@ class AppCoordinator: Coordinator {
         
         window.rootViewController = tabController
         window.makeKeyAndVisible()
+    }
+    
+}
+
+
+extension AppCoordinator: UserDelegate {
+    func setUserData(_ data: Int) {
+        userId = data
     }
 }
 

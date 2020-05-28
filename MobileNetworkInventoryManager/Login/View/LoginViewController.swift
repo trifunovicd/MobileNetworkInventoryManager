@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class LoginViewController: UIViewController {
     
     var viewModel: LoginViewModel!
+    private let disposeBag: DisposeBag = DisposeBag()
     
     private let avatarImageView: UIImageView = {
         let view = UIImageView(image: #imageLiteral(resourceName: "avatar"))
@@ -20,7 +23,7 @@ class LoginViewController: UIViewController {
     
     private let usernameTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Username"
+        textField.placeholder = R.string.localizable.username()
         textField.backgroundColor = .white
         textField.setLeftPaddingPoints(10)
         textField.layer.cornerRadius = 10
@@ -32,7 +35,7 @@ class LoginViewController: UIViewController {
     
     private let passwordTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Password"
+        textField.placeholder = R.string.localizable.password()
         textField.backgroundColor = .white
         textField.setLeftPaddingPoints(10)
         textField.layer.cornerRadius = 10
@@ -44,7 +47,7 @@ class LoginViewController: UIViewController {
     
     private let loginButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Login", for: .normal)
+        button.setTitle(R.string.localizable.login(), for: .normal)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 10
         button.isUserInteractionEnabled = true
@@ -58,10 +61,22 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         setupLayout()
+        setObservers()
+        
+        usernameTextField.delegate = self
+        passwordTextField.delegate = self
+        
+        viewModel.initialize().disposed(by: disposeBag)
     }
     
     @objc func login() {
-        viewModel.loginCoordinatorDelegate?.viewControllerHasFinished()
+        guard let username = usernameTextField.text, let password = passwordTextField.text else { return }
+        if username.isEmpty || password.isEmpty {
+            viewModel.alertOfMissingData.onNext(())
+        }
+        else {
+            viewModel.loginRequest.onNext((username, password))
+        }
     }
     
     private func setupLayout() {
@@ -92,5 +107,36 @@ class LoginViewController: UIViewController {
             loginButton.heightAnchor.constraint(equalToConstant: 40)
             
         ])
+    }
+    
+    private func setObservers() {
+        viewModel.loginSuccessful.subscribe(onNext: { [weak self] userId in
+            self?.viewModel.loginCoordinatorDelegate?.login(userId: userId)
+        }).disposed(by: disposeBag)
+        
+        viewModel.alertOfError.subscribe(onNext: { [weak self] in
+            let alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
+            self?.present(alert, animated: true, completion: nil)
+        }).disposed(by: disposeBag)
+        
+        viewModel.alertOfFailedLogin.subscribe(onNext: { [weak self] in
+            let alert = getAlert(title: R.string.localizable.failed_login_alert_title(), message: R.string.localizable.failed_login_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
+            self?.present(alert, animated: true, completion: nil)
+        }).disposed(by: disposeBag)
+        
+        viewModel.alertOfMissingData.subscribe(onNext: { [weak self] in
+            let alert = getAlert(title: R.string.localizable.missing_data_alert_title(), message: R.string.localizable.missing_data_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
+            self?.present(alert, animated: true, completion: nil)
+        }).disposed(by: disposeBag)
+    }
+    
+}
+
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        login()
+        return true
     }
 }

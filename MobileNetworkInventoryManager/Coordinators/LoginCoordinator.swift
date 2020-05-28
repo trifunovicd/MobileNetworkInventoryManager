@@ -9,7 +9,7 @@
 import UIKit
 
 class LoginCoordinator: Coordinator {
-    weak var parentCoordinator: CoordinatorDelegate?
+    weak var parentCoordinator: (CoordinatorDelegate & UserDelegate)?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
     let controller: LoginViewController
@@ -29,8 +29,15 @@ class LoginCoordinator: Coordinator {
 }
 
 
+extension LoginCoordinator: LoginDelegate {
+    func login(userId: Int) {
+        parentCoordinator?.setUserData(userId)
+        viewControllerHasFinished()
+    }
+}
+
+
 extension LoginCoordinator: ViewControllerDelegate {
-    
     func viewControllerHasFinished() {
         childCoordinators.removeAll()
         controller.removeFromParent()
