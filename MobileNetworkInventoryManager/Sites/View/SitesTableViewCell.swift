@@ -22,7 +22,7 @@ class SitesTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let siteTechLabel: UILabel = {
+    private let siteTechnologyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -66,10 +66,10 @@ class SitesTableViewCell: UITableViewCell {
     }
     
     func configure(_ site: SitePreview) {
-        siteNameLabel.text = site.naziv
-        siteAddressLabel.text = site.adresa
-        siteTechLabel.text = site.tehnologija
-        siteMarkLabel.text = site.internaOznaka
+        siteNameLabel.text = site.name
+        siteAddressLabel.text = site.address
+        siteTechnologyLabel.text = site.technology
+        siteMarkLabel.text = site.mark
     }
     
     private func setupLayout() {
@@ -91,7 +91,7 @@ class SitesTableViewCell: UITableViewCell {
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        containerView.addSubviews(views: [siteNameLabel, siteAddressLabel, siteTechLabel, stackView])
+        containerView.addSubviews(views: [siteNameLabel, siteAddressLabel, siteTechnologyLabel, stackView])
         
         contentView.addSubview(containerView)
         contentView.backgroundColor = .white
@@ -110,10 +110,10 @@ class SitesTableViewCell: UITableViewCell {
             siteAddressLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             siteAddressLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
             
-            siteTechLabel.topAnchor.constraint(equalTo: siteAddressLabel.bottomAnchor, constant: 8),
-            siteTechLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            siteTechLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
-            siteTechLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
+            siteTechnologyLabel.topAnchor.constraint(equalTo: siteAddressLabel.bottomAnchor, constant: 8),
+            siteTechnologyLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            siteTechnologyLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
+            siteTechnologyLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
             
             siteImageView.heightAnchor.constraint(equalToConstant: 35),
             siteImageView.widthAnchor.constraint(equalToConstant: 35),

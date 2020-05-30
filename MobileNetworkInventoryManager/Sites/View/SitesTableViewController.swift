@@ -16,7 +16,7 @@ class SitesTableViewController: UITableViewController {
 
     var viewModel: SitesViewModel!
     private let disposeBag: DisposeBag = DisposeBag()
-    private let searchController = UISearchController(searchResultsController: nil)
+    private let searchBar: UISearchBar = UISearchBar()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class SitesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.sitesPreviews.count
+        return viewModel.filteredSitesPreviews.count
     }
 
     
@@ -42,7 +42,7 @@ class SitesTableViewController: UITableViewController {
             fatalError(R.string.localizable.cell_error(cellIdentifier))
         }
         
-        let site = viewModel.sitesPreviews[indexPath.row]
+        let site = viewModel.filteredSitesPreviews[indexPath.row]
         cell.configure(site)
         
         cell.onCellClicked = {
@@ -53,12 +53,22 @@ class SitesTableViewController: UITableViewController {
     }
     
     private func setup() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: nil)
+        if #available(iOS 13.0, *) {
+            UITextField.appearance(whenContainedInInstancesOf: [type(of: searchBar)]).tintColor = .white
+        }
+        else {
+            UITextField.appearance(whenContainedInInstancesOf: [type(of: searchBar)]).tintColor = .darkGray
+        }
+        searchBar.keyboardAppearance = .light
+        searchBar.placeholder = R.string.localizable.search_sites_placeholder()
+        searchBar.scopeBarBackgroundImage = UIImage()
+        searchBar.scopeButtonTitles = [R.string.localizable.name(), R.string.localizable.address(), R.string.localizable.tech(), R.string.localizable.mark()]
+        searchBar.showsScopeBar = true
+        searchBar.showsCancelButton = true
+        searchBar.sizeToFit()
+        searchBar.delegate = self
         
-        searchController.searchBar.placeholder = R.string.localizable.search_sites_placeholder()
-        searchController.searchBar.keyboardAppearance = .light
-        navigationItem.hidesSearchBarWhenScrolling = false
-        navigationItem.searchController = searchController
+        showSearchBarButton(shouldShow: true)
         
         tableView.register(SitesTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.separatorStyle = .none
@@ -66,7 +76,28 @@ class SitesTableViewController: UITableViewController {
         setObservers()
     }
     
+    @objc private func handleShowSearchBar() {
+        showSearchBar(shouldShow: true)
+        searchBar.becomeFirstResponder()
+    }
     
+    private func showSearchBarButton(shouldShow: Bool) {
+        if shouldShow {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowSearchBar))
+            
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: nil)
+        }
+        else {
+            navigationItem.rightBarButtonItem = nil
+            navigationItem.leftBarButtonItem = nil
+        }
+    }
+    
+    private func showSearchBar(shouldShow: Bool) {
+        showSearchBarButton(shouldShow: !shouldShow)
+        navigationItem.titleView = shouldShow ? searchBar : nil
+        navigationController?.navigationBar.sizeToFit()
+    }
     
     private func setObservers() {
         viewModel.fetchFinished.subscribe(onNext: { [weak self] in
@@ -79,4 +110,15 @@ class SitesTableViewController: UITableViewController {
         }).disposed(by: disposeBag)
     }
 
+}
+
+
+extension SitesTableViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        showSearchBar(shouldShow: false)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.handleTextChange(searchText: searchText, index: SelectedScope(rawValue: searchBar.selectedScopeButtonIndex)!)
+    }
 }

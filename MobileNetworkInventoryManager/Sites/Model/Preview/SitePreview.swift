@@ -10,8 +10,8 @@ import Foundation
 
 struct SitePreview {
     let siteId: Int
-    let internaOznaka: String
-    let naziv: String
-    let adresa: String
-    let tehnologija: String
+    let mark: String
+    let name: String
+    let address: String
+    let technology: String
 }

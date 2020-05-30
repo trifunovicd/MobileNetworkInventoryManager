@@ -242,7 +242,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 20 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 24 localization keys.
     struct localizable {
       /// en translation: ?action=check_if_user_exists&username='%s'&password='%s'
       ///
@@ -260,6 +260,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let get_tasks_for_user = Rswift.StringResource(key: "get_tasks_for_user", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Address
+      ///
+      /// Locales: en
+      static let address = Rswift.StringResource(key: "address", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: An error occurred while fetching data.
       ///
       /// Locales: en
@@ -280,10 +284,18 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let map = Rswift.StringResource(key: "map", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Mark
+      ///
+      /// Locales: en
+      static let mark = Rswift.StringResource(key: "mark", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Missing Fields
       ///
       /// Locales: en
       static let missing_data_alert_title = Rswift.StringResource(key: "missing_data_alert_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Name
+      ///
+      /// Locales: en
+      static let name = Rswift.StringResource(key: "name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: OK
       ///
       /// Locales: en
@@ -308,6 +320,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let tasks = Rswift.StringResource(key: "tasks", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Tech
+      ///
+      /// Locales: en
+      static let tech = Rswift.StringResource(key: "tech", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: The dequeued cell is not an instance of %s.
       ///
       /// Locales: en
@@ -389,6 +405,21 @@ struct R: Rswift.Validatable {
         return String(format: format, locale: locale, value1)
       }
 
+      /// en translation: Address
+      ///
+      /// Locales: en
+      static func address(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("address", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "address"
+        }
+
+        return NSLocalizedString("address", bundle: bundle, comment: "")
+      }
+
       /// en translation: An error occurred while fetching data.
       ///
       /// Locales: en
@@ -464,6 +495,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("map", bundle: bundle, comment: "")
       }
 
+      /// en translation: Mark
+      ///
+      /// Locales: en
+      static func mark(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("mark", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "mark"
+        }
+
+        return NSLocalizedString("mark", bundle: bundle, comment: "")
+      }
+
       /// en translation: Missing Fields
       ///
       /// Locales: en
@@ -477,6 +523,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("missing_data_alert_title", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Name
+      ///
+      /// Locales: en
+      static func name(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("name", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "name"
+        }
+
+        return NSLocalizedString("name", bundle: bundle, comment: "")
       }
 
       /// en translation: OK
@@ -567,6 +628,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("tasks", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Tech
+      ///
+      /// Locales: en
+      static func tech(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("tech", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "tech"
+        }
+
+        return NSLocalizedString("tech", bundle: bundle, comment: "")
       }
 
       /// en translation: The dequeued cell is not an instance of %s.

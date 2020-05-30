@@ -25,3 +25,7 @@
 "missing_data_alert_message" = "Please enter your username and password.";
 "alert_ok_action" = "OK";
 "cell_error" = "The dequeued cell is not an instance of %s.";
+"name" = "Name";
+"address" = "Address";
+"tech" = "Tech";
+"mark" = "Mark";

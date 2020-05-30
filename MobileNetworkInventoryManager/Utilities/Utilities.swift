@@ -8,6 +8,13 @@
 
 import UIKit
 
+enum SelectedScope: Int {
+    case name = 0
+    case address = 1
+    case tech = 2
+    case mark = 3
+}
+
 extension UIView {
     func addSubviews(views: [UIView]) {
         for view in views {

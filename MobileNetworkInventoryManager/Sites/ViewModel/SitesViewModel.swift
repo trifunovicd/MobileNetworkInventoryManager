@@ -15,6 +15,7 @@ class SitesViewModel {
     var userId: Int!
     var sites: [Site] = []
     var sitesPreviews: [SitePreview] = []
+    var filteredSitesPreviews: [SitePreview] = []
     let sitesRequest = PublishSubject<Void>()
     let fetchFinished = PublishSubject<Void>()
     let alertOfError = PublishSubject<Void>()
@@ -29,6 +30,7 @@ class SitesViewModel {
                 case .success(let data):
                     self?.sites.append(contentsOf: data.0)
                     self?.sitesPreviews.append(contentsOf: data.1)
+                    self?.filteredSitesPreviews.append(contentsOf: data.1)
                     self?.fetchFinished.onNext(())
                 case .failure(let error):
                     print(error)
@@ -44,7 +46,7 @@ class SitesViewModel {
         return observable.map { [unowned self] (sites) -> Result<([Site], [SitePreview]), Error> in
             
             for site in sites {
-                let sitePreview = SitePreview(siteId: site.site_id, internaOznaka: site.interna_oznaka, naziv: site.naziv, adresa: site.adresa, tehnologija: self.getTechnology(is2GAvailable: site.is_2G_available, is3GAvailable: site.is_3G_available, is4GAvailable: site.is_4G_available))
+                let sitePreview = SitePreview(siteId: site.site_id, mark: site.mark, name: site.name, address: site.address, technology: self.getTechnology(is2GAvailable: site.is_2G_available, is3GAvailable: site.is_3G_available, is4GAvailable: site.is_4G_available))
                 
                 previews.append(sitePreview)
             }
@@ -72,5 +74,39 @@ class SitesViewModel {
         technology = String(technology.dropFirst())
         technology = technology.replacingOccurrences(of: " ", with: ", ")
         return technology
+    }
+    
+    
+    func handleTextChange(searchText: String, index: SelectedScope) {
+        if searchText.isEmpty {
+            filteredSitesPreviews = sitesPreviews
+        }
+        else {
+            filterTableView(index: index, text: searchText)
+        }
+        
+        fetchFinished.onNext(())
+    }
+    
+    
+    private func filterTableView(index: SelectedScope, text: String) {
+        switch index {
+        case .name:
+            filteredSitesPreviews = sitesPreviews.filter({ (site) -> Bool in
+                return site.name.lowercased().contains(text.lowercased())
+            })
+        case .address:
+            filteredSitesPreviews = sitesPreviews.filter({ (site) -> Bool in
+                return site.address.lowercased().contains(text.lowercased())
+            })
+        case .tech:
+            filteredSitesPreviews = sitesPreviews.filter({ (site) -> Bool in
+                return site.technology.lowercased().contains(text.lowercased())
+            })
+        case .mark:
+            filteredSitesPreviews = sitesPreviews.filter({ (site) -> Bool in
+                return site.mark.lowercased().contains(text.lowercased())
+            })
+        }
     }
 }

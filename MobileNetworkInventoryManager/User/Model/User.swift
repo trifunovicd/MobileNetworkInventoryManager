@@ -10,11 +10,11 @@ import Foundation
 
 struct User: Codable {
     let user_id: Int
-    let ime: String
-    let prezime: String
-    let korisnicko_ime: String
-    let lozinka: String
+    let name: String
+    let surname: String
+    let username: String
+    let password: String
     let lat: Double
     let lng: Double
-    let vrijeme: Date
+    let recorded: Date
 }
