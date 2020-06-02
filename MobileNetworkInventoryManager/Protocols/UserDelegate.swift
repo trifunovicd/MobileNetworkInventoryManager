@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol UserDelegate: AnyObject {
-    func setUserData(_ data: Int)
-}
+//protocol UserDelegate: AnyObject {
+//    func setUserData(_ data: Int)
+//}

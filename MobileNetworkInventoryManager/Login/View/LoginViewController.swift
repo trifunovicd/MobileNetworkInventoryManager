@@ -110,8 +110,9 @@ class LoginViewController: UIViewController {
     }
     
     private func setObservers() {
-        viewModel.loginSuccessful.subscribe(onNext: { [weak self] userId in
-            self?.viewModel.loginCoordinatorDelegate?.login(userId: userId)
+        viewModel.loginSuccessful.subscribe(onNext: { [weak self] in
+//            self?.viewModel.loginCoordinatorDelegate?.login(userId: userId)
+            self?.viewModel.loginCoordinatorDelegate?.viewControllerHasFinished()
         }).disposed(by: disposeBag)
         
         viewModel.alertOfError.subscribe(onNext: { [weak self] in

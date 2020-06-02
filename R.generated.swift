@@ -105,12 +105,16 @@ struct R: Rswift.Validatable {
   }
   #endif
 
-  /// This `R.image` struct is generated, and contains static references to 11 images.
+  /// This `R.image` struct is generated, and contains static references to 13 images.
   struct image {
     /// Image `avatar`.
     static let avatar = Rswift.ImageResource(bundle: R.hostingBundle, name: "avatar")
     /// Image `cell-tower`.
     static let cellTower = Rswift.ImageResource(bundle: R.hostingBundle, name: "cell-tower")
+    /// Image `close`.
+    static let close = Rswift.ImageResource(bundle: R.hostingBundle, name: "close")
+    /// Image `done`.
+    static let done = Rswift.ImageResource(bundle: R.hostingBundle, name: "done")
     /// Image `map-filled`.
     static let mapFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "map-filled")
     /// Image `map`.
@@ -141,6 +145,20 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "cell-tower", bundle: ..., traitCollection: ...)`
     static func cellTower(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.cellTower, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "close", bundle: ..., traitCollection: ...)`
+    static func close(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.close, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "done", bundle: ..., traitCollection: ...)`
+    static func done(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.done, compatibleWith: traitCollection)
     }
     #endif
 
@@ -242,7 +260,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 24 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 30 localization keys.
     struct localizable {
       /// en translation: ?action=check_if_user_exists&username='%s'&password='%s'
       ///
@@ -260,6 +278,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let get_tasks_for_user = Rswift.StringResource(key: "get_tasks_for_user", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: ?action=get_user_data&user_id=%d
+      ///
+      /// Locales: en
+      static let get_user_data = Rswift.StringResource(key: "get_user_data", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Address
       ///
       /// Locales: en
@@ -268,6 +290,18 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let error_alert_message = Rswift.StringResource(key: "error_alert_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Ascending
+      ///
+      /// Locales: en
+      static let ascending = Rswift.StringResource(key: "ascending", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Descending
+      ///
+      /// Locales: en
+      static let descending = Rswift.StringResource(key: "descending", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Distance
+      ///
+      /// Locales: en
+      static let distance = Rswift.StringResource(key: "distance", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Error
       ///
       /// Locales: en
@@ -340,6 +374,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let username = Rswift.StringResource(key: "username", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: loggedUser
+      ///
+      /// Locales: en
+      static let logged_user_key = Rswift.StringResource(key: "logged_user_key", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: siteSort
+      ///
+      /// Locales: en
+      static let site_sort_key = Rswift.StringResource(key: "site_sort_key", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
 
       /// en translation: ?action=check_if_user_exists&username='%s'&password='%s'
       ///
@@ -405,6 +447,23 @@ struct R: Rswift.Validatable {
         return String(format: format, locale: locale, value1)
       }
 
+      /// en translation: ?action=get_user_data&user_id=%d
+      ///
+      /// Locales: en
+      static func get_user_data(_ value1: Int, preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          let format = NSLocalizedString("get_user_data", bundle: hostingBundle, comment: "")
+          return String(format: format, locale: applicationLocale, value1)
+        }
+
+        guard let (locale, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "get_user_data"
+        }
+
+        let format = NSLocalizedString("get_user_data", bundle: bundle, comment: "")
+        return String(format: format, locale: locale, value1)
+      }
+
       /// en translation: Address
       ///
       /// Locales: en
@@ -433,6 +492,51 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("error_alert_message", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Ascending
+      ///
+      /// Locales: en
+      static func ascending(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("ascending", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "ascending"
+        }
+
+        return NSLocalizedString("ascending", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Descending
+      ///
+      /// Locales: en
+      static func descending(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("descending", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "descending"
+        }
+
+        return NSLocalizedString("descending", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Distance
+      ///
+      /// Locales: en
+      static func distance(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("distance", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "distance"
+        }
+
+        return NSLocalizedString("distance", bundle: bundle, comment: "")
       }
 
       /// en translation: Error
@@ -705,6 +809,36 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("username", bundle: bundle, comment: "")
+      }
+
+      /// en translation: loggedUser
+      ///
+      /// Locales: en
+      static func logged_user_key(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("logged_user_key", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "logged_user_key"
+        }
+
+        return NSLocalizedString("logged_user_key", bundle: bundle, comment: "")
+      }
+
+      /// en translation: siteSort
+      ///
+      /// Locales: en
+      static func site_sort_key(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("site_sort_key", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "site_sort_key"
+        }
+
+        return NSLocalizedString("site_sort_key", bundle: bundle, comment: "")
       }
 
       fileprivate init() {}

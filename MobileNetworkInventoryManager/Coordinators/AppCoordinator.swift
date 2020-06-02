@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
@@ -22,13 +23,38 @@ class AppCoordinator: Coordinator {
     func start() {
         window.rootViewController = presenter
         window.makeKeyAndVisible()
+        checkForLoggedUser()
+    }
+    
+    private func checkForLoggedUser() {
+        do {
+            let realm = try Realm()
+            
+            let user = realm.object(ofType: LoggedUser.self, forPrimaryKey: R.string.localizable.logged_user_key())
+            
+            guard let loggedUser = user else { showLogin(); return }
+            
+            if loggedUser.id != 0 {
+                userId = loggedUser.id
+                startApp()
+            }
+            else {
+                showLogin()
+            }
+            
+        } catch  {
+            print(error)
+        }
+    }
+    
+    private func showLogin() {
         let loginCoordinator = LoginCoordinator(presenter: presenter)
         loginCoordinator.parentCoordinator = self
         childCoordinators.append(loginCoordinator)
         loginCoordinator.start()
     }
     
-    func startApp() {
+    private func startApp() {
         let tabController = UITabBarController()
 
         let sitesCoordinator = SitesCoordinator(presenter: UINavigationController(), userId: userId)
@@ -53,14 +79,6 @@ class AppCoordinator: Coordinator {
         window.rootViewController = tabController
         window.makeKeyAndVisible()
     }
-    
-}
-
-
-extension AppCoordinator: UserDelegate {
-    func setUserData(_ data: Int) {
-        userId = data
-    }
 }
 
 
@@ -72,7 +90,7 @@ extension AppCoordinator: CoordinatorDelegate {
                 childCoordinators.remove(at: index)
                 
                 if child is LoginCoordinator {
-                    startApp()
+                    checkForLoggedUser()
                 }
                 
                 break

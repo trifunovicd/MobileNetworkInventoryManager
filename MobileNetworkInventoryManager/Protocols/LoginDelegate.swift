@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol LoginDelegate: AnyObject {
-    func login(userId: Int)
-}
+//protocol LoginDelegate: AnyObject {
+//    func login(userId: Int)
+//}

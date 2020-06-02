@@ -73,30 +73,17 @@ class SitesTableViewController: UITableViewController {
         tableView.register(SitesTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.separatorStyle = .none
         
+        viewModel.setupSortView(frame: view.frame)
+        
         setObservers()
     }
     
     @objc private func handleShowSearchBar() {
-        showSearchBar(shouldShow: true)
-        searchBar.becomeFirstResponder()
+        viewModel.searchClicked.onNext(())
     }
     
-    private func showSearchBarButton(shouldShow: Bool) {
-        if shouldShow {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowSearchBar))
-            
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: nil)
-        }
-        else {
-            navigationItem.rightBarButtonItem = nil
-            navigationItem.leftBarButtonItem = nil
-        }
-    }
-    
-    private func showSearchBar(shouldShow: Bool) {
-        showSearchBarButton(shouldShow: !shouldShow)
-        navigationItem.titleView = shouldShow ? searchBar : nil
-        navigationController?.navigationBar.sizeToFit()
+    @objc private func openSortOptions() {
+        viewModel.sortClicked.onNext(())
     }
     
     private func setObservers() {
@@ -108,8 +95,37 @@ class SitesTableViewController: UITableViewController {
             let alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
             self?.present(alert, animated: true, completion: nil)
         }).disposed(by: disposeBag)
+        
+        viewModel.searchClicked.subscribe(onNext: { [weak self] in
+            self?.showSearchBar(shouldShow: true)
+            self?.searchBar.becomeFirstResponder()
+        }).disposed(by: disposeBag)
+        
+        viewModel.sortClicked.subscribe(onNext: { [weak self] in
+            self?.viewModel.sortView.show()
+        }).disposed(by: disposeBag)
     }
 
+    private func showSearchBarButton(shouldShow: Bool) {
+        if shouldShow {
+            navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowSearchBar)), animated: true)
+            navigationItem.setLeftBarButton(UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: #selector(openSortOptions)), animated: true)
+        }
+        else {
+            navigationItem.setRightBarButton(nil, animated: true)
+            navigationItem.setLeftBarButton(nil, animated: true)
+        }
+    }
+    
+    private func showSearchBar(shouldShow: Bool) {
+        searchBar.alpha = shouldShow ? 0 : 1
+        showSearchBarButton(shouldShow: !shouldShow)
+        navigationItem.titleView = shouldShow ? searchBar : nil
+        navigationController?.navigationBar.sizeToFit()
+        UIView.animate(withDuration: 0.4, animations: {
+            self.searchBar.alpha = shouldShow ? 1 : 0
+        })
+    }
 }
 
 
@@ -120,5 +136,10 @@ extension SitesTableViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.handleTextChange(searchText: searchText, index: SelectedScope(rawValue: searchBar.selectedScopeButtonIndex)!)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        guard let searchText = searchBar.text else { return }
+        viewModel.handleTextChange(searchText: searchText, index: SelectedScope(rawValue: selectedScope)!)
     }
 }

@@ -9,11 +9,12 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 class LoginViewModel {
-    weak var loginCoordinatorDelegate: LoginDelegate?
+    weak var loginCoordinatorDelegate: ViewControllerDelegate?
     let loginRequest = PublishSubject<(String, String)>()
-    let loginSuccessful = PublishSubject<Int>()
+    let loginSuccessful = PublishSubject<Void>()
     let alertOfError = PublishSubject<Void>()
     let alertOfFailedLogin = PublishSubject<Void>()
     let alertOfMissingData = PublishSubject<Void>()
@@ -29,7 +30,7 @@ class LoginViewModel {
                         self?.alertOfFailedLogin.onNext(())
                     }
                     else {
-                        self?.loginSuccessful.onNext(userId)
+                        self?.saveLoggedUser(userId: userId)
                     }
                 case .failure(let error):
                     print(error)
@@ -56,5 +57,22 @@ class LoginViewModel {
             return Observable.just(result)
         }
         
+    }
+    
+    private func saveLoggedUser(userId: Int) {
+        let loggedUser = LoggedUser()
+        loggedUser.id = userId
+        
+        do {
+            let realm = try Realm()
+            
+            try realm.write {
+                realm.add(loggedUser, update: .modified)
+            }
+            
+            loginSuccessful.onNext(())
+        } catch  {
+            print(error)
+        }
     }
 }

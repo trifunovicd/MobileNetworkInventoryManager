@@ -16,5 +16,5 @@ struct User: Codable {
     let password: String
     let lat: Double
     let lng: Double
-    let recorded: Date
+    let recorded: String
 }

@@ -14,4 +14,5 @@ struct SitePreview {
     let name: String
     let address: String
     let technology: String
+    let distance: Double
 }

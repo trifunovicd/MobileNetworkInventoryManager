@@ -10,6 +10,7 @@ target 'MobileNetworkInventoryManager' do
   pod 'RxCocoa', '~> 5'
   pod 'Alamofire', '~> 5.1'
   pod 'R.swift', '~> 5.2'
+  pod 'RealmSwift'
 
   target 'MobileNetworkInventoryManagerTests' do
     inherit! :search_paths
