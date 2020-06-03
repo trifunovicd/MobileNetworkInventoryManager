@@ -27,7 +27,6 @@ class SitesCoordinator: Coordinator {
     
     func start() {
         presenter.setupNavigationBar(barTintColor: .systemBlue, titleTextAttributes: [.foregroundColor: UIColor.white], tintColor: .white, barStyle: .black, isTranslucent: false)
-        presenter.navigationBar.barTintColor = .systemBlue
         controller.viewModel.sitesCoordinatorDelegate = self
         presenter.pushViewController(controller, animated: true)
     }

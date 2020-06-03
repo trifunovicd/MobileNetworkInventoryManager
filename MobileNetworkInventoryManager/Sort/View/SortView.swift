@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SortView: NSObject {
+    
     var viewModel: SortViewModel!
+    private let disposeBag: DisposeBag = DisposeBag()
     
     private let transparentView: UIView = {
         let view = UIView()
@@ -21,7 +25,7 @@ class SortView: NSObject {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 20)
-        label.text = "Sort"
+        label.text = R.string.localizable.sort()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -72,6 +76,15 @@ class SortView: NSObject {
         picker.delegate = self
         picker.dataSource = self
         
+        setup()
+        setObservers()
+    }
+    
+    func show() {
+        viewModel.showView.onNext(())
+    }
+    
+    private func setup() {
         pickerHeader.addSubviews(views: [sortLabel, doneButton, closeButton])
         
         NSLayoutConstraint.activate([
@@ -95,8 +108,18 @@ class SortView: NSObject {
         closeButton.addTarget(self, action: #selector(hide), for: .touchUpInside)
         doneButton.addTarget(self, action: #selector(saveChanges), for: .touchUpInside)
     }
+    
+    private func setObservers() {
+        viewModel.showView.subscribe(onNext: { [weak self] in
+            self?.showView()
+        }).disposed(by: disposeBag)
+        
+        viewModel.hideView.subscribe(onNext: { [weak self] in
+            self?.hideView()
+        }).disposed(by: disposeBag)
+    }
 
-    func show() {
+    private func showView() {
         picker.selectRow(viewModel.settings.value, inComponent: 0, animated: false)
         picker.selectRow(viewModel.settings.order, inComponent: 1, animated: false)
         
@@ -114,7 +137,7 @@ class SortView: NSObject {
         }, completion: nil)
     }
     
-    @objc private func hide() {
+    private func hideView() {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
             self.transparentView.alpha = 0
             self.container.frame = CGRect(x: 0, y: self.viewModel.screenSize.height, width: self.viewModel.screenSize.width, height: self.viewModel.height)
@@ -124,8 +147,12 @@ class SortView: NSObject {
         })
     }
     
+    @objc private func hide() {
+        viewModel.hideView.onNext(())
+    }
+    
     @objc private func saveChanges() {
-        viewModel.delegate.sortBy(value: picker.selectedRow(inComponent: 0), order: Order(rawValue: picker.selectedRow(inComponent: 1))!)
+        viewModel.delegate.sortBy(value: picker.selectedRow(inComponent: 0), order: picker.selectedRow(inComponent: 1))
         hide()
     }
 }

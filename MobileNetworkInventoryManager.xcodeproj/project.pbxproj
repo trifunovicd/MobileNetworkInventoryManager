@@ -46,8 +46,6 @@
 		B9BFA4952486862F007C63B4 /* LoggedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BFA4942486862F007C63B4 /* LoggedUser.swift */; };
 		B9BFA497248696DB007C63B4 /* SiteSortSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BFA496248696DB007C63B4 /* SiteSortSettings.swift */; };
 		B9EF08D4247662BD00D4C7A8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EF08D3247662BD00D4C7A8 /* User.swift */; };
-		B9F293DF247EA76900ABF197 /* LoginDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293DE247EA76900ABF197 /* LoginDelegate.swift */; };
-		B9F293E1247EAD1D00ABF197 /* UserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293E0247EAD1D00ABF197 /* UserDelegate.swift */; };
 		B9F293E4247EED5D00ABF197 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293E3247EED5D00ABF197 /* Site.swift */; };
 		B9F293E7247EF52100ABF197 /* SitePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293E6247EF52100ABF197 /* SitePreview.swift */; };
 		B9F293E9247F010E00ABF197 /* SitesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293E8247F010E00ABF197 /* SitesTableViewController.swift */; };
@@ -124,8 +122,6 @@
 		B9BFA4942486862F007C63B4 /* LoggedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedUser.swift; sourceTree = "<group>"; };
 		B9BFA496248696DB007C63B4 /* SiteSortSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSortSettings.swift; sourceTree = "<group>"; };
 		B9EF08D3247662BD00D4C7A8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		B9F293DE247EA76900ABF197 /* LoginDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDelegate.swift; sourceTree = "<group>"; };
-		B9F293E0247EAD1D00ABF197 /* UserDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDelegate.swift; sourceTree = "<group>"; };
 		B9F293E3247EED5D00ABF197 /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		B9F293E6247EF52100ABF197 /* SitePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitePreview.swift; sourceTree = "<group>"; };
 		B9F293E8247F010E00ABF197 /* SitesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitesTableViewController.swift; sourceTree = "<group>"; };
@@ -294,8 +290,6 @@
 				B98D18ED247597090053ABF5 /* Coordinator.swift */,
 				B98D192F2475DFE20053ABF5 /* CoordinatorDelegate.swift */,
 				B98D19312475E1720053ABF5 /* ViewControllerDelegate.swift */,
-				B9F293DE247EA76900ABF197 /* LoginDelegate.swift */,
-				B9F293E0247EAD1D00ABF197 /* UserDelegate.swift */,
 				B928A8592484422A0092D246 /* SortDelegate.swift */,
 			);
 			path = Protocols;
@@ -778,7 +772,6 @@
 				B98D19302475DFE20053ABF5 /* CoordinatorDelegate.swift in Sources */,
 				B907F2A7248530E80063754C /* Sort.swift in Sources */,
 				B98D192E2475DE9B0053ABF5 /* Request.swift in Sources */,
-				B9F293E1247EAD1D00ABF197 /* UserDelegate.swift in Sources */,
 				B928A85A2484422A0092D246 /* SortDelegate.swift in Sources */,
 				B907F2AD2485336A0063754C /* SortViewModel.swift in Sources */,
 				B9F293E4247EED5D00ABF197 /* Site.swift in Sources */,
@@ -791,7 +784,6 @@
 				B98D190F2475B6B20053ABF5 /* TasksViewModel.swift in Sources */,
 				B98D191D2475BA610053ABF5 /* UserViewModel.swift in Sources */,
 				B98D19282475CD9D0053ABF5 /* LoginViewModel.swift in Sources */,
-				B9F293DF247EA76900ABF197 /* LoginDelegate.swift in Sources */,
 				B9BFA497248696DB007C63B4 /* SiteSortSettings.swift in Sources */,
 				B9F293EB247F024E00ABF197 /* SitesTableViewCell.swift in Sources */,
 				B98D19142475B90C0053ABF5 /* MapViewModel.swift in Sources */,

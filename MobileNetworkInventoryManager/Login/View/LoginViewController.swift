@@ -71,12 +71,7 @@ class LoginViewController: UIViewController {
     
     @objc func login() {
         guard let username = usernameTextField.text, let password = passwordTextField.text else { return }
-        if username.isEmpty || password.isEmpty {
-            viewModel.alertOfMissingData.onNext(())
-        }
-        else {
-            viewModel.loginRequest.onNext((username, password))
-        }
+        viewModel.handleLogin(username: username, password: password)
     }
     
     private func setupLayout() {
@@ -110,11 +105,6 @@ class LoginViewController: UIViewController {
     }
     
     private func setObservers() {
-        viewModel.loginSuccessful.subscribe(onNext: { [weak self] in
-//            self?.viewModel.loginCoordinatorDelegate?.login(userId: userId)
-            self?.viewModel.loginCoordinatorDelegate?.viewControllerHasFinished()
-        }).disposed(by: disposeBag)
-        
         viewModel.alertOfError.subscribe(onNext: { [weak self] in
             let alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
             self?.present(alert, animated: true, completion: nil)

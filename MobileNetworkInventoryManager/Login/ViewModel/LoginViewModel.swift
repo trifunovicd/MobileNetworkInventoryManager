@@ -14,7 +14,6 @@ import RealmSwift
 class LoginViewModel {
     weak var loginCoordinatorDelegate: ViewControllerDelegate?
     let loginRequest = PublishSubject<(String, String)>()
-    let loginSuccessful = PublishSubject<Void>()
     let alertOfError = PublishSubject<Void>()
     let alertOfFailedLogin = PublishSubject<Void>()
     let alertOfMissingData = PublishSubject<Void>()
@@ -22,7 +21,7 @@ class LoginViewModel {
     func initialize() -> Disposable{
         loginRequest
             .asObservable()
-            .flatMap(getUserObservale)
+            .flatMap(getLoginObservale)
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let userId):
@@ -39,7 +38,7 @@ class LoginViewModel {
             })
     }
     
-    private func getUserObservale(username: String, password: String) -> Observable<Result<Int, Error>> {
+    private func getLoginObservale(username: String, password: String) -> Observable<Result<Int, Error>> {
         let observable: Observable<[Login]> = getRequest(url: makeUrl(username: username, password: password))
         
         return observable.map { (userData) -> Result<Int, Error> in
@@ -59,6 +58,15 @@ class LoginViewModel {
         
     }
     
+    func handleLogin(username: String, password: String) {
+        if username.isEmpty || password.isEmpty {
+            alertOfMissingData.onNext(())
+        }
+        else {
+            loginRequest.onNext((username, password))
+        }
+    }
+    
     private func saveLoggedUser(userId: Int) {
         let loggedUser = LoggedUser()
         loggedUser.id = userId
@@ -70,7 +78,7 @@ class LoginViewModel {
                 realm.add(loggedUser, update: .modified)
             }
             
-            loginSuccessful.onNext(())
+            loginCoordinatorDelegate?.viewControllerHasFinished()
         } catch  {
             print(error)
         }

@@ -16,7 +16,25 @@ class SitesTableViewController: UITableViewController {
 
     var viewModel: SitesViewModel!
     private let disposeBag: DisposeBag = DisposeBag()
-    private let searchBar: UISearchBar = UISearchBar()
+    
+    private let myRefreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .gray
+        refreshControl.attributedTitle = NSAttributedString(string: "Fetching Data ...", attributes: [NSAttributedString.Key.foregroundColor:UIColor.gray])
+        return refreshControl
+    }()
+    
+    private let searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.keyboardAppearance = .light
+        searchBar.placeholder = R.string.localizable.search_sites_placeholder()
+        searchBar.scopeBarBackgroundImage = UIImage()
+        searchBar.scopeButtonTitles = [R.string.localizable.name(), R.string.localizable.address(), R.string.localizable.tech(), R.string.localizable.mark()]
+        searchBar.showsScopeBar = true
+        searchBar.showsCancelButton = true
+        searchBar.sizeToFit()
+        return searchBar
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +54,6 @@ class SitesTableViewController: UITableViewController {
         return viewModel.filteredSitesPreviews.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SitesTableViewCell else{
             fatalError(R.string.localizable.cell_error(cellIdentifier))
@@ -59,34 +76,37 @@ class SitesTableViewController: UITableViewController {
         else {
             UITextField.appearance(whenContainedInInstancesOf: [type(of: searchBar)]).tintColor = .darkGray
         }
-        searchBar.keyboardAppearance = .light
-        searchBar.placeholder = R.string.localizable.search_sites_placeholder()
-        searchBar.scopeBarBackgroundImage = UIImage()
-        searchBar.scopeButtonTitles = [R.string.localizable.name(), R.string.localizable.address(), R.string.localizable.tech(), R.string.localizable.mark()]
-        searchBar.showsScopeBar = true
-        searchBar.showsCancelButton = true
-        searchBar.sizeToFit()
-        searchBar.delegate = self
         
-        showSearchBarButton(shouldShow: true)
+        searchBar.delegate = self
         
         tableView.register(SitesTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.separatorStyle = .none
         
-        viewModel.setupSortView(frame: view.frame)
+        tableView.refreshControl = myRefreshControl
         
         setObservers()
+        viewModel.setupSortView(frame: view.frame)
+        viewModel.showNavigationButtons.onNext(true)
     }
     
     @objc private func handleShowSearchBar() {
-        viewModel.searchClicked.onNext(())
+        viewModel.filterAction.onNext(true)
     }
     
     @objc private func openSortOptions() {
-        viewModel.sortClicked.onNext(())
+        viewModel.sortView.show()
     }
     
     private func setObservers() {
+        myRefreshControl.rx.controlEvent(.valueChanged).asObservable().subscribe(onNext: { [weak self] in
+            guard let searchText = self?.searchBar.text, let selectedScope = self?.searchBar.selectedScopeButtonIndex, let index = SelectedScope(rawValue: selectedScope) else { return }
+            self?.viewModel.manualRefresh(searchText: searchText, index: index)
+        }).disposed(by: disposeBag)
+        
+        viewModel.endRefreshing.subscribe(onNext: { [weak self] in
+            self?.myRefreshControl.endRefreshing()
+        }).disposed(by: disposeBag)
+        
         viewModel.fetchFinished.subscribe(onNext: { [weak self] in
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
@@ -96,17 +116,16 @@ class SitesTableViewController: UITableViewController {
             self?.present(alert, animated: true, completion: nil)
         }).disposed(by: disposeBag)
         
-        viewModel.searchClicked.subscribe(onNext: { [weak self] in
-            self?.showSearchBar(shouldShow: true)
-            self?.searchBar.becomeFirstResponder()
+        viewModel.filterAction.subscribe(onNext: { [weak self] shouldShow in
+            self?.showSearchBar(shouldShow: shouldShow)
         }).disposed(by: disposeBag)
         
-        viewModel.sortClicked.subscribe(onNext: { [weak self] in
-            self?.viewModel.sortView.show()
+        viewModel.showNavigationButtons.subscribe(onNext: { [weak self] shouldShow in
+            self?.showNavigationButtons(shouldShow: shouldShow)
         }).disposed(by: disposeBag)
     }
 
-    private func showSearchBarButton(shouldShow: Bool) {
+    private func showNavigationButtons(shouldShow: Bool) {
         if shouldShow {
             navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowSearchBar)), animated: true)
             navigationItem.setLeftBarButton(UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: #selector(openSortOptions)), animated: true)
@@ -118,28 +137,46 @@ class SitesTableViewController: UITableViewController {
     }
     
     private func showSearchBar(shouldShow: Bool) {
-        searchBar.alpha = shouldShow ? 0 : 1
-        showSearchBarButton(shouldShow: !shouldShow)
-        navigationItem.titleView = shouldShow ? searchBar : nil
-        navigationController?.navigationBar.sizeToFit()
-        UIView.animate(withDuration: 0.4, animations: {
-            self.searchBar.alpha = shouldShow ? 1 : 0
-        })
+        if shouldShow {
+            searchBar.alpha = 0
+            viewModel.showNavigationButtons.onNext(false)
+            navigationItem.titleView = searchBar
+            navigationController?.navigationBar.sizeToFit()
+            searchBar.becomeFirstResponder()
+            UIView.animate(withDuration: 0.4, animations: {
+                self.searchBar.alpha = 1
+            })
+        }
+        else {
+            searchBar.resignFirstResponder()
+            UIView.animate(withDuration: 0.2, animations: {
+                self.searchBar.alpha = 0
+            }, completion: { _ in
+                self.viewModel.showNavigationButtons.onNext(true)
+                self.navigationItem.titleView = nil
+                self.navigationController?.navigationBar.sizeToFit()
+            })
+        }
     }
 }
 
 
 extension SitesTableViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.filterAction.onNext(false)
+    }
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        showSearchBar(shouldShow: false)
+        viewModel.filterAction.onNext(false)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel.handleTextChange(searchText: searchText, index: SelectedScope(rawValue: searchBar.selectedScopeButtonIndex)!)
+        guard let index = SelectedScope(rawValue: searchBar.selectedScopeButtonIndex) else { return }
+        viewModel.handleTextChange(searchText: searchText, index: index)
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        guard let searchText = searchBar.text else { return }
-        viewModel.handleTextChange(searchText: searchText, index: SelectedScope(rawValue: selectedScope)!)
+        guard let searchText = searchBar.text, let index = SelectedScope(rawValue: selectedScope) else { return }
+        viewModel.handleTextChange(searchText: searchText, index: index)
     }
 }

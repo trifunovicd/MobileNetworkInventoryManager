@@ -13,16 +13,16 @@ class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     let window: UIWindow
     var presenter: UINavigationController
+    var tabController: UITabBarController
     var userId: Int!
     
     init(window: UIWindow) {
         self.window = window
         self.presenter = UINavigationController()
+        self.tabController = UITabBarController()
     }
     
     func start() {
-        window.rootViewController = presenter
-        window.makeKeyAndVisible()
         checkForLoggedUser()
     }
     
@@ -48,6 +48,9 @@ class AppCoordinator: Coordinator {
     }
     
     private func showLogin() {
+        window.rootViewController = presenter
+        window.makeKeyAndVisible()
+        
         let loginCoordinator = LoginCoordinator(presenter: presenter)
         loginCoordinator.parentCoordinator = self
         childCoordinators.append(loginCoordinator)
@@ -55,8 +58,9 @@ class AppCoordinator: Coordinator {
     }
     
     private func startApp() {
-        let tabController = UITabBarController()
-
+        window.rootViewController = tabController
+        window.makeKeyAndVisible()
+        
         let sitesCoordinator = SitesCoordinator(presenter: UINavigationController(), userId: userId)
         let tasksCoordinator = TasksCoordinator(presenter: UINavigationController())
         let mapCoordinator = MapCoordinator(presenter: UINavigationController())
@@ -75,9 +79,6 @@ class AppCoordinator: Coordinator {
         let tabBarList = [sitesCoordinator.presenter, tasksCoordinator.presenter, mapCoordinator.presenter, userCoordinator.presenter]
 
         tabController.viewControllers = tabBarList
-        
-        window.rootViewController = tabController
-        window.makeKeyAndVisible()
     }
 }
 

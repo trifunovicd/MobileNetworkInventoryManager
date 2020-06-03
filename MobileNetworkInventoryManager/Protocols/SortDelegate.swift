@@ -9,5 +9,5 @@
 import Foundation
 
 protocol SortDelegate: AnyObject {
-    func sortBy(value: Int, order: Order)
+    func sortBy(value: Int, order: Int)
 }

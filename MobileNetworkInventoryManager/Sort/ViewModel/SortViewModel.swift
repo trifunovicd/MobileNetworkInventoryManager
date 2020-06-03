@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SortViewModel {
     let window = UIApplication.shared.keyWindow
@@ -18,15 +20,17 @@ class SortViewModel {
     let delegate: SortDelegate
     let sortType: SortType
     var settings: (value: Int, order: Int)!
+    let showView = PublishSubject<Void>()
+    let hideView = PublishSubject<Void>()
     
     init(frame: CGRect, delegate: SortDelegate, sortType: SortType) {
         self.frame = frame
         self.delegate = delegate
         self.sortType = sortType
-        createArray()
+        createItems()
     }
     
-    private func createArray() {
+    private func createItems() {
         switch sortType {
         case .sites:
             itemsArray = [R.string.localizable.mark(), R.string.localizable.name(), R.string.localizable.address(), R.string.localizable.distance()]
