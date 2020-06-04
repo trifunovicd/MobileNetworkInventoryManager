@@ -15,8 +15,8 @@ import CoreLocation
 class SitesViewModel {
     weak var sitesCoordinatorDelegate: SitesCoordinator?
     var sortView: SortView!
-    var filterText: String!
-    var filterIndex: SelectedScope!
+    var filterText: String = ""
+    var filterIndex: SelectedScope = .name
     var userId: Int!
     var userData: User!
     var sites: [Site] = []
@@ -107,12 +107,6 @@ class SitesViewModel {
         sortView = SortView(viewModel: sortViewModel)
     }
     
-    func manualRefresh(searchText: String, index: SelectedScope) {
-        filterText = searchText
-        filterIndex = index
-        sitesRequest.onNext(())
-    }
-    
     func handleTextChange(searchText: String, index: SelectedScope) {
         if searchText.isEmpty {
             filteredSitesPreviews = sitesPreviews
@@ -121,6 +115,9 @@ class SitesViewModel {
             filterTableView(index: index, text: searchText)
         }
 
+        filterText = searchText
+        filterIndex = index
+        
         fetchFinished.onNext(())
     }
     
@@ -145,7 +142,7 @@ class SitesViewModel {
         }
     }
     
-    private func saveSortSettings(value: Int, order: Int) {
+    private func setSortSettings(value: Int, order: Int) {
         let sortSettings = SiteSortSettings()
         sortSettings.value = value
         sortSettings.order = order
@@ -201,25 +198,16 @@ class SitesViewModel {
             sortByMark(order: order)
         }
         
-        guard let filterText = filterText, let filterIndex = filterIndex else { fetchFinished.onNext(()); return }
         handleTextChange(searchText: filterText, index: filterIndex)
     }
     
     private func sortByMark(order: Order) {
         if order == .ascending {
-            filteredSitesPreviews = filteredSitesPreviews.sorted(by: { (site1, site2) -> Bool in
-                return site1.mark < site2.mark
-            })
-            
             sitesPreviews = sitesPreviews.sorted(by: { (site1, site2) -> Bool in
                 return site1.mark < site2.mark
             })
         }
         else {
-            filteredSitesPreviews = filteredSitesPreviews.sorted(by: { (site1, site2) -> Bool in
-                return site1.mark > site2.mark
-            })
-            
             sitesPreviews = sitesPreviews.sorted(by: { (site1, site2) -> Bool in
                 return site1.mark > site2.mark
             })
@@ -228,19 +216,11 @@ class SitesViewModel {
     
     private func sortByName(order: Order) {
         if order == .ascending {
-            filteredSitesPreviews = filteredSitesPreviews.sorted(by: { (site1, site2) -> Bool in
-                return site1.name < site2.name
-            })
-            
             sitesPreviews = sitesPreviews.sorted(by: { (site1, site2) -> Bool in
                 return site1.name < site2.name
             })
         }
         else {
-            filteredSitesPreviews = filteredSitesPreviews.sorted(by: { (site1, site2) -> Bool in
-                return site1.name > site2.name
-            })
-            
             sitesPreviews = sitesPreviews.sorted(by: { (site1, site2) -> Bool in
                 return site1.name > site2.name
             })
@@ -249,19 +229,11 @@ class SitesViewModel {
     
     private func sortByAddress(order: Order) {
         if order == .ascending {
-            filteredSitesPreviews = filteredSitesPreviews.sorted(by: { (site1, site2) -> Bool in
-                return site1.address < site2.address
-            })
-            
             sitesPreviews = sitesPreviews.sorted(by: { (site1, site2) -> Bool in
                 return site1.address < site2.address
             })
         }
         else {
-            filteredSitesPreviews = filteredSitesPreviews.sorted(by: { (site1, site2) -> Bool in
-                return site1.address > site2.address
-            })
-            
             sitesPreviews = sitesPreviews.sorted(by: { (site1, site2) -> Bool in
                 return site1.address > site2.address
             })
@@ -270,19 +242,11 @@ class SitesViewModel {
     
     private func sortByDistance(order: Order) {
         if order == .ascending {
-            filteredSitesPreviews = filteredSitesPreviews.sorted(by: { (site1, site2) -> Bool in
-                return site1.distance < site2.distance
-            })
-
             sitesPreviews = sitesPreviews.sorted(by: { (site1, site2) -> Bool in
                 return site1.distance < site2.distance
             })
         }
         else {
-            filteredSitesPreviews = filteredSitesPreviews.sorted(by: { (site1, site2) -> Bool in
-                return site1.distance > site2.distance
-            })
-
             sitesPreviews = sitesPreviews.sorted(by: { (site1, site2) -> Bool in
                 return site1.distance > site2.distance
             })
@@ -293,6 +257,6 @@ class SitesViewModel {
 
 extension SitesViewModel: SortDelegate {
     func sortBy(value: Int, order: Int) {
-        saveSortSettings(value: value, order: order)
+        setSortSettings(value: value, order: order)
     }
 }

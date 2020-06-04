@@ -29,7 +29,7 @@ class LoginViewModel {
                         self?.alertOfFailedLogin.onNext(())
                     }
                     else {
-                        self?.saveLoggedUser(userId: userId)
+                        self?.setLoggedUser(userId: userId)
                     }
                 case .failure(let error):
                     print(error)
@@ -67,7 +67,7 @@ class LoginViewModel {
         }
     }
     
-    private func saveLoggedUser(userId: Int) {
+    private func setLoggedUser(userId: Int) {
         let loggedUser = LoggedUser()
         loggedUser.id = userId
         

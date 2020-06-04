@@ -99,8 +99,7 @@ class SitesTableViewController: UITableViewController {
     
     private func setObservers() {
         myRefreshControl.rx.controlEvent(.valueChanged).asObservable().subscribe(onNext: { [weak self] in
-            guard let searchText = self?.searchBar.text, let selectedScope = self?.searchBar.selectedScopeButtonIndex, let index = SelectedScope(rawValue: selectedScope) else { return }
-            self?.viewModel.manualRefresh(searchText: searchText, index: index)
+            self?.viewModel.sitesRequest.onNext(())
         }).disposed(by: disposeBag)
         
         viewModel.endRefreshing.subscribe(onNext: { [weak self] in
