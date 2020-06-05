@@ -31,3 +31,14 @@ class SitesCoordinator: Coordinator {
         presenter.pushViewController(controller, animated: true)
     }
 }
+
+
+extension SitesCoordinator: SiteDetailsDelegate {
+    func openSiteDetails(siteDetails: SiteDetails) {
+        let siteDetailsViewController = SiteDetailsViewController()
+        let siteDetailsViewModel = SiteDetailsViewModel()
+        siteDetailsViewModel.siteDetails = siteDetails
+        siteDetailsViewController.viewModel = siteDetailsViewModel
+        presenter.present(siteDetailsViewController, animated: true, completion: nil)
+    }
+}

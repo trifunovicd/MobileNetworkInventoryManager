@@ -41,6 +41,20 @@ extension UINavigationController {
     }
 }
 
+extension Double {
+    func getDistanceString() -> String {
+        if self < 1000 {
+            let rounded = String(format: "%.f", self)
+            return R.string.localizable.distance_in_m(rounded)
+        }
+        else {
+            let km = self / 1000
+            let rounded = String(format: "%.2f", km)
+            return R.string.localizable.distance_in_km(rounded)
+        }
+    }
+}
+
 func getAlert(title: String, message: String, actionTitle: String) -> UIAlertController {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: actionTitle, style: .cancel, handler: nil))

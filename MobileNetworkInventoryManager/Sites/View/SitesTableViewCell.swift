@@ -12,24 +12,28 @@ class SitesTableViewCell: UITableViewCell {
     
     private let siteNameLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let siteAddressLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let siteTechnologyLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let siteMarkLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.font = .systemFont(ofSize: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -88,6 +92,7 @@ class SitesTableViewCell: UITableViewCell {
         
         let stackView = UIStackView(arrangedSubviews: [siteImageView, siteMarkLabel])
         stackView.axis = .vertical
+        stackView.alignment = .center
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -119,7 +124,8 @@ class SitesTableViewCell: UITableViewCell {
             siteImageView.widthAnchor.constraint(equalToConstant: 35),
             
             stackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16)
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            stackView.widthAnchor.constraint(equalToConstant: 60)
         ])
     }
 

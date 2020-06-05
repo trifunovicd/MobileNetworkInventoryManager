@@ -45,6 +45,10 @@
 		B98D19322475E1720053ABF5 /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D19312475E1720053ABF5 /* ViewControllerDelegate.swift */; };
 		B9BFA4952486862F007C63B4 /* LoggedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BFA4942486862F007C63B4 /* LoggedUser.swift */; };
 		B9BFA497248696DB007C63B4 /* SiteSortSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BFA496248696DB007C63B4 /* SiteSortSettings.swift */; };
+		B9C15925248915E2001E1B02 /* SiteDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C15924248915E2001E1B02 /* SiteDetailsViewController.swift */; };
+		B9C1592724891600001E1B02 /* SiteDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C1592624891600001E1B02 /* SiteDetailsViewModel.swift */; };
+		B9C1592A248916F6001E1B02 /* SiteDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C15929248916F6001E1B02 /* SiteDetails.swift */; };
+		B9C1592C248917B6001E1B02 /* SiteDetailsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C1592B248917B6001E1B02 /* SiteDetailsDelegate.swift */; };
 		B9EF08D4247662BD00D4C7A8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EF08D3247662BD00D4C7A8 /* User.swift */; };
 		B9F293E4247EED5D00ABF197 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293E3247EED5D00ABF197 /* Site.swift */; };
 		B9F293E7247EF52100ABF197 /* SitePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F293E6247EF52100ABF197 /* SitePreview.swift */; };
@@ -121,6 +125,10 @@
 		B98D19312475E1720053ABF5 /* ViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerDelegate.swift; sourceTree = "<group>"; };
 		B9BFA4942486862F007C63B4 /* LoggedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedUser.swift; sourceTree = "<group>"; };
 		B9BFA496248696DB007C63B4 /* SiteSortSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSortSettings.swift; sourceTree = "<group>"; };
+		B9C15924248915E2001E1B02 /* SiteDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDetailsViewController.swift; sourceTree = "<group>"; };
+		B9C1592624891600001E1B02 /* SiteDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDetailsViewModel.swift; sourceTree = "<group>"; };
+		B9C15929248916F6001E1B02 /* SiteDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDetails.swift; sourceTree = "<group>"; };
+		B9C1592B248917B6001E1B02 /* SiteDetailsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDetailsDelegate.swift; sourceTree = "<group>"; };
 		B9EF08D3247662BD00D4C7A8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B9F293E3247EED5D00ABF197 /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		B9F293E6247EF52100ABF197 /* SitePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitePreview.swift; sourceTree = "<group>"; };
@@ -194,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				B907F2A6248530E80063754C /* Sort.swift */,
+				B9BFA496248696DB007C63B4 /* SiteSortSettings.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -245,6 +254,7 @@
 				B98D18EC247596EB0053ABF5 /* Protocols */,
 				B98D19242475CD560053ABF5 /* Login */,
 				B98D18F42475A2A00053ABF5 /* Sites */,
+				B9C1592124891516001E1B02 /* SiteDetails */,
 				B98D19092475B61F0053ABF5 /* Tasks */,
 				B98D19102475B8C60053ABF5 /* Map */,
 				B98D19192475BA3B0053ABF5 /* User */,
@@ -291,6 +301,7 @@
 				B98D192F2475DFE20053ABF5 /* CoordinatorDelegate.swift */,
 				B98D19312475E1720053ABF5 /* ViewControllerDelegate.swift */,
 				B928A8592484422A0092D246 /* SortDelegate.swift */,
+				B9C1592B248917B6001E1B02 /* SiteDetailsDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -456,6 +467,40 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		B9C1592124891516001E1B02 /* SiteDetails */ = {
+			isa = PBXGroup;
+			children = (
+				B9C159282489162E001E1B02 /* Model */,
+				B9C159222489157D001E1B02 /* View */,
+				B9C1592324891584001E1B02 /* ViewModel */,
+			);
+			path = SiteDetails;
+			sourceTree = "<group>";
+		};
+		B9C159222489157D001E1B02 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B9C15924248915E2001E1B02 /* SiteDetailsViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B9C1592324891584001E1B02 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B9C1592624891600001E1B02 /* SiteDetailsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B9C159282489162E001E1B02 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B9C15929248916F6001E1B02 /* SiteDetails.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		B9EF08D22476616E00D4C7A8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,7 +522,6 @@
 			isa = PBXGroup;
 			children = (
 				B9F293E3247EED5D00ABF197 /* Site.swift */,
-				B9BFA496248696DB007C63B4 /* SiteSortSettings.swift */,
 				B9F293E5247EF4FC00ABF197 /* Preview */,
 			);
 			path = Model;
@@ -763,7 +807,9 @@
 				B98D18F3247597860053ABF5 /* SitesCoordinator.swift in Sources */,
 				B98D192A2475CDC00053ABF5 /* LoginViewController.swift in Sources */,
 				B98D192C2475D5830053ABF5 /* Utilities.swift in Sources */,
+				B9C1592724891600001E1B02 /* SiteDetailsViewModel.swift in Sources */,
 				B98D19162475B9350053ABF5 /* MapViewController.swift in Sources */,
+				B9C15925248915E2001E1B02 /* SiteDetailsViewController.swift in Sources */,
 				B98D18BF2475952B0053ABF5 /* SceneDelegate.swift in Sources */,
 				B98D190D2475B6950053ABF5 /* TasksViewController.swift in Sources */,
 				B98D19182475B96E0053ABF5 /* MapCoordinator.swift in Sources */,
@@ -771,6 +817,7 @@
 				B98D19212475BABC0053ABF5 /* UserCoordinator.swift in Sources */,
 				B98D19302475DFE20053ABF5 /* CoordinatorDelegate.swift in Sources */,
 				B907F2A7248530E80063754C /* Sort.swift in Sources */,
+				B9C1592A248916F6001E1B02 /* SiteDetails.swift in Sources */,
 				B98D192E2475DE9B0053ABF5 /* Request.swift in Sources */,
 				B928A85A2484422A0092D246 /* SortDelegate.swift in Sources */,
 				B907F2AD2485336A0063754C /* SortViewModel.swift in Sources */,
@@ -783,6 +830,7 @@
 				B98D18EE247597090053ABF5 /* Coordinator.swift in Sources */,
 				B98D190F2475B6B20053ABF5 /* TasksViewModel.swift in Sources */,
 				B98D191D2475BA610053ABF5 /* UserViewModel.swift in Sources */,
+				B9C1592C248917B6001E1B02 /* SiteDetailsDelegate.swift in Sources */,
 				B98D19282475CD9D0053ABF5 /* LoginViewModel.swift in Sources */,
 				B9BFA497248696DB007C63B4 /* SiteSortSettings.swift in Sources */,
 				B9F293EB247F024E00ABF197 /* SitesTableViewCell.swift in Sources */,

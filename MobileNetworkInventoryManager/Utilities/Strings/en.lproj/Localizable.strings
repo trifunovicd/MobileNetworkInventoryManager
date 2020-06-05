@@ -24,6 +24,12 @@
 "failed_login_alert_message" = "The username or password is incorrect.";
 "missing_data_alert_title" = "Missing Fields";
 "missing_data_alert_message" = "Please enter your username and password.";
+"location_off_alert_title" = "Location is turned off";
+"location_off_alert_message" = "Please turn on your location for all features to work.";
+"location_denied_alert_title" = "Location is denied";
+"location_denied_alert_message" = "Please allow the app to use your location for all features to work.";
+"location_restricted_alert_title" = "Location is restricted";
+"location_restricted_alert_message" = "The app is not authorized to use location services.";
 "alert_ok_action" = "OK";
 "cell_error" = "The dequeued cell is not an instance of %s.";
 "ascending" = "Ascending";
@@ -36,3 +42,6 @@
 "logged_user_key" = "loggedUser";
 "site_sort_key" = "siteSort";
 "sort" = "Sort";
+"directions" = "Directions:";
+"distance_in_km" = "%s km";
+"distance_in_m" = "%s m";

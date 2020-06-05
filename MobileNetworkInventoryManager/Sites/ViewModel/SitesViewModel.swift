@@ -13,7 +13,7 @@ import RealmSwift
 import CoreLocation
 
 class SitesViewModel {
-    weak var sitesCoordinatorDelegate: SitesCoordinator?
+    weak var sitesCoordinatorDelegate: SiteDetailsDelegate?
     var sortView: SortView!
     var filterText: String = ""
     var filterIndex: SelectedScope = .name
@@ -101,6 +101,16 @@ class SitesViewModel {
         return distance
     }
     
+    func showSiteDetails(sitePreview: SitePreview) {
+        for site in sites {
+            if site.site_id == sitePreview.siteId {
+                let siteDetails = SiteDetails(siteId: site.site_id, mark: site.mark, name: site.name, address: site.address, technology: sitePreview.technology, distance: sitePreview.distance, lat: site.lat, lng: site.lng, directions: site.directions, power_supply: site.power_supply)
+                
+                sitesCoordinatorDelegate?.openSiteDetails(siteDetails: siteDetails)
+                break
+            }
+        }
+    }
     
     func setupSortView(frame: CGRect) {
         let sortViewModel = SortViewModel(frame: frame, delegate: self, sortType: .sites)

@@ -62,8 +62,8 @@ class SitesTableViewController: UITableViewController {
         let site = viewModel.filteredSitesPreviews[indexPath.row]
         cell.configure(site)
         
-        cell.onCellClicked = {
-            print("clicked")
+        cell.onCellClicked = { [weak self] in
+            self?.viewModel.showSiteDetails(sitePreview: site)
         }
 
         return cell
