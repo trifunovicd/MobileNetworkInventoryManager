@@ -104,7 +104,7 @@ class SitesViewModel {
     func showSiteDetails(sitePreview: SitePreview) {
         for site in sites {
             if site.site_id == sitePreview.siteId {
-                let siteDetails = SiteDetails(siteId: site.site_id, mark: site.mark, name: site.name, address: site.address, technology: sitePreview.technology, distance: sitePreview.distance, lat: site.lat, lng: site.lng, directions: site.directions, power_supply: site.power_supply)
+                let siteDetails = SiteDetails(siteId: site.site_id, mark: site.mark, name: site.name, address: site.address, technology: sitePreview.technology, distance: sitePreview.distance, lat: site.lat, lng: site.lng, directions: site.directions, powerSupply: site.power_supply)
                 
                 sitesCoordinatorDelegate?.openSiteDetails(siteDetails: siteDetails)
                 break

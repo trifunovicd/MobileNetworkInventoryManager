@@ -18,5 +18,5 @@ struct SiteDetails {
     let lat: Double
     let lng: Double
     let directions: String
-    let power_supply: String
+    let powerSupply: String
 }

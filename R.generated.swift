@@ -105,7 +105,7 @@ struct R: Rswift.Validatable {
   }
   #endif
 
-  /// This `R.image` struct is generated, and contains static references to 14 images.
+  /// This `R.image` struct is generated, and contains static references to 18 images.
   struct image {
     /// Image `avatar`.
     static let avatar = Rswift.ImageResource(bundle: R.hostingBundle, name: "avatar")
@@ -117,10 +117,18 @@ struct R: Rswift.Validatable {
     static let close = Rswift.ImageResource(bundle: R.hostingBundle, name: "close")
     /// Image `done`.
     static let done = Rswift.ImageResource(bundle: R.hostingBundle, name: "done")
+    /// Image `gps-filled`.
+    static let gpsFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "gps-filled")
+    /// Image `gps`.
+    static let gps = Rswift.ImageResource(bundle: R.hostingBundle, name: "gps")
     /// Image `map-filled`.
     static let mapFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "map-filled")
     /// Image `map`.
     static let map = Rswift.ImageResource(bundle: R.hostingBundle, name: "map")
+    /// Image `marker-filled`.
+    static let markerFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "marker-filled")
+    /// Image `marker`.
+    static let marker = Rswift.ImageResource(bundle: R.hostingBundle, name: "marker")
     /// Image `sites-filled`.
     static let sitesFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "sites-filled")
     /// Image `sites`.
@@ -172,6 +180,20 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "gps", bundle: ..., traitCollection: ...)`
+    static func gps(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.gps, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "gps-filled", bundle: ..., traitCollection: ...)`
+    static func gpsFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.gpsFilled, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
     /// `UIImage(named: "map", bundle: ..., traitCollection: ...)`
     static func map(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.map, compatibleWith: traitCollection)
@@ -182,6 +204,20 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "map-filled", bundle: ..., traitCollection: ...)`
     static func mapFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.mapFilled, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "marker", bundle: ..., traitCollection: ...)`
+    static func marker(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.marker, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "marker-filled", bundle: ..., traitCollection: ...)`
+    static func markerFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.markerFilled, compatibleWith: traitCollection)
     }
     #endif
 
@@ -269,7 +305,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 40 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 46 localization keys.
     struct localizable {
       /// en translation: %s km
       ///
@@ -303,6 +339,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let address = Rswift.StringResource(key: "address", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Address:
+      ///
+      /// Locales: en
+      static let site_address = Rswift.StringResource(key: "site_address", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: An error occurred while fetching data.
       ///
       /// Locales: en
@@ -318,7 +358,7 @@ struct R: Rswift.Validatable {
       /// en translation: Directions:
       ///
       /// Locales: en
-      static let directions = Rswift.StringResource(key: "directions", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      static let site_directions = Rswift.StringResource(key: "site_directions", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Distance
       ///
       /// Locales: en
@@ -327,6 +367,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let error_alert_title = Rswift.StringResource(key: "error_alert_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Fetching Data ...
+      ///
+      /// Locales: en
+      static let refresh_control_title = Rswift.StringResource(key: "refresh_control_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Location is denied
       ///
       /// Locales: en
@@ -355,6 +399,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let mark = Rswift.StringResource(key: "mark", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Mark:
+      ///
+      /// Locales: en
+      static let site_mark = Rswift.StringResource(key: "site_mark", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Missing Fields
       ///
       /// Locales: en
@@ -363,6 +411,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let name = Rswift.StringResource(key: "name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Name:
+      ///
+      /// Locales: en
+      static let site_name = Rswift.StringResource(key: "site_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: OK
       ///
       /// Locales: en
@@ -383,6 +435,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let location_off_alert_message = Rswift.StringResource(key: "location_off_alert_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Power supply:
+      ///
+      /// Locales: en
+      static let site_power = Rswift.StringResource(key: "site_power", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Search sites
       ///
       /// Locales: en
@@ -403,6 +459,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let tech = Rswift.StringResource(key: "tech", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Technology:
+      ///
+      /// Locales: en
+      static let site_tech = Rswift.StringResource(key: "site_tech", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: The app is not authorized to use location services.
       ///
       /// Locales: en
@@ -562,6 +622,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("address", bundle: bundle, comment: "")
       }
 
+      /// en translation: Address:
+      ///
+      /// Locales: en
+      static func site_address(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("site_address", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "site_address"
+        }
+
+        return NSLocalizedString("site_address", bundle: bundle, comment: "")
+      }
+
       /// en translation: An error occurred while fetching data.
       ///
       /// Locales: en
@@ -610,16 +685,16 @@ struct R: Rswift.Validatable {
       /// en translation: Directions:
       ///
       /// Locales: en
-      static func directions(preferredLanguages: [String]? = nil) -> String {
+      static func site_directions(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("directions", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("site_directions", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "directions"
+          return "site_directions"
         }
 
-        return NSLocalizedString("directions", bundle: bundle, comment: "")
+        return NSLocalizedString("site_directions", bundle: bundle, comment: "")
       }
 
       /// en translation: Distance
@@ -650,6 +725,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("error_alert_title", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Fetching Data ...
+      ///
+      /// Locales: en
+      static func refresh_control_title(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("refresh_control_title", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "refresh_control_title"
+        }
+
+        return NSLocalizedString("refresh_control_title", bundle: bundle, comment: "")
       }
 
       /// en translation: Location is denied
@@ -757,6 +847,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("mark", bundle: bundle, comment: "")
       }
 
+      /// en translation: Mark:
+      ///
+      /// Locales: en
+      static func site_mark(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("site_mark", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "site_mark"
+        }
+
+        return NSLocalizedString("site_mark", bundle: bundle, comment: "")
+      }
+
       /// en translation: Missing Fields
       ///
       /// Locales: en
@@ -785,6 +890,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("name", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Name:
+      ///
+      /// Locales: en
+      static func site_name(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("site_name", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "site_name"
+        }
+
+        return NSLocalizedString("site_name", bundle: bundle, comment: "")
       }
 
       /// en translation: OK
@@ -862,6 +982,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("location_off_alert_message", bundle: bundle, comment: "")
       }
 
+      /// en translation: Power supply:
+      ///
+      /// Locales: en
+      static func site_power(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("site_power", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "site_power"
+        }
+
+        return NSLocalizedString("site_power", bundle: bundle, comment: "")
+      }
+
       /// en translation: Search sites
       ///
       /// Locales: en
@@ -935,6 +1070,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("tech", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Technology:
+      ///
+      /// Locales: en
+      static func site_tech(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("site_tech", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "site_tech"
+        }
+
+        return NSLocalizedString("site_tech", bundle: bundle, comment: "")
       }
 
       /// en translation: The app is not authorized to use location services.

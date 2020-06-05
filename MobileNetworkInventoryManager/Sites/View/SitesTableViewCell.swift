@@ -13,6 +13,7 @@ class SitesTableViewCell: UITableViewCell {
     private let siteNameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 17)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -20,6 +21,8 @@ class SitesTableViewCell: UITableViewCell {
     private let siteAddressLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -27,6 +30,8 @@ class SitesTableViewCell: UITableViewCell {
     private let siteTechnologyLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

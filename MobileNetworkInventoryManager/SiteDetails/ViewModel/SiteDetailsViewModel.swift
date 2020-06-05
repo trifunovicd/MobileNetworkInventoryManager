@@ -9,12 +9,14 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import MapKit
 
 class SiteDetailsViewModel {
     var siteDetails: SiteDetails!
     let viewLoaded = PublishSubject<Void>()
     let closeModal = PublishSubject<Void>()
     let addSiteMarker = PublishSubject<Void>()
+    let centerMapView = PublishSubject<CLLocationCoordinate2D>()
     let checkLocationServices = PublishSubject<Void>()
     let setupLocationManager = PublishSubject<Void>()
     let checkLocationAuthorization = PublishSubject<Void>()

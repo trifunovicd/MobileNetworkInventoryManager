@@ -12,6 +12,7 @@
 "username" = "Username";
 "password" = "Password";
 "login" = "Login";
+"refresh_control_title" = "Fetching Data ...";
 "search_sites_placeholder" = "Search sites";
 "check_if_user_exists" = "?action=check_if_user_exists&username='%s'&password='%s'";
 "get_all_sites" = "?action=get_all_sites";
@@ -42,6 +43,11 @@
 "logged_user_key" = "loggedUser";
 "site_sort_key" = "siteSort";
 "sort" = "Sort";
-"directions" = "Directions:";
+"site_directions" = "Directions:";
+"site_mark" = "Mark:";
+"site_name" = "Name:";
+"site_address" = "Address:";
+"site_tech" = "Technology:";
+"site_power" = "Power supply:";
 "distance_in_km" = "%s km";
 "distance_in_m" = "%s m";

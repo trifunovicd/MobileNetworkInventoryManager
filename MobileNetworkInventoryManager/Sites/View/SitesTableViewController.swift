@@ -20,7 +20,7 @@ class SitesTableViewController: UITableViewController {
     private let myRefreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .gray
-        refreshControl.attributedTitle = NSAttributedString(string: "Fetching Data ...", attributes: [NSAttributedString.Key.foregroundColor:UIColor.gray])
+        refreshControl.attributedTitle = NSAttributedString(string: R.string.localizable.refresh_control_title(), attributes: [NSAttributedString.Key.foregroundColor:UIColor.gray])
         return refreshControl
     }()
     
