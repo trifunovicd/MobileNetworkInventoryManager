@@ -1,8 +1,8 @@
 //
-//  SiteDetailsViewModel.swift
+//  TaskDetailsViewModel.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Internship on 04/06/2020.
+//  Created by Internship on 06/06/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
 //
 
@@ -11,8 +11,8 @@ import RxSwift
 import RxCocoa
 import MapKit
 
-class SiteDetailsViewModel {
-    var siteDetails: SiteDetails!
+class TaskDetailsViewModel {
+    var taskDetails: TaskDetails!
     var shouldFollowUser: Bool = false
     let viewLoaded = PublishSubject<Void>()
     let closeModal = PublishSubject<Void>()

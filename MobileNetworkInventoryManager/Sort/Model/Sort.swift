@@ -26,6 +26,9 @@ enum SitesSortType: Int {
 }
 
 enum TasksSortType: Int {
-    //TODO!!!!!
-    case name = 0
+    case date = 0
+    case mark = 1
+    case name = 2
+    case task = 3
+    case distance = 4
 }

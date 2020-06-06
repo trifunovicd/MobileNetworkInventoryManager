@@ -16,9 +16,8 @@ class SitesViewModel {
     weak var sitesCoordinatorDelegate: SiteDetailsDelegate?
     var sortView: SortView!
     var filterText: String = ""
-    var filterIndex: SelectedScope = .name
+    var filterIndex: SitesSelectedScope = .name
     var userId: Int!
-    var userData: User!
     var sites: [Site] = []
     var sitesPreviews: [SitePreview] = []
     var filteredSitesPreviews: [SitePreview] = []
@@ -36,10 +35,9 @@ class SitesViewModel {
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let data):
-                    self?.userData = data.0
-                    self?.sites = data.1
-                    self?.sitesPreviews = data.2
-                    self?.filteredSitesPreviews = data.2
+                    self?.sites = data.0
+                    self?.sitesPreviews = data.1
+                    self?.filteredSitesPreviews = data.1
                     self?.endRefreshing.onNext(())
                     self?.getSortSettings()
                 case .failure(let error):
@@ -50,55 +48,28 @@ class SitesViewModel {
             })
     }
     
-    private func getSitesObservale() -> Observable<Result<(User, [Site], [SitePreview]), Error>> {
+    private func getSitesObservale() -> Observable<Result<([Site], [SitePreview]), Error>> {
         let sitesObservable: Observable<[Site]> = getRequest(url: makeUrl(action: .getAllSites, userId: nil))
         let userObservable: Observable<[User]> = getRequest(url: makeUrl(action: .getUserData, userId: userId))
         
         var previews: [SitePreview] = []
         
-        return Observable.combineLatest(sitesObservable, userObservable, resultSelector: { [unowned self] sites, user in
+        return Observable.combineLatest(sitesObservable, userObservable, resultSelector: { sites, user in
             
             for site in sites {
-                let sitePreview = SitePreview(siteId: site.site_id, mark: site.mark, name: site.name, address: site.address, technology: self.getTechnology(is2GAvailable: site.is_2G_available, is3GAvailable: site.is_3G_available, is4GAvailable: site.is_4G_available), distance: self.getDistance(userLocation: (user[0].lat, user[0].lng), siteLocation: (site.lat, site.lng)))
+                let sitePreview = SitePreview(siteId: site.site_id, mark: site.mark, name: site.name, address: site.address, technology: getTechnology(is2GAvailable: site.is_2G_available, is3GAvailable: site.is_3G_available, is4GAvailable: site.is_4G_available), distance: getDistance(userLocation: (user[0].lat, user[0].lng), siteLocation: (site.lat, site.lng)))
                 
                 previews.append(sitePreview)
             }
-            return (user[0], sites, previews)
+            return (sites, previews)
             
-        }).map { (data) -> Result<(User, [Site], [SitePreview]), Error> in
+        }).map { (data) -> Result<([Site], [SitePreview]), Error> in
             return Result.success(data)
             
-        }.catchError { error -> Observable<Result<(User, [Site], [SitePreview]), Error>> in
-            let result = Result<(User, [Site], [SitePreview]), Error>.failure(error)
+        }.catchError { error -> Observable<Result<([Site], [SitePreview]), Error>> in
+            let result = Result<([Site], [SitePreview]), Error>.failure(error)
             return Observable.just(result)
         }
-    }
-    
-    private func getTechnology(is2GAvailable: Int, is3GAvailable: Int, is4GAvailable: Int) -> String {
-        var technology: String = ""
-        
-        if is2GAvailable == 1 {
-            technology = technology + " 2G"
-        }
-        if is3GAvailable == 1 {
-            technology = technology + " 3G"
-        }
-        if is4GAvailable == 1 {
-            technology = technology + " 4G"
-        }
-        
-        technology = String(technology.dropFirst())
-        technology = technology.replacingOccurrences(of: " ", with: ", ")
-        return technology
-    }
-    
-    private func getDistance(userLocation: (lat: Double, lng: Double), siteLocation: (lat: Double, lng: Double)) -> Double {
-        
-        let userLocation = CLLocation(latitude: userLocation.lat, longitude: userLocation.lng)
-        let siteLocation = CLLocation(latitude: siteLocation.lat, longitude: siteLocation.lng)
-
-        let distance = userLocation.distance(from: siteLocation)
-        return distance
     }
     
     func showSiteDetails(sitePreview: SitePreview) {
@@ -117,7 +88,7 @@ class SitesViewModel {
         sortView = SortView(viewModel: sortViewModel)
     }
     
-    func handleTextChange(searchText: String, index: SelectedScope) {
+    func handleTextChange(searchText: String, index: SitesSelectedScope) {
         if searchText.isEmpty {
             filteredSitesPreviews = sitesPreviews
         }
@@ -131,7 +102,7 @@ class SitesViewModel {
         fetchFinished.onNext(())
     }
     
-    private func filterTableView(index: SelectedScope, text: String) {
+    private func filterTableView(index: SitesSelectedScope, text: String) {
         switch index {
         case .name:
             filteredSitesPreviews = sitesPreviews.filter({ (site) -> Bool in

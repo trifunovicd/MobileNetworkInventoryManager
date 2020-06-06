@@ -24,6 +24,7 @@ enum Action {
     case getAllUsers
     case getTasksForUser
     case getUserData
+    case getTaskStatus
 }
 
 func makeUrl(username: String, password: String) -> String {
@@ -46,6 +47,8 @@ func makeUrl(action: Action, userId: Int?) -> String {
     case .getUserData:
         guard let userId = userId else { break }
         url = url + R.string.localizable.get_user_data(userId)
+    case .getTaskStatus:
+        url = url + R.string.localizable.get_task_status()
     }
     
     return url

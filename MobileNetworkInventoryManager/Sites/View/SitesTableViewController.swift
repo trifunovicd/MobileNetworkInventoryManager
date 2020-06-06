@@ -29,7 +29,7 @@ class SitesTableViewController: UITableViewController {
         searchBar.keyboardAppearance = .light
         searchBar.placeholder = R.string.localizable.search_sites_placeholder()
         searchBar.scopeBarBackgroundImage = UIImage()
-        searchBar.scopeButtonTitles = [R.string.localizable.name(), R.string.localizable.address(), R.string.localizable.tech(), R.string.localizable.mark()]
+        searchBar.scopeButtonTitles = [R.string.localizable.scope_name(), R.string.localizable.scope_address(), R.string.localizable.scope_tech(), R.string.localizable.scope_mark()]
         searchBar.showsScopeBar = true
         searchBar.showsCancelButton = true
         searchBar.sizeToFit()
@@ -170,12 +170,12 @@ extension SitesTableViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard let index = SelectedScope(rawValue: searchBar.selectedScopeButtonIndex) else { return }
+        guard let index = SitesSelectedScope(rawValue: searchBar.selectedScopeButtonIndex) else { return }
         viewModel.handleTextChange(searchText: searchText, index: index)
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        guard let searchText = searchBar.text, let index = SelectedScope(rawValue: selectedScope) else { return }
+        guard let searchText = searchBar.text, let index = SitesSelectedScope(rawValue: selectedScope) else { return }
         viewModel.handleTextChange(searchText: searchText, index: index)
     }
 }

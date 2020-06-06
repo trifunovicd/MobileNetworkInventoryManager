@@ -62,7 +62,7 @@ class AppCoordinator: Coordinator {
         window.makeKeyAndVisible()
         
         let sitesCoordinator = SitesCoordinator(presenter: UINavigationController(), userId: userId)
-        let tasksCoordinator = TasksCoordinator(presenter: UINavigationController())
+        let tasksCoordinator = TasksCoordinator(presenter: UINavigationController(), userId: userId)
         let mapCoordinator = MapCoordinator(presenter: UINavigationController())
         let userCoordinator = UserCoordinator(presenter: UINavigationController())
         

@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import MapKit
 import RxSwift
 import RxCocoa
+import MapKit
 
 class SiteDetailsViewController: UIViewController {
 
@@ -312,6 +312,10 @@ class SiteDetailsViewController: UIViewController {
             self?.centerMapView(coordinate: coordinate)
         }).disposed(by: disposeBag)
         
+        viewModel.updateDistance.subscribe(onNext: { [weak self] coordinate in
+            self?.updateDistance(coordinate: coordinate)
+        }).disposed(by: disposeBag)
+        
         viewModel.checkLocationServices.subscribe(onNext: { [weak self] in
             self?.checkLocationServices()
         }).disposed(by: disposeBag)
@@ -362,10 +366,12 @@ class SiteDetailsViewController: UIViewController {
         if sender == siteLocationButton {
             let coordinate = CLLocationCoordinate2D(latitude: viewModel.siteDetails.lat, longitude: viewModel.siteDetails.lng)
             viewModel.centerMapView.onNext(coordinate)
+            viewModel.shouldFollowUser = false
         }
         else {
             guard let coordinate = locationManager.location?.coordinate else { return }
             viewModel.centerMapView.onNext(coordinate)
+            viewModel.shouldFollowUser = true
         }
     }
     
@@ -432,6 +438,11 @@ class SiteDetailsViewController: UIViewController {
         let region = MKCoordinateRegion.init(center: coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
         mapView.setRegion(region, animated: true)
     }
+    
+    private func updateDistance(coordinate: CLLocationCoordinate2D) {
+        let distance = getDistance(userLocation: (coordinate.latitude, coordinate.longitude), siteLocation: (viewModel.siteDetails.lat, viewModel.siteDetails.lng))
+        distanceLabel.text = distance.getDistanceString()
+    }
 }
 
 
@@ -455,6 +466,15 @@ extension SiteDetailsViewController: MKMapViewDelegate {
 
 
 extension SiteDetailsViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        viewModel.updateDistance.onNext(location.coordinate)
+        
+        if viewModel.shouldFollowUser {
+            viewModel.centerMapView.onNext(location.coordinate)
+        }
+    }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         viewModel.checkLocationAuthorization.onNext(())

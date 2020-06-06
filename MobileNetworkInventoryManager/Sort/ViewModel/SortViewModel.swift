@@ -33,9 +33,9 @@ class SortViewModel {
     private func createItems() {
         switch sortType {
         case .sites:
-            itemsArray = [R.string.localizable.mark(), R.string.localizable.name(), R.string.localizable.address(), R.string.localizable.distance()]
+            itemsArray = [R.string.localizable.scope_mark(), R.string.localizable.scope_name(), R.string.localizable.scope_address(), R.string.localizable.distance()]
         case .tasks:
-            itemsArray = [""] //TODO!!!!!
+            itemsArray = [R.string.localizable.scope_date(), R.string.localizable.scope_mark(), R.string.localizable.scope_name(), R.string.localizable.scope_task(), R.string.localizable.distance()]
         }
     }
 }

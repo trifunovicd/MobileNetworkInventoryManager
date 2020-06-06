@@ -1,15 +1,15 @@
 //
-//  SitesTableViewCell.swift
+//  TasksTableViewCell.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Internship on 27/05/2020.
+//  Created by Internship on 06/06/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
 //
 
 import UIKit
 
-class SitesTableViewCell: UITableViewCell {
-    
+class TasksTableViewCell: UITableViewCell {
+
     private let siteNameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -18,7 +18,7 @@ class SitesTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let siteAddressLabel: UILabel = {
+    private let taskCategoryLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 17)
@@ -27,7 +27,7 @@ class SitesTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let siteTechnologyLabel: UILabel = {
+    private let taskOpeningTimeLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 17)
@@ -51,11 +51,11 @@ class SitesTableViewCell: UITableViewCell {
     }()
     
     var onCellClicked: (() -> Void)?
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -65,7 +65,7 @@ class SitesTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -75,11 +75,11 @@ class SitesTableViewCell: UITableViewCell {
         onCellClicked!()
     }
     
-    func configure(_ site: SitePreview) {
-        siteNameLabel.text = site.name
-        siteAddressLabel.text = site.address
-        siteTechnologyLabel.text = site.technology
-        siteMarkLabel.text = site.mark
+    func configure(_ task: TaskPreview) {
+        siteNameLabel.text = task.siteName
+        taskCategoryLabel.text = task.taskCategoryName
+        taskOpeningTimeLabel.text = task.taskOpeningTime.getStringFromDate()
+        siteMarkLabel.text = task.siteMark
     }
     
     private func setupLayout() {
@@ -105,7 +105,7 @@ class SitesTableViewCell: UITableViewCell {
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        containerView.addSubviews(views: [siteNameLabel, siteAddressLabel, siteTechnologyLabel, stackView])
+        containerView.addSubviews(views: [siteNameLabel, taskCategoryLabel, taskOpeningTimeLabel, stackView])
         
         contentView.addSubview(containerView)
         contentView.backgroundColor = .white
@@ -120,14 +120,14 @@ class SitesTableViewCell: UITableViewCell {
             siteNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             siteNameLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
             
-            siteAddressLabel.topAnchor.constraint(equalTo: siteNameLabel.bottomAnchor, constant: 8),
-            siteAddressLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            siteAddressLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
+            taskCategoryLabel.topAnchor.constraint(equalTo: siteNameLabel.bottomAnchor, constant: 8),
+            taskCategoryLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            taskCategoryLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
             
-            siteTechnologyLabel.topAnchor.constraint(equalTo: siteAddressLabel.bottomAnchor, constant: 8),
-            siteTechnologyLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            siteTechnologyLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
-            siteTechnologyLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
+            taskOpeningTimeLabel.topAnchor.constraint(equalTo: taskCategoryLabel.bottomAnchor, constant: 8),
+            taskOpeningTimeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            taskOpeningTimeLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
+            taskOpeningTimeLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
             
             siteImageView.heightAnchor.constraint(equalToConstant: 35),
             siteImageView.widthAnchor.constraint(equalToConstant: 35),

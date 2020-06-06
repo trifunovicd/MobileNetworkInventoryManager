@@ -305,7 +305,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 46 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 57 localization keys.
     struct localizable {
       /// en translation: %s km
       ///
@@ -327,6 +327,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let get_all_users = Rswift.StringResource(key: "get_all_users", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: ?action=get_task_status
+      ///
+      /// Locales: en
+      static let get_task_status = Rswift.StringResource(key: "get_task_status", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: ?action=get_tasks_for_user&user_id=%d
       ///
       /// Locales: en
@@ -338,7 +342,7 @@ struct R: Rswift.Validatable {
       /// en translation: Address
       ///
       /// Locales: en
-      static let address = Rswift.StringResource(key: "address", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      static let scope_address = Rswift.StringResource(key: "scope_address", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Address:
       ///
       /// Locales: en
@@ -351,10 +355,22 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let ascending = Rswift.StringResource(key: "ascending", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Category:
+      ///
+      /// Locales: en
+      static let task_category = Rswift.StringResource(key: "task_category", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Date
+      ///
+      /// Locales: en
+      static let scope_date = Rswift.StringResource(key: "scope_date", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Descending
       ///
       /// Locales: en
       static let descending = Rswift.StringResource(key: "descending", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Description:
+      ///
+      /// Locales: en
+      static let task_description = Rswift.StringResource(key: "task_description", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Directions:
       ///
       /// Locales: en
@@ -371,6 +387,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let refresh_control_title = Rswift.StringResource(key: "refresh_control_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Hide site details...
+      ///
+      /// Locales: en
+      static let hide_site_details = Rswift.StringResource(key: "hide_site_details", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Location is denied
       ///
       /// Locales: en
@@ -398,7 +418,7 @@ struct R: Rswift.Validatable {
       /// en translation: Mark
       ///
       /// Locales: en
-      static let mark = Rswift.StringResource(key: "mark", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      static let scope_mark = Rswift.StringResource(key: "scope_mark", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Mark:
       ///
       /// Locales: en
@@ -410,7 +430,7 @@ struct R: Rswift.Validatable {
       /// en translation: Name
       ///
       /// Locales: en
-      static let name = Rswift.StringResource(key: "name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      static let scope_name = Rswift.StringResource(key: "scope_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Name:
       ///
       /// Locales: en
@@ -419,6 +439,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let alert_ok_action = Rswift.StringResource(key: "alert_ok_action", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Opening time:
+      ///
+      /// Locales: en
+      static let task_opening_time = Rswift.StringResource(key: "task_opening_time", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Password
       ///
       /// Locales: en
@@ -443,6 +467,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let search_sites_placeholder = Rswift.StringResource(key: "search_sites_placeholder", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Show site details...
+      ///
+      /// Locales: en
+      static let show_site_details = Rswift.StringResource(key: "show_site_details", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Site details
+      ///
+      /// Locales: en
+      static let site_details = Rswift.StringResource(key: "site_details", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Sites
       ///
       /// Locales: en
@@ -451,6 +483,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let sort = Rswift.StringResource(key: "sort", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Status:
+      ///
+      /// Locales: en
+      static let task_status = Rswift.StringResource(key: "task_status", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Task
+      ///
+      /// Locales: en
+      static let scope_task = Rswift.StringResource(key: "scope_task", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Tasks
       ///
       /// Locales: en
@@ -458,7 +498,7 @@ struct R: Rswift.Validatable {
       /// en translation: Tech
       ///
       /// Locales: en
-      static let tech = Rswift.StringResource(key: "tech", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      static let scope_tech = Rswift.StringResource(key: "scope_tech", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Technology:
       ///
       /// Locales: en
@@ -491,6 +531,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let site_sort_key = Rswift.StringResource(key: "site_sort_key", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: taskSort
+      ///
+      /// Locales: en
+      static let task_sort_key = Rswift.StringResource(key: "task_sort_key", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
 
       /// en translation: %s km
       ///
@@ -573,6 +617,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("get_all_users", bundle: bundle, comment: "")
       }
 
+      /// en translation: ?action=get_task_status
+      ///
+      /// Locales: en
+      static func get_task_status(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("get_task_status", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "get_task_status"
+        }
+
+        return NSLocalizedString("get_task_status", bundle: bundle, comment: "")
+      }
+
       /// en translation: ?action=get_tasks_for_user&user_id=%d
       ///
       /// Locales: en
@@ -610,16 +669,16 @@ struct R: Rswift.Validatable {
       /// en translation: Address
       ///
       /// Locales: en
-      static func address(preferredLanguages: [String]? = nil) -> String {
+      static func scope_address(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("address", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("scope_address", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "address"
+          return "scope_address"
         }
 
-        return NSLocalizedString("address", bundle: bundle, comment: "")
+        return NSLocalizedString("scope_address", bundle: bundle, comment: "")
       }
 
       /// en translation: Address:
@@ -667,6 +726,36 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("ascending", bundle: bundle, comment: "")
       }
 
+      /// en translation: Category:
+      ///
+      /// Locales: en
+      static func task_category(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("task_category", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "task_category"
+        }
+
+        return NSLocalizedString("task_category", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Date
+      ///
+      /// Locales: en
+      static func scope_date(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("scope_date", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "scope_date"
+        }
+
+        return NSLocalizedString("scope_date", bundle: bundle, comment: "")
+      }
+
       /// en translation: Descending
       ///
       /// Locales: en
@@ -680,6 +769,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("descending", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Description:
+      ///
+      /// Locales: en
+      static func task_description(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("task_description", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "task_description"
+        }
+
+        return NSLocalizedString("task_description", bundle: bundle, comment: "")
       }
 
       /// en translation: Directions:
@@ -740,6 +844,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("refresh_control_title", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Hide site details...
+      ///
+      /// Locales: en
+      static func hide_site_details(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("hide_site_details", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "hide_site_details"
+        }
+
+        return NSLocalizedString("hide_site_details", bundle: bundle, comment: "")
       }
 
       /// en translation: Location is denied
@@ -835,16 +954,16 @@ struct R: Rswift.Validatable {
       /// en translation: Mark
       ///
       /// Locales: en
-      static func mark(preferredLanguages: [String]? = nil) -> String {
+      static func scope_mark(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("mark", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("scope_mark", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "mark"
+          return "scope_mark"
         }
 
-        return NSLocalizedString("mark", bundle: bundle, comment: "")
+        return NSLocalizedString("scope_mark", bundle: bundle, comment: "")
       }
 
       /// en translation: Mark:
@@ -880,16 +999,16 @@ struct R: Rswift.Validatable {
       /// en translation: Name
       ///
       /// Locales: en
-      static func name(preferredLanguages: [String]? = nil) -> String {
+      static func scope_name(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("name", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("scope_name", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "name"
+          return "scope_name"
         }
 
-        return NSLocalizedString("name", bundle: bundle, comment: "")
+        return NSLocalizedString("scope_name", bundle: bundle, comment: "")
       }
 
       /// en translation: Name:
@@ -920,6 +1039,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("alert_ok_action", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Opening time:
+      ///
+      /// Locales: en
+      static func task_opening_time(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("task_opening_time", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "task_opening_time"
+        }
+
+        return NSLocalizedString("task_opening_time", bundle: bundle, comment: "")
       }
 
       /// en translation: Password
@@ -1012,6 +1146,36 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("search_sites_placeholder", bundle: bundle, comment: "")
       }
 
+      /// en translation: Show site details...
+      ///
+      /// Locales: en
+      static func show_site_details(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("show_site_details", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "show_site_details"
+        }
+
+        return NSLocalizedString("show_site_details", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Site details
+      ///
+      /// Locales: en
+      static func site_details(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("site_details", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "site_details"
+        }
+
+        return NSLocalizedString("site_details", bundle: bundle, comment: "")
+      }
+
       /// en translation: Sites
       ///
       /// Locales: en
@@ -1042,6 +1206,36 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("sort", bundle: bundle, comment: "")
       }
 
+      /// en translation: Status:
+      ///
+      /// Locales: en
+      static func task_status(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("task_status", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "task_status"
+        }
+
+        return NSLocalizedString("task_status", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Task
+      ///
+      /// Locales: en
+      static func scope_task(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("scope_task", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "scope_task"
+        }
+
+        return NSLocalizedString("scope_task", bundle: bundle, comment: "")
+      }
+
       /// en translation: Tasks
       ///
       /// Locales: en
@@ -1060,16 +1254,16 @@ struct R: Rswift.Validatable {
       /// en translation: Tech
       ///
       /// Locales: en
-      static func tech(preferredLanguages: [String]? = nil) -> String {
+      static func scope_tech(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("tech", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("scope_tech", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "tech"
+          return "scope_tech"
         }
 
-        return NSLocalizedString("tech", bundle: bundle, comment: "")
+        return NSLocalizedString("scope_tech", bundle: bundle, comment: "")
       }
 
       /// en translation: Technology:
@@ -1192,6 +1386,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("site_sort_key", bundle: bundle, comment: "")
+      }
+
+      /// en translation: taskSort
+      ///
+      /// Locales: en
+      static func task_sort_key(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("task_sort_key", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "task_sort_key"
+        }
+
+        return NSLocalizedString("task_sort_key", bundle: bundle, comment: "")
       }
 
       fileprivate init() {}
