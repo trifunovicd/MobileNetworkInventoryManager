@@ -123,3 +123,11 @@ extension Date {
         return sDate
     }
 }
+
+func topMostViewController() -> UIViewController? {
+    var topViewController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController
+    while ((topViewController?.presentedViewController) != nil) {
+        topViewController = topViewController?.presentedViewController
+    }
+    return topViewController
+}

@@ -83,7 +83,6 @@ class AppCoordinator: Coordinator {
         tabController.viewControllers = tabBarList
         
         locationService.userId = userId
-        locationService.controller = tabController
         locationService.start()
     }
 }
