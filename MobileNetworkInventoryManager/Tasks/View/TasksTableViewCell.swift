@@ -78,7 +78,14 @@ class TasksTableViewCell: UITableViewCell {
     func configure(_ task: TaskPreview) {
         siteNameLabel.text = task.siteName
         taskCategoryLabel.text = task.taskCategoryName
-        taskOpeningTimeLabel.text = task.taskOpeningTime.getStringFromDate()
+        
+        if let openingTime = task.taskOpeningTime {
+            taskOpeningTimeLabel.text = openingTime.getStringFromDate()
+        }
+        else {
+            taskOpeningTimeLabel.text = "-"
+        }
+        
         siteMarkLabel.text = task.siteMark
     }
     

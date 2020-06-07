@@ -23,4 +23,5 @@ struct TaskDetails {
     let taskCategoryName: String
     let taskStatusName: String
     let taskOpeningTime: String
+    let taskClosingTime: String
 }

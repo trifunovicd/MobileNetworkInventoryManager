@@ -99,10 +99,10 @@ func getTechnology(is2GAvailable: Int, is3GAvailable: Int, is4GAvailable: Int) -
 }
 
 extension String {
-    func getDateFromString() -> Date {
+    func getDateFromString() -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
-        guard let date = dateFormatter.date(from: self) else {return Date()}
+        guard let date = dateFormatter.date(from: self) else {return nil}
         return date
     }
 }
@@ -113,5 +113,40 @@ extension Date {
         dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
         let sDate = dateFormatter.string(from: self)
         return sDate
+    }
+    
+    func getMSSQLVariant() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "hr_HR")
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        let sDate = dateFormatter.string(from: self)
+        return sDate
+    }
+}
+
+
+extension UIAlertController {
+
+    func show() {
+        present(animated: true, completion: nil)
+    }
+
+    func present(animated: Bool, completion: (() -> Void)?) {
+        if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
+            presentFromController(controller: rootVC, animated: animated, completion: completion)
+        }
+    }
+
+    private func presentFromController(controller: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        if let navVC = controller as? UINavigationController,
+            let visibleVC = navVC.visibleViewController {
+            presentFromController(controller: visibleVC, animated: animated, completion: completion)
+        } else
+            if let tabVC = controller as? UITabBarController,
+                let selectedVC = tabVC.selectedViewController {
+                presentFromController(controller: selectedVC, animated: animated, completion: completion)
+            } else {
+                controller.present(self, animated: animated, completion: completion);
+        }
     }
 }

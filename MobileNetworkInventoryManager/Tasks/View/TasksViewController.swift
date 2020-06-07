@@ -38,9 +38,11 @@ class TasksViewController: UIViewController {
     
     private let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl()
-        control.backgroundColor = .systemBlue
-        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .selected)
-        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
+        if #available(iOS 13.0, *) {
+            control.backgroundColor = .systemBlue
+            control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .selected)
+            control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
+        }
         control.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
@@ -99,7 +101,7 @@ class TasksViewController: UIViewController {
         for (index, item) in viewModel.getSegmentedOptions().enumerated() {
             segmentedControl.insertSegment(withTitle: item, at: index, animated: false)
         }
-        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = viewModel.segmentedIndex
     }
     
     private func setupLayout() {
@@ -167,12 +169,14 @@ class TasksViewController: UIViewController {
             navigationItem.titleView = searchBar
             navigationController?.navigationBar.sizeToFit()
             searchBar.becomeFirstResponder()
+            segmentedControl.isUserInteractionEnabled = false
             UIView.animate(withDuration: 0.4, animations: {
                 self.searchBar.alpha = 1
             })
         }
         else {
             searchBar.resignFirstResponder()
+            segmentedControl.isUserInteractionEnabled = true
             UIView.animate(withDuration: 0.2, animations: {
                 self.searchBar.alpha = 0
             }, completion: { _ in

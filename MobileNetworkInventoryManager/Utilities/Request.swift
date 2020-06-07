@@ -11,7 +11,8 @@ import Alamofire
 import RxSwift
 
 enum Urls: String {
-    case baseUrl = "http://student.vsmti.hr/dtrifunovic/PIS/json.php"
+    case baseUrlGet = "http://student.vsmti.hr/dtrifunovic/PIS/json.php"
+    case baseUrlPost = "http://student.vsmti.hr/dtrifunovic/PIS/action.php"
 }
 
 enum DataError: Error {
@@ -28,13 +29,13 @@ enum Action {
 }
 
 func makeUrl(username: String, password: String) -> String {
-    let url = Urls.baseUrl.rawValue + R.string.localizable.check_if_user_exists(username, password)
+    let url = Urls.baseUrlGet.rawValue + R.string.localizable.check_if_user_exists(username, password)
     guard let urlString = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return url }
     return urlString
 }
 
 func makeUrl(action: Action, userId: Int?) -> String {
-    var url = Urls.baseUrl.rawValue
+    var url = Urls.baseUrlGet.rawValue
     
     switch action {
     case .getAllSites:
@@ -78,6 +79,22 @@ func getRequest<Data: Codable> (url: String) -> Observable<Data> {
         
         return Disposables.create{
             request.cancel()
+        }
+    }
+}
+
+func postRequest(url: String, postString: String) {
+    guard let url = URL(string: url) else { return }
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.httpBody = postString.data(using: .utf8)
+
+    AF.request(request).validate().responseJSON { response in
+        switch response.result {
+        case .success(let data):
+            print(data)
+        case .failure(let error):
+            print(error)
         }
     }
 }

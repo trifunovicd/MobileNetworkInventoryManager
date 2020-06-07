@@ -97,6 +97,24 @@ class TaskDetailsViewController: UIViewController {
         return label
     }()
     
+    private let closingTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = R.string.localizable.task_closing_time()
+        label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 17)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let closingTimeText: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textColor = .darkGray
+        label.font = .systemFont(ofSize: 16)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let taskStatusLabel: UILabel = {
         let label = UILabel()
         label.text = R.string.localizable.task_status()
@@ -303,15 +321,6 @@ class TaskDetailsViewController: UIViewController {
         return view
     }()
     
-    private let completedButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Completed", for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     private let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -355,7 +364,7 @@ class TaskDetailsViewController: UIViewController {
         siteDetailsStackView.translatesAutoresizingMaskIntoConstraints = false
         
         siteDetailsView.addSubviews(views: [markLabel, markText, nameLabel, nameText, addressLabel, addressText, techLabel, techText, powerLabel, powerText, directionsLabel, directionsText])
-        containerScrollView.addSubviews(views: [openingTimeLabel, openingTimeText, taskStatusLabel, taskStatusText, taskCategoryLabel, taskCategoryText, taskDescriptionLabel, taskDescriptionText, siteDetailsStackView, completedButton])
+        containerScrollView.addSubviews(views: [openingTimeLabel, openingTimeText, closingTimeLabel, closingTimeText, taskStatusLabel, taskStatusText, taskCategoryLabel, taskCategoryText, taskDescriptionLabel, taskDescriptionText, siteDetailsStackView])
         scrollView.addSubview(containerScrollView)
         view.addSubviews(views: [mapView, closeButton, distanceView, distanceLabel, scrollView])
         
@@ -397,7 +406,15 @@ class TaskDetailsViewController: UIViewController {
             openingTimeText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
             openingTimeText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
             
-            taskStatusLabel.topAnchor.constraint(equalTo: openingTimeText.bottomAnchor, constant: 16),
+            closingTimeLabel.topAnchor.constraint(equalTo: openingTimeText.bottomAnchor, constant: 16),
+            closingTimeLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
+            closingTimeLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
+            
+            closingTimeText.topAnchor.constraint(equalTo: closingTimeLabel.bottomAnchor, constant: 8),
+            closingTimeText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
+            closingTimeText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
+            
+            taskStatusLabel.topAnchor.constraint(equalTo: closingTimeText.bottomAnchor, constant: 16),
             taskStatusLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
             taskStatusLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
             
@@ -424,6 +441,7 @@ class TaskDetailsViewController: UIViewController {
             siteDetailsStackView.topAnchor.constraint(equalTo: taskDescriptionText.bottomAnchor, constant: 30),
             siteDetailsStackView.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
             siteDetailsStackView.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
+            siteDetailsStackView.bottomAnchor.constraint(equalTo: containerScrollView.bottomAnchor, constant: -30),
             
             markLabel.topAnchor.constraint(equalTo: siteDetailsView.topAnchor),
             markLabel.leadingAnchor.constraint(equalTo: siteDetailsView.leadingAnchor),
@@ -472,12 +490,7 @@ class TaskDetailsViewController: UIViewController {
             directionsText.topAnchor.constraint(equalTo: directionsLabel.bottomAnchor, constant: 8),
             directionsText.leadingAnchor.constraint(equalTo: siteDetailsView.leadingAnchor),
             directionsText.trailingAnchor.constraint(equalTo: siteDetailsView.trailingAnchor),
-            directionsText.bottomAnchor.constraint(equalTo: siteDetailsView.bottomAnchor),
-            
-            completedButton.topAnchor.constraint(equalTo: siteDetailsStackView.bottomAnchor, constant: 30),
-            completedButton.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 40),
-            completedButton.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -40),
-            completedButton.bottomAnchor.constraint(equalTo: containerScrollView.bottomAnchor, constant: -16)
+            directionsText.bottomAnchor.constraint(equalTo: siteDetailsView.bottomAnchor)
         ])
     }
     
@@ -496,6 +509,10 @@ class TaskDetailsViewController: UIViewController {
         
         viewModel.updateDistance.subscribe(onNext: { [weak self] coordinate in
             self?.updateDistance(coordinate: coordinate)
+        }).disposed(by: disposeBag)
+        
+        viewModel.siteDetailsAction.subscribe(onNext: { [weak self] shouldShow in
+            self?.handleShowSiteDetails(shouldShow: shouldShow)
         }).disposed(by: disposeBag)
         
         viewModel.checkLocationServices.subscribe(onNext: { [weak self] in
@@ -559,22 +576,46 @@ class TaskDetailsViewController: UIViewController {
     
     @objc private func siteDetailsAction(_ sender: UIGestureRecognizer) {
         if let view = sender.view as? UILabel, view == showSiteDetailsLabel {
-            showSiteDetailsLabel.isHidden = true
-            siteDetailsLabel.isHidden = false
-            siteDetailsView.isHidden = false
-            hideSiteDetailsLabel.isHidden = false
+            viewModel.siteDetailsAction.onNext(true)
         }
         else {
-            showSiteDetailsLabel.isHidden = false
-            siteDetailsLabel.isHidden = true
-            siteDetailsView.isHidden = true
-            hideSiteDetailsLabel.isHidden = true
+            viewModel.siteDetailsAction.onNext(false)
+        }
+    }
+    
+    private func handleShowSiteDetails(shouldShow: Bool) {
+        if shouldShow {
+            hideSiteDetailsLabel.alpha = 0
+            siteDetailsView.alpha = 0
+            siteDetailsLabel.textColor = .darkText
+            
+            showSiteDetailsLabel.isHidden = true
+            siteDetailsLabel.isHidden = false
+            UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .showHideTransitionViews, animations: {
+                self.siteDetailsView.isHidden = false
+                self.hideSiteDetailsLabel.isHidden = false
+                self.siteDetailsView.alpha = 1
+                self.hideSiteDetailsLabel.alpha = 1
+            }, completion: nil)
+        }
+        else {
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .showHideTransitionViews, animations: {
+                self.hideSiteDetailsLabel.alpha = 0
+                self.siteDetailsView.alpha = 0
+                self.hideSiteDetailsLabel.isHidden = true
+                self.siteDetailsView.isHidden = true
+                self.siteDetailsLabel.textColor = .white
+            }, completion: { _ in
+                self.siteDetailsLabel.isHidden = true
+                self.showSiteDetailsLabel.isHidden = false
+            })
         }
     }
     
     private func configure() {
         distanceLabel.text = viewModel.taskDetails.siteDistance.getDistanceString()
-        openingTimeText.text = viewModel.taskDetails.taskOpeningTime
+        openingTimeText.text = !viewModel.taskDetails.taskOpeningTime.isEmpty ? viewModel.taskDetails.taskOpeningTime : "-"
+        closingTimeText.text = !viewModel.taskDetails.taskClosingTime.isEmpty ? viewModel.taskDetails.taskClosingTime : "-"
         taskStatusText.text = viewModel.taskDetails.taskStatusName
         taskCategoryText.text = viewModel.taskDetails.taskCategoryName
         taskDescriptionText.text = viewModel.taskDetails.taskDescription
@@ -682,143 +723,3 @@ extension TaskDetailsViewController: CLLocationManagerDelegate {
         viewModel.checkLocationAuthorization.onNext(())
     }
 }
-
-
-/*
- private func setupLayout() {
-     view.backgroundColor = .white
-     
-     userLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 255), size: CGSize(width: 35, height: 35))
-     siteLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 215), size: CGSize(width: 35, height: 35))
-     mapView.addSubviews(views: [userLocationButton, siteLocationButton])
-     
-     let scrollView = UIScrollView()
-     scrollView.backgroundColor = .white
-     scrollView.translatesAutoresizingMaskIntoConstraints = false
-
-     let containerScrollView = UIView()
-     containerScrollView.backgroundColor = .white
-     containerScrollView.translatesAutoresizingMaskIntoConstraints = false
-     
-     let siteDetailsView = UIView()
-     siteDetailsView.backgroundColor = .white
-     siteDetailsView.translatesAutoresizingMaskIntoConstraints = false
-     
-     siteDetailsView.addSubviews(views: [])
-     containerScrollView.addSubviews(views: [openingTimeLabel, openingTimeText, taskStatusLabel, taskStatusText, taskCategoryLabel, taskCategoryText, taskDescriptionLabel, taskDescriptionText, markLabel, markText, nameLabel, nameText, addressLabel, addressText, techLabel, techText, powerLabel, powerText, directionsLabel, directionsText])
-     scrollView.addSubview(containerScrollView)
-     view.addSubviews(views: [mapView, closeButton, distanceView, distanceLabel, scrollView])
-     
-     NSLayoutConstraint.activate([
-         mapView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-         mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-         mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-         mapView.heightAnchor.constraint(equalToConstant: 300),
-         
-         closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-         closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-         closeButton.heightAnchor.constraint(equalToConstant: 30),
-         closeButton.widthAnchor.constraint(equalToConstant: 30),
-         
-         distanceView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-         distanceView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-         distanceView.trailingAnchor.constraint(equalTo: distanceLabel.trailingAnchor, constant: 8),
-         
-         distanceLabel.topAnchor.constraint(equalTo: distanceView.topAnchor, constant: 4),
-         distanceLabel.leadingAnchor.constraint(equalTo: distanceView.leadingAnchor, constant: 8),
-         distanceLabel.bottomAnchor.constraint(equalTo: distanceView.bottomAnchor, constant: -4),
-         
-         scrollView.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 30),
-         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-         
-         containerScrollView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-         containerScrollView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-         containerScrollView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-         containerScrollView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-         containerScrollView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-         
-         openingTimeLabel.topAnchor.constraint(equalTo: containerScrollView.topAnchor),
-         openingTimeLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         openingTimeLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         openingTimeText.topAnchor.constraint(equalTo: openingTimeLabel.bottomAnchor, constant: 8),
-         openingTimeText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         openingTimeText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         taskStatusLabel.topAnchor.constraint(equalTo: openingTimeText.bottomAnchor, constant: 16),
-         taskStatusLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         taskStatusLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         taskStatusText.topAnchor.constraint(equalTo: taskStatusLabel.bottomAnchor, constant: 8),
-         taskStatusText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         taskStatusText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         taskCategoryLabel.topAnchor.constraint(equalTo: taskStatusText.bottomAnchor, constant: 16),
-         taskCategoryLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         taskCategoryLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         taskCategoryText.topAnchor.constraint(equalTo: taskCategoryLabel.bottomAnchor, constant: 8),
-         taskCategoryText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         taskCategoryText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         taskDescriptionLabel.topAnchor.constraint(equalTo: taskCategoryText.bottomAnchor, constant: 16),
-         taskDescriptionLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         taskDescriptionLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         taskDescriptionText.topAnchor.constraint(equalTo: taskDescriptionLabel.bottomAnchor, constant: 8),
-         taskDescriptionText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         taskDescriptionText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         markLabel.topAnchor.constraint(equalTo: taskDescriptionText.bottomAnchor, constant: 16),
-         markLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         markLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         markText.topAnchor.constraint(equalTo: markLabel.bottomAnchor, constant: 8),
-         markText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         markText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         nameLabel.topAnchor.constraint(equalTo: markText.bottomAnchor, constant: 16),
-         nameLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         nameLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         nameText.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
-         nameText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         nameText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         addressLabel.topAnchor.constraint(equalTo: nameText.bottomAnchor, constant: 16),
-         addressLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         addressLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         addressText.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 8),
-         addressText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         addressText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         techLabel.topAnchor.constraint(equalTo: addressText.bottomAnchor, constant: 16),
-         techLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         techLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         techText.topAnchor.constraint(equalTo: techLabel.bottomAnchor, constant: 8),
-         techText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         techText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         powerLabel.topAnchor.constraint(equalTo: techText.bottomAnchor, constant: 16),
-         powerLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         powerLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         powerText.topAnchor.constraint(equalTo: powerLabel.bottomAnchor, constant: 8),
-         powerText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         powerText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         directionsLabel.topAnchor.constraint(equalTo: powerText.bottomAnchor, constant: 16),
-         directionsLabel.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         directionsLabel.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         
-         directionsText.topAnchor.constraint(equalTo: directionsLabel.bottomAnchor, constant: 8),
-         directionsText.leadingAnchor.constraint(equalTo: containerScrollView.leadingAnchor, constant: 16),
-         directionsText.trailingAnchor.constraint(equalTo: containerScrollView.trailingAnchor, constant: -16),
-         directionsText.bottomAnchor.constraint(equalTo: containerScrollView.bottomAnchor, constant: -16)
-     ])
- }
- */

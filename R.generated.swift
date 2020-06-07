@@ -305,7 +305,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 57 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 59 localization keys.
     struct localizable {
       /// en translation: %s km
       ///
@@ -359,6 +359,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let task_category = Rswift.StringResource(key: "task_category", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Closing time:
+      ///
+      /// Locales: en
+      static let task_closing_time = Rswift.StringResource(key: "task_closing_time", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Date
       ///
       /// Locales: en
@@ -523,6 +527,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let username = Rswift.StringResource(key: "username", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: action_id=update_user_location&user_id=%d&lat=%f&lng=%f&recorded=%s
+      ///
+      /// Locales: en
+      static let update_user_location = Rswift.StringResource(key: "update_user_location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: loggedUser
       ///
       /// Locales: en
@@ -739,6 +747,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("task_category", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Closing time:
+      ///
+      /// Locales: en
+      static func task_closing_time(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("task_closing_time", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "task_closing_time"
+        }
+
+        return NSLocalizedString("task_closing_time", bundle: bundle, comment: "")
       }
 
       /// en translation: Date
@@ -1356,6 +1379,23 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("username", bundle: bundle, comment: "")
+      }
+
+      /// en translation: action_id=update_user_location&user_id=%d&lat=%f&lng=%f&recorded=%s
+      ///
+      /// Locales: en
+      static func update_user_location(_ value1: Int, _ value2: Double, _ value3: Double, _ value4: UnsafePointer<CChar>, preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          let format = NSLocalizedString("update_user_location", bundle: hostingBundle, comment: "")
+          return String(format: format, locale: applicationLocale, value1, value2, value3, value4)
+        }
+
+        guard let (locale, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "update_user_location"
+        }
+
+        let format = NSLocalizedString("update_user_location", bundle: bundle, comment: "")
+        return String(format: format, locale: locale, value1, value2, value3, value4)
       }
 
       /// en translation: loggedUser

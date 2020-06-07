@@ -13,7 +13,7 @@ struct TaskPreview {
     let taskCategoryName: String
     let siteMark: String
     let siteName: String
-    let taskOpeningTime: Date
+    let taskOpeningTime: Date?
     let distance: Double
     let taskStatus: Int
 }

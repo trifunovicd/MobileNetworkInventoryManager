@@ -13,13 +13,15 @@ class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     let window: UIWindow
     var presenter: UINavigationController
-    var tabController: UITabBarController
+    let tabController: UITabBarController
+    let locationService: LocationService
     var userId: Int!
     
     init(window: UIWindow) {
         self.window = window
         self.presenter = UINavigationController()
         self.tabController = UITabBarController()
+        self.locationService = LocationService.instance
     }
     
     func start() {
@@ -79,6 +81,10 @@ class AppCoordinator: Coordinator {
         let tabBarList = [sitesCoordinator.presenter, tasksCoordinator.presenter, mapCoordinator.presenter, userCoordinator.presenter]
 
         tabController.viewControllers = tabBarList
+        
+        locationService.userId = userId
+        locationService.controller = tabController
+        locationService.start()
     }
 }
 

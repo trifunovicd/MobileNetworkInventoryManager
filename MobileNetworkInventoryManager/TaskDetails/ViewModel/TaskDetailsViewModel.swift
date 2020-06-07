@@ -19,6 +19,7 @@ class TaskDetailsViewModel {
     let addSiteMarker = PublishSubject<Void>()
     let centerMapView = PublishSubject<CLLocationCoordinate2D>()
     let updateDistance = PublishSubject<CLLocationCoordinate2D>()
+    let siteDetailsAction = PublishSubject<Bool>()
     let checkLocationServices = PublishSubject<Void>()
     let setupLocationManager = PublishSubject<Void>()
     let checkLocationAuthorization = PublishSubject<Void>()

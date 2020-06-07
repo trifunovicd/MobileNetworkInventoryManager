@@ -20,6 +20,7 @@
 "get_tasks_for_user" = "?action=get_tasks_for_user&user_id=%d";
 "get_user_data" = "?action=get_user_data&user_id=%d";
 "get_task_status" = "?action=get_task_status";
+"update_user_location" = "action_id=update_user_location&user_id=%d&lat=%f&lng=%f&recorded=%s";
 "error_alert_title" = "Error";
 "error_alert_message" = "An error occurred while fetching data.";
 "failed_login_alert_title" = "Login Failed";
@@ -54,6 +55,7 @@
 "site_tech" = "Technology:";
 "site_power" = "Power supply:";
 "task_opening_time" = "Opening time:";
+"task_closing_time" = "Closing time:";
 "task_status" = "Status:";
 "task_category" = "Category:";
 "task_description" = "Description:";
