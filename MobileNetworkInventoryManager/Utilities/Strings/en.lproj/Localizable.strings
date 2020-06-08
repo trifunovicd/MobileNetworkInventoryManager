@@ -59,6 +59,11 @@
 "task_status" = "Status:";
 "task_category" = "Category:";
 "task_description" = "Description:";
+"user_name" = "Name:";
+"user_username" = "Username:";
+"user_location" = "Location";
+"user_recorded" = "Location recorded:";
+"my_location" = "My Location";
 "show_site_details" = "Show site details...";
 "site_details" = "Site details";
 "hide_site_details" = "Hide site details...";

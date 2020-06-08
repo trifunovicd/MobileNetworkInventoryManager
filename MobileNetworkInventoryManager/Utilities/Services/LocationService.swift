@@ -77,7 +77,7 @@ class LocationService: NSObject {
     
     private func startTimer() {
         guard timer == nil else { return }
-        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
     }
 
     @objc private func timerAction() {

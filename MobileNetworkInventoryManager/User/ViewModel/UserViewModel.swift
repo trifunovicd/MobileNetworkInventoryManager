@@ -16,10 +16,13 @@ class UserViewModel {
     weak var userCoordinatorDelegate: UserCoordinator?
     var userId: Int!
     var userData: UserPreview!
+    var shouldFollowUser: Bool = false
     let userRequest = PublishSubject<Void>()
     let fetchFinished = PublishSubject<Void>()
     let alertOfError = PublishSubject<Void>()
     let refreshAction = PublishSubject<Void>()
+    let addUserMarker = PublishSubject<Void>()
+    let centerMapView = PublishSubject<CLLocationCoordinate2D>()
     let locationService = LocationService.instance
     
     init() {
@@ -79,11 +82,10 @@ class UserViewModel {
 
 extension UserViewModel: CustomLocationManagerDelegate {
     func customLocationManager(didUpdate locations: [CLLocation]) {
-//        guard let location = locations.last else { return }
-//        updateDistance.onNext(location.coordinate)
-//
-//        if shouldFollowUser {
-//            centerMapView.onNext(location.coordinate)
-//        }
+        guard let location = locations.last else { return }
+        
+        if shouldFollowUser {
+            centerMapView.onNext(location.coordinate)
+        }
     }
 }
