@@ -16,6 +16,10 @@ class AppCoordinator: Coordinator {
     let tabController: UITabBarController
     let locationService: LocationService
     var userId: Int!
+    var sitesCoordinator: SitesCoordinator!
+    var tasksCoordinator: TasksCoordinator!
+    var mapCoordinator: MapCoordinator!
+    var userCoordinator: UserCoordinator!
     
     init(window: UIWindow) {
         self.window = window
@@ -63,10 +67,15 @@ class AppCoordinator: Coordinator {
         window.rootViewController = tabController
         window.makeKeyAndVisible()
         
-        let sitesCoordinator = SitesCoordinator(presenter: UINavigationController(), userId: userId)
-        let tasksCoordinator = TasksCoordinator(presenter: UINavigationController(), userId: userId)
-        let mapCoordinator = MapCoordinator(presenter: UINavigationController())
-        let userCoordinator = UserCoordinator(presenter: UINavigationController())
+        sitesCoordinator = SitesCoordinator(presenter: UINavigationController(), userId: userId)
+        tasksCoordinator = TasksCoordinator(presenter: UINavigationController(), userId: userId)
+        mapCoordinator = MapCoordinator(presenter: UINavigationController())
+        userCoordinator = UserCoordinator(presenter: UINavigationController(), userId: userId)
+        
+        sitesCoordinator.parentCoordinator = self
+        tasksCoordinator.parentCoordinator = self
+        mapCoordinator.parentCoordinator = self
+        userCoordinator.parentCoordinator = self
         
         childCoordinators.append(sitesCoordinator)
         childCoordinators.append(tasksCoordinator)
@@ -77,7 +86,7 @@ class AppCoordinator: Coordinator {
         tasksCoordinator.start()
         mapCoordinator.start()
         userCoordinator.start()
-
+        
         let tabBarList = [sitesCoordinator.presenter, tasksCoordinator.presenter, mapCoordinator.presenter, userCoordinator.presenter]
 
         tabController.viewControllers = tabBarList
@@ -85,11 +94,24 @@ class AppCoordinator: Coordinator {
         locationService.userId = userId
         locationService.start()
     }
+    
+    private func removeTabControllers() {
+        sitesCoordinator.viewControllerHasFinished()
+        tasksCoordinator.viewControllerHasFinished()
+        mapCoordinator.viewControllerHasFinished()
+        userCoordinator.viewControllerHasFinished()
+        
+        sitesCoordinator = nil
+        tasksCoordinator = nil
+        mapCoordinator = nil
+        userCoordinator = nil
+        
+        tabController.viewControllers?.removeAll()
+    }
 }
 
 
 extension AppCoordinator: CoordinatorDelegate {
-    
     func childDidFinish(child: Coordinator) {
         for (index, coordinator) in childCoordinators.enumerated() {
             if coordinator === child {
@@ -99,6 +121,10 @@ extension AppCoordinator: CoordinatorDelegate {
                     checkForLoggedUser()
                 }
                 
+                if child is UserCoordinator {
+                    removeTabControllers()
+                    checkForLoggedUser()
+                }
                 break
             }
         }

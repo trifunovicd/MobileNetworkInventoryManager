@@ -9,6 +9,7 @@
 import UIKit
 
 class MapCoordinator: Coordinator {
+    weak var parentCoordinator: CoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
     let controller: MapViewController
@@ -28,5 +29,14 @@ class MapCoordinator: Coordinator {
         presenter.setupNavigationBar(barTintColor: .systemBlue, titleTextAttributes: [.foregroundColor: UIColor.white], tintColor: .white, barStyle: .black, isTranslucent: false)
         controller.viewModel.mapCoordinatorDelegate = self
         presenter.pushViewController(controller, animated: true)
+    }
+}
+
+
+extension MapCoordinator: ViewControllerDelegate {
+    func viewControllerHasFinished() {
+        childCoordinators.removeAll()
+        controller.removeFromParent()
+        parentCoordinator?.childDidFinish(child: self)
     }
 }

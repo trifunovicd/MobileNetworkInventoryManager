@@ -9,6 +9,7 @@
 import UIKit
 
 class SitesCoordinator: Coordinator {
+    weak var parentCoordinator: CoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
     let controller: SitesTableViewController
@@ -40,5 +41,14 @@ extension SitesCoordinator: SiteDetailsDelegate {
         siteDetailsViewModel.siteDetails = siteDetails
         siteDetailsViewController.viewModel = siteDetailsViewModel
         presenter.present(siteDetailsViewController, animated: true, completion: nil)
+    }
+}
+
+
+extension SitesCoordinator: ViewControllerDelegate {
+    func viewControllerHasFinished() {
+        childCoordinators.removeAll()
+        controller.removeFromParent()
+        parentCoordinator?.childDidFinish(child: self)
     }
 }

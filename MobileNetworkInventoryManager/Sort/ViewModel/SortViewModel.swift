@@ -17,7 +17,7 @@ class SortViewModel {
     var itemsArray: [String]!
     let orderArray = [R.string.localizable.ascending(), R.string.localizable.descending()]
     let frame: CGRect
-    let delegate: SortDelegate
+    weak var delegate: SortDelegate?
     let sortType: SortType
     var settings: (value: Int, order: Int)!
     let showView = PublishSubject<Void>()

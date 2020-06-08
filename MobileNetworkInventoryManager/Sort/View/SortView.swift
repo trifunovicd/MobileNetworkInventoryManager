@@ -152,7 +152,7 @@ class SortView: NSObject {
     }
     
     @objc private func saveChanges() {
-        viewModel.delegate.sortBy(value: picker.selectedRow(inComponent: 0), order: picker.selectedRow(inComponent: 1))
+        viewModel.delegate?.sortBy(value: picker.selectedRow(inComponent: 0), order: picker.selectedRow(inComponent: 1))
         hide()
     }
 }

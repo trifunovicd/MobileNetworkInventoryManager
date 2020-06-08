@@ -105,7 +105,7 @@ struct R: Rswift.Validatable {
   }
   #endif
 
-  /// This `R.image` struct is generated, and contains static references to 18 images.
+  /// This `R.image` struct is generated, and contains static references to 20 images.
   struct image {
     /// Image `avatar`.
     static let avatar = Rswift.ImageResource(bundle: R.hostingBundle, name: "avatar")
@@ -121,6 +121,8 @@ struct R: Rswift.Validatable {
     static let gpsFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "gps-filled")
     /// Image `gps`.
     static let gps = Rswift.ImageResource(bundle: R.hostingBundle, name: "gps")
+    /// Image `logout`.
+    static let logout = Rswift.ImageResource(bundle: R.hostingBundle, name: "logout")
     /// Image `map-filled`.
     static let mapFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "map-filled")
     /// Image `map`.
@@ -129,6 +131,8 @@ struct R: Rswift.Validatable {
     static let markerFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "marker-filled")
     /// Image `marker`.
     static let marker = Rswift.ImageResource(bundle: R.hostingBundle, name: "marker")
+    /// Image `refresh`.
+    static let refresh = Rswift.ImageResource(bundle: R.hostingBundle, name: "refresh")
     /// Image `sites-filled`.
     static let sitesFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "sites-filled")
     /// Image `sites`.
@@ -194,6 +198,13 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "logout", bundle: ..., traitCollection: ...)`
+    static func logout(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.logout, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
     /// `UIImage(named: "map", bundle: ..., traitCollection: ...)`
     static func map(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.map, compatibleWith: traitCollection)
@@ -218,6 +229,13 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "marker-filled", bundle: ..., traitCollection: ...)`
     static func markerFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.markerFilled, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "refresh", bundle: ..., traitCollection: ...)`
+    static func refresh(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.refresh, compatibleWith: traitCollection)
     }
     #endif
 

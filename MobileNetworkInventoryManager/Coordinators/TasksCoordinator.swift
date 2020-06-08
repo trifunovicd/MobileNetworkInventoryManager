@@ -9,6 +9,7 @@
 import UIKit
 
 class TasksCoordinator: Coordinator {
+    weak var parentCoordinator: CoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
     let controller: TasksViewController
@@ -40,5 +41,14 @@ extension TasksCoordinator: TaskDetailsDelegate {
         taskDetailsViewModel.taskDetails = taskDetails
         taskDetailsViewController.viewModel = taskDetailsViewModel
         presenter.present(taskDetailsViewController, animated: true, completion: nil)
+    }
+}
+
+
+extension TasksCoordinator: ViewControllerDelegate {
+    func viewControllerHasFinished() {
+        childCoordinators.removeAll()
+        controller.removeFromParent()
+        parentCoordinator?.childDidFinish(child: self)
     }
 }

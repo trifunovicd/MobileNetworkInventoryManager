@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 
+//MARK: Enums
 enum SitesSelectedScope: Int {
     case name = 0
     case address = 1
@@ -23,6 +24,7 @@ enum TasksSelectedScope: Int {
     case mark = 3
 }
 
+//MARK: Extensions
 extension UIView {
     func addSubviews(views: [UIView]) {
         for view in views {
@@ -63,13 +65,39 @@ extension Double {
     }
 }
 
+extension String {
+    func getDateFromString() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        guard let date = dateFormatter.date(from: self) else {return nil}
+        return date
+    }
+}
+
+extension Date {
+    func getStringFromDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
+        let sDate = dateFormatter.string(from: self)
+        return sDate
+    }
+    
+    func getMSSQLVariant() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "hr_HR")
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        let sDate = dateFormatter.string(from: self)
+        return sDate
+    }
+}
+
+//MARK: Public Functions
 func getAlert(title: String, message: String, actionTitle: String) -> UIAlertController {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: actionTitle, style: .cancel, handler: nil))
 
     return alert
 }
-
 
 func getDistance(userLocation: (lat: Double, lng: Double), siteLocation: (lat: Double, lng: Double)) -> Double {
     
@@ -96,32 +124,6 @@ func getTechnology(is2GAvailable: Int, is3GAvailable: Int, is4GAvailable: Int) -
     technology = String(technology.dropFirst())
     technology = technology.replacingOccurrences(of: " ", with: ", ")
     return technology
-}
-
-extension String {
-    func getDateFromString() -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
-        guard let date = dateFormatter.date(from: self) else {return nil}
-        return date
-    }
-}
-
-extension Date {
-    func getStringFromDate() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
-        let sDate = dateFormatter.string(from: self)
-        return sDate
-    }
-    
-    func getMSSQLVariant() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "hr_HR")
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
-        let sDate = dateFormatter.string(from: self)
-        return sDate
-    }
 }
 
 func topMostViewController() -> UIViewController? {

@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
-import MapKit
+import CoreLocation
 
 class TaskDetailsViewModel {
     var taskDetails: TaskDetails!
@@ -20,12 +20,21 @@ class TaskDetailsViewModel {
     let centerMapView = PublishSubject<CLLocationCoordinate2D>()
     let updateDistance = PublishSubject<CLLocationCoordinate2D>()
     let siteDetailsAction = PublishSubject<Bool>()
-    let checkLocationServices = PublishSubject<Void>()
-    let setupLocationManager = PublishSubject<Void>()
-    let checkLocationAuthorization = PublishSubject<Void>()
-    let locationAuthorized = PublishSubject<Void>()
-    let locationNotDetermined = PublishSubject<Void>()
-    let alertOfLocationOff = PublishSubject<Void>()
-    let alertOfLocationDenied = PublishSubject<Void>()
-    let alertOfLocationRestricted = PublishSubject<Void>()
+    let locationService = LocationService.instance
+    
+    init() {
+        locationService.delegate = self
+    }
+}
+
+
+extension TaskDetailsViewModel: CustomLocationManagerDelegate {
+    func customLocationManager(didUpdate locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        updateDistance.onNext(location.coordinate)
+        
+        if shouldFollowUser {
+            centerMapView.onNext(location.coordinate)
+        }
+    }
 }

@@ -18,6 +18,7 @@ class TaskDetailsViewController: UIViewController {
     
     private let mapView: MKMapView = {
         let mapView = MKMapView()
+        mapView.showsUserLocation = true
         mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
     }()
@@ -321,8 +322,6 @@ class TaskDetailsViewController: UIViewController {
         return view
     }()
     
-    private let locationManager = CLLocationManager()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -515,43 +514,6 @@ class TaskDetailsViewController: UIViewController {
             self?.handleShowSiteDetails(shouldShow: shouldShow)
         }).disposed(by: disposeBag)
         
-        viewModel.checkLocationServices.subscribe(onNext: { [weak self] in
-            self?.checkLocationServices()
-        }).disposed(by: disposeBag)
-        
-        viewModel.setupLocationManager.subscribe(onNext: { [weak self] in
-            self?.setupLocationManager()
-        }).disposed(by: disposeBag)
-        
-        viewModel.checkLocationAuthorization.subscribe(onNext: { [weak self] in
-            self?.checkLocationAuthorization()
-        }).disposed(by: disposeBag)
-        
-        viewModel.locationAuthorized.subscribe(onNext: { [weak self] in
-            self?.locationAuthorized()
-        }).disposed(by: disposeBag)
-        
-        viewModel.locationNotDetermined.subscribe(onNext: { [weak self] in
-            self?.locationManager.requestWhenInUseAuthorization()
-        }).disposed(by: disposeBag)
-        
-        viewModel.alertOfLocationOff.subscribe(onNext: { [weak self] in
-            let alert = getAlert(title: R.string.localizable.location_off_alert_title(), message: R.string.localizable.location_off_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self?.present(alert, animated: true, completion: nil)
-            }
-        }).disposed(by: disposeBag)
-        
-        viewModel.alertOfLocationDenied.subscribe(onNext: { [weak self] in
-            let alert = getAlert(title: R.string.localizable.location_denied_alert_title(), message: R.string.localizable.location_denied_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
-            self?.present(alert, animated: true, completion: nil)
-        }).disposed(by: disposeBag)
-        
-        viewModel.alertOfLocationRestricted.subscribe(onNext: { [weak self] in
-            let alert = getAlert(title: R.string.localizable.location_restricted_alert_title(), message: R.string.localizable.location_restricted_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
-            self?.present(alert, animated: true, completion: nil)
-        }).disposed(by: disposeBag)
-        
         viewModel.closeModal.subscribe(onNext: { [weak self] in
             self?.dismiss(animated: true, completion: nil)
         }).disposed(by: disposeBag)
@@ -568,7 +530,7 @@ class TaskDetailsViewController: UIViewController {
             viewModel.shouldFollowUser = false
         }
         else {
-            guard let coordinate = locationManager.location?.coordinate else { return }
+            guard let coordinate = viewModel.locationService.locationManager.location?.coordinate else { return }
             viewModel.centerMapView.onNext(coordinate)
             viewModel.shouldFollowUser = true
         }
@@ -627,44 +589,6 @@ class TaskDetailsViewController: UIViewController {
         directionsText.text = viewModel.taskDetails.siteDirections
         
         viewModel.addSiteMarker.onNext(())
-        viewModel.checkLocationServices.onNext(())
-    }
-    
-    private func checkLocationServices() {
-        if CLLocationManager.locationServicesEnabled() {
-            viewModel.setupLocationManager.onNext(())
-            viewModel.checkLocationAuthorization.onNext(())
-        }
-        else {
-            viewModel.alertOfLocationOff.onNext(())
-        }
-    }
-    
-    private func setupLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-    }
-    
-    private func checkLocationAuthorization() {
-        switch CLLocationManager.authorizationStatus() {
-        case .authorizedWhenInUse:
-            viewModel.locationAuthorized.onNext(())
-        case .denied:
-            viewModel.alertOfLocationDenied.onNext(())
-        case .notDetermined:
-            viewModel.locationNotDetermined.onNext(())
-        case .restricted:
-            viewModel.alertOfLocationRestricted.onNext(())
-        case .authorizedAlways:
-            break
-        @unknown default:
-            break
-        }
-    }
-    
-    private func locationAuthorized() {
-        mapView.showsUserLocation = true
-        locationManager.startUpdatingLocation()
     }
     
     private func addSiteMarker() {
@@ -704,22 +628,5 @@ extension TaskDetailsViewController: MKMapViewDelegate {
         }
 
         return annotationView
-    }
-}
-
-
-extension TaskDetailsViewController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        viewModel.updateDistance.onNext(location.coordinate)
-        
-        if viewModel.shouldFollowUser {
-            viewModel.centerMapView.onNext(location.coordinate)
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        viewModel.checkLocationAuthorization.onNext(())
     }
 }

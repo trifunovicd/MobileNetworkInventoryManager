@@ -11,14 +11,24 @@ import CoreLocation
 
 class LocationService: NSObject {
     static let instance = LocationService()
-    private let locationManager = CLLocationManager()
+    var locationManager: CLLocationManager!
+    weak var delegate: CustomLocationManagerDelegate?
     private var latestLocation: CLLocationCoordinate2D!
     private var shouldUpdate: Bool = true
     private var initialUpdate: Bool = true
+    private var timer: Timer?
     var userId: Int!
     
+    
     func start() {
+        locationManager = CLLocationManager()
         checkLocationServices()
+    }
+    
+    func stop() {
+        timer?.invalidate()
+        timer = nil
+        locationManager = nil
     }
     
     private func checkLocationServices() {
@@ -66,15 +76,18 @@ class LocationService: NSObject {
     }
     
     private func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { _ in
-            if self.shouldUpdate {
-                self.makeRequest()
-                self.shouldUpdate = false
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                self.shouldUpdate = true
-            }
+        guard timer == nil else { return }
+        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+    }
+
+    @objc private func timerAction() {
+        if shouldUpdate {
+            makeRequest()
+            shouldUpdate = false
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.shouldUpdate = true
         }
     }
     
@@ -88,6 +101,8 @@ class LocationService: NSObject {
 
 extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        delegate?.customLocationManager(didUpdate: locations)
+        
         guard let location = locations.last else { return }
         latestLocation = location.coordinate
         initialLocationUpdate()
