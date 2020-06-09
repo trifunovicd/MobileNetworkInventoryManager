@@ -27,6 +27,7 @@ class SitesViewModel {
     let filterAction = PublishSubject<Bool>()
     let showNavigationButtons = PublishSubject<Bool>()
     let endRefreshing = PublishSubject<Void>()
+    let resignResponder = PublishSubject<Void>()
 
     func initialize() -> Disposable{
         sitesRequest

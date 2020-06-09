@@ -63,6 +63,7 @@ class SitesTableViewController: UITableViewController {
         cell.configure(site)
         
         cell.onCellClicked = { [weak self] in
+            self?.viewModel.resignResponder.onNext(())
             self?.viewModel.showSiteDetails(sitePreview: site)
         }
 
@@ -121,6 +122,10 @@ class SitesTableViewController: UITableViewController {
         
         viewModel.showNavigationButtons.subscribe(onNext: { [weak self] shouldShow in
             self?.showNavigationButtons(shouldShow: shouldShow)
+        }).disposed(by: disposeBag)
+        
+        viewModel.resignResponder.subscribe(onNext: { [weak self] in
+            self?.searchBar.resignFirstResponder()
         }).disposed(by: disposeBag)
     }
 

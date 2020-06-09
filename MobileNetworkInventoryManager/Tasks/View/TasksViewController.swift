@@ -149,6 +149,10 @@ class TasksViewController: UIViewController {
         viewModel.showNavigationButtons.subscribe(onNext: { [weak self] shouldShow in
             self?.showNavigationButtons(shouldShow: shouldShow)
         }).disposed(by: disposeBag)
+        
+        viewModel.resignResponder.subscribe(onNext: { [weak self] in
+            self?.searchBar.resignFirstResponder()
+        }).disposed(by: disposeBag)
     }
 
     private func showNavigationButtons(shouldShow: Bool) {
@@ -204,6 +208,7 @@ extension TasksViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(task)
         
         cell.onCellClicked = { [weak self] in
+            self?.viewModel.resignResponder.onNext(())
             self?.viewModel.showTaskDetails(taskPreview: task)
         }
         

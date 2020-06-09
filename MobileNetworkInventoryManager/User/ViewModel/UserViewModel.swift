@@ -20,7 +20,6 @@ class UserViewModel {
     let userRequest = PublishSubject<Void>()
     let fetchFinished = PublishSubject<Void>()
     let alertOfError = PublishSubject<Void>()
-    let refreshAction = PublishSubject<Void>()
     let addUserMarker = PublishSubject<Void>()
     let centerMapView = PublishSubject<CLLocationCoordinate2D>()
     let locationService = LocationService.instance
@@ -52,7 +51,7 @@ class UserViewModel {
         return observable.map { (userData) -> Result<UserPreview, Error> in
             let user = userData[0]
             
-            let userPreview = UserPreview(name: user.name, surname: user.surname, username: user.username, lat: user.lat, lng: user.lng, recorded: user.recorded)
+            let userPreview = UserPreview(name: user.name, surname: user.surname, username: user.username, lat: user.lat, lng: user.lng, recorded: user.recorded, distance: nil)
             
             return Result.success(userPreview)
             

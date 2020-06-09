@@ -15,4 +15,5 @@ struct UserPreview {
     let lat: Double
     let lng: Double
     let recorded: String
+    let distance: String?
 }

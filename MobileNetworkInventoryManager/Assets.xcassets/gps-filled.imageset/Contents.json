@@ -5,11 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "gps-2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "gps-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

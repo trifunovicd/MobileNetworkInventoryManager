@@ -69,7 +69,7 @@ class AppCoordinator: Coordinator {
         
         sitesCoordinator = SitesCoordinator(presenter: UINavigationController(), userId: userId)
         tasksCoordinator = TasksCoordinator(presenter: UINavigationController(), userId: userId)
-        mapCoordinator = MapCoordinator(presenter: UINavigationController())
+        mapCoordinator = MapCoordinator(presenter: UINavigationController(), userId: userId)
         userCoordinator = UserCoordinator(presenter: UINavigationController(), userId: userId)
         
         sitesCoordinator.parentCoordinator = self

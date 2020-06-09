@@ -28,7 +28,6 @@ class TaskDetailsViewController: UIViewController {
         let image = #imageLiteral(resourceName: "gps").withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.setImage(#imageLiteral(resourceName: "gps-filled"), for: .highlighted)
-        button.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         button.backgroundColor = .white
         button.tintColor = .systemBlue
         button.layer.cornerRadius = 5

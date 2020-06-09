@@ -12,6 +12,7 @@
 "username" = "Username";
 "password" = "Password";
 "login" = "Login";
+"users" = "Users";
 "refresh_control_title" = "Fetching Data ...";
 "search_sites_placeholder" = "Search sites";
 "check_if_user_exists" = "?action=check_if_user_exists&username='%s'&password='%s'";

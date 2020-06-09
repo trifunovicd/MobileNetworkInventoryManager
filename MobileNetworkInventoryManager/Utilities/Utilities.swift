@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 //MARK: Enums
 enum SitesSelectedScope: Int {
@@ -22,6 +23,11 @@ enum TasksSelectedScope: Int {
     case task = 1
     case date = 2
     case mark = 3
+}
+
+enum MapType: Int {
+    case sites = 0
+    case users = 1
 }
 
 //MARK: Extensions
@@ -88,6 +94,26 @@ extension Date {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let sDate = dateFormatter.string(from: self)
         return sDate
+    }
+}
+
+extension MKMapView {
+    func fitMapViewToAnnotaionList() -> Void {
+        let mapEdgePadding = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        var zoomRect: MKMapRect = MKMapRect.null
+
+        for index in 0..<self.annotations.count {
+            let annotation = self.annotations[index]
+            let aPoint:MKMapPoint = MKMapPoint(annotation.coordinate)
+            let rect:MKMapRect = MKMapRect(x: aPoint.x, y: aPoint.y, width: 0.1, height: 0.1)
+
+            if zoomRect.isNull {
+                zoomRect = rect
+            } else {
+                zoomRect = zoomRect.union(rect)
+            }
+        }
+        self.setVisibleMapRect(zoomRect, edgePadding: mapEdgePadding, animated: true)
     }
 }
 
