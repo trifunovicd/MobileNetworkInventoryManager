@@ -12,7 +12,6 @@ import CoreLocation
 class LocationService: NSObject {
     static let instance = LocationService()
     var locationManager: CLLocationManager!
-    weak var delegate: CustomLocationManagerDelegate?
     private var latestLocation: CLLocationCoordinate2D!
     private var shouldUpdate: Bool = true
     private var initialUpdate: Bool = true
@@ -28,6 +27,7 @@ class LocationService: NSObject {
     func stop() {
         timer?.invalidate()
         timer = nil
+        locationManager.stopUpdatingLocation()
         locationManager = nil
     }
     
@@ -77,7 +77,7 @@ class LocationService: NSObject {
     
     private func startTimer() {
         guard timer == nil else { return }
-        timer = Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 300, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
     }
 
     @objc private func timerAction() {
@@ -101,7 +101,7 @@ class LocationService: NSObject {
 
 extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        delegate?.customLocationManager(didUpdate: locations)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: R.string.localizable.notification_name()), object: self, userInfo: [R.string.localizable.notification_info() : locations])
         
         guard let location = locations.last else { return }
         latestLocation = location.coordinate

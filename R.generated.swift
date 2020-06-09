@@ -323,7 +323,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 65 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 67 localization keys.
     struct localizable {
       /// en translation: %s km
       ///
@@ -433,6 +433,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let user_recorded = Rswift.StringResource(key: "user_recorded", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: LocationsUpdated
+      ///
+      /// Locales: en
+      static let notification_name = Rswift.StringResource(key: "notification_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Login
       ///
       /// Locales: en
@@ -573,6 +577,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let update_user_location = Rswift.StringResource(key: "update_user_location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: locations
+      ///
+      /// Locales: en
+      static let notification_info = Rswift.StringResource(key: "notification_info", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: loggedUser
       ///
       /// Locales: en
@@ -999,6 +1007,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("user_recorded", bundle: bundle, comment: "")
+      }
+
+      /// en translation: LocationsUpdated
+      ///
+      /// Locales: en
+      static func notification_name(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("notification_name", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "notification_name"
+        }
+
+        return NSLocalizedString("notification_name", bundle: bundle, comment: "")
       }
 
       /// en translation: Login
@@ -1528,6 +1551,21 @@ struct R: Rswift.Validatable {
 
         let format = NSLocalizedString("update_user_location", bundle: bundle, comment: "")
         return String(format: format, locale: locale, value1, value2, value3, value4)
+      }
+
+      /// en translation: locations
+      ///
+      /// Locales: en
+      static func notification_info(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("notification_info", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "notification_info"
+        }
+
+        return NSLocalizedString("notification_info", bundle: bundle, comment: "")
       }
 
       /// en translation: loggedUser

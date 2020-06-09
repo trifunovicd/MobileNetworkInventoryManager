@@ -22,14 +22,17 @@ class SiteDetailsViewModel {
     let locationService = LocationService.instance
     
     init() {
-        locationService.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForLocationUpdates(_:)), name: NSNotification.Name(rawValue: R.string.localizable.notification_name()), object: locationService)
     }
-}
-
-
-extension SiteDetailsViewModel: CustomLocationManagerDelegate {
-    func customLocationManager(didUpdate locations: [CLLocation]) {
-        guard let location = locations.last else { return }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: R.string.localizable.notification_name()), object: locationService)
+    }
+    
+    
+    @objc private func listenForLocationUpdates(_ notification: NSNotification) {
+        guard let dict = notification.userInfo as NSDictionary?, let locations = dict[R.string.localizable.notification_info()] as? [CLLocation], let location = locations.last else { return }
+        
         updateDistance.onNext(location.coordinate)
         
         if shouldFollowUser {

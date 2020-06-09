@@ -28,7 +28,11 @@ class MapViewModel {
     let locationService = LocationService.instance
     
     init() {
-        locationService.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForLocationUpdates(_:)), name: NSNotification.Name(rawValue: R.string.localizable.notification_name()), object: locationService)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: R.string.localizable.notification_name()), object: locationService)
     }
     
     func initialize() -> Disposable{
@@ -118,13 +122,10 @@ class MapViewModel {
         
         fitMapView.onNext(())
     }
-}
-
-
-extension MapViewModel: CustomLocationManagerDelegate {
-    func customLocationManager(didUpdate locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        
+    
+    
+    @objc private func listenForLocationUpdates(_ notification: NSNotification) {
+        guard let dict = notification.userInfo as NSDictionary?, let locations = dict[R.string.localizable.notification_info()] as? [CLLocation], let location = locations.last else { return }
         if shouldFollowUser {
             centerMapView.onNext(location.coordinate)
         }
