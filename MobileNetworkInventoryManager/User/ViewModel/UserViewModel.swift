@@ -13,7 +13,7 @@ import CoreLocation
 import RealmSwift
 
 class UserViewModel {
-    weak var userCoordinatorDelegate: UserCoordinator?
+    weak var userCoordinatorDelegate: ViewControllerDelegate?
     var userId: Int!
     var userData: UserPreview!
     var shouldFollowUser: Bool = false

@@ -13,7 +13,7 @@ import RealmSwift
 import CoreLocation
 
 class TasksViewModel {
-    weak var tasksCoordinatorDelegate: TasksCoordinator?
+    weak var tasksCoordinatorDelegate: TaskDetailsDelegate?
     var sortView: SortView!
     var filterText: String = ""
     var filterIndex: TasksSelectedScope = .name

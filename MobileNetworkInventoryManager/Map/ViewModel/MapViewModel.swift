@@ -12,7 +12,7 @@ import RxCocoa
 import CoreLocation
 
 class MapViewModel {
-    weak var mapCoordinatorDelegate: MapCoordinator?
+    weak var mapCoordinatorDelegate: SiteDetailsDelegate?
     var userId: Int!
     var loggedUser: User!
     var segmentedIndex: Int = 0
