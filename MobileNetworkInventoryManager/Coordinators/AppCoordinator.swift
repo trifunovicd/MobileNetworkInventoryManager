@@ -2,7 +2,7 @@
 //  AppCoordinator.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Internship on 20/05/2020.
+//  Created by Danijel Trifunović on 20/05/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
 //
 
@@ -35,9 +35,7 @@ class AppCoordinator: Coordinator {
     private func checkForLoggedUser() {
         do {
             let realm = try Realm()
-            
             let user = realm.object(ofType: LoggedUser.self, forPrimaryKey: R.string.localizable.logged_user_key())
-            
             guard let loggedUser = user else { showLogin(); return }
             
             if loggedUser.id != 0 {
@@ -59,7 +57,7 @@ class AppCoordinator: Coordinator {
         
         let loginCoordinator = LoginCoordinator(presenter: presenter)
         loginCoordinator.parentCoordinator = self
-        childCoordinators.append(loginCoordinator)
+        addChildCoordinator(childCoordinator: loginCoordinator)
         loginCoordinator.start()
     }
     
@@ -77,10 +75,10 @@ class AppCoordinator: Coordinator {
         mapCoordinator.parentCoordinator = self
         userCoordinator.parentCoordinator = self
         
-        childCoordinators.append(sitesCoordinator)
-        childCoordinators.append(tasksCoordinator)
-        childCoordinators.append(mapCoordinator)
-        childCoordinators.append(userCoordinator)
+        addChildCoordinator(childCoordinator: sitesCoordinator)
+        addChildCoordinator(childCoordinator: tasksCoordinator)
+        addChildCoordinator(childCoordinator: mapCoordinator)
+        addChildCoordinator(childCoordinator: userCoordinator)
 
         sitesCoordinator.start()
         tasksCoordinator.start()
@@ -99,7 +97,6 @@ class AppCoordinator: Coordinator {
         sitesCoordinator.viewControllerHasFinished()
         tasksCoordinator.viewControllerHasFinished()
         mapCoordinator.viewControllerHasFinished()
-        userCoordinator.viewControllerHasFinished()
         
         sitesCoordinator = nil
         tasksCoordinator = nil
@@ -111,22 +108,17 @@ class AppCoordinator: Coordinator {
 }
 
 
-extension AppCoordinator: CoordinatorDelegate {
+extension AppCoordinator: ParentCoordinatorDelegate {
     func childDidFinish(child: Coordinator) {
-        for (index, coordinator) in childCoordinators.enumerated() {
-            if coordinator === child {
-                childCoordinators.remove(at: index)
-                
-                if child is LoginCoordinator {
-                    checkForLoggedUser()
-                }
-                
-                if child is UserCoordinator {
-                    removeTabControllers()
-                    checkForLoggedUser()
-                }
-                break
-            }
+        removeChildCoordinator(childCoordinator: child)
+
+        if child is LoginCoordinator {
+            checkForLoggedUser()
+        }
+        
+        if child is UserCoordinator {
+            removeTabControllers()
+            checkForLoggedUser()
         }
     }
 }

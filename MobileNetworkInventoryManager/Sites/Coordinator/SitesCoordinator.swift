@@ -1,40 +1,40 @@
 //
-//  MapCoordinator.swift
+//  SitesCoordinator.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Internship on 20/05/2020.
+//  Created by Danijel Trifunović on 20/05/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
 //
 
 import UIKit
 
-class MapCoordinator: Coordinator {
-    weak var parentCoordinator: CoordinatorDelegate?
+class SitesCoordinator: Coordinator {
+    weak var parentCoordinator: ParentCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
-    let controller: MapViewController
+    let controller: SitesTableViewController
     
     init(presenter: UINavigationController, userId: Int) {
         self.presenter = presenter
-        let mapViewController = MapViewController()
-        let mapViewModel = MapViewModel()
-        mapViewModel.userId = userId
-        mapViewController.viewModel = mapViewModel
-        mapViewController.tabBarItem = UITabBarItem(title: R.string.localizable.map(), image: #imageLiteral(resourceName: "map"), selectedImage: #imageLiteral(resourceName: "map-filled"))
-        mapViewController.view.backgroundColor = .white
-        mapViewController.navigationItem.title = R.string.localizable.map()
-        self.controller = mapViewController
+        let sitesViewController = SitesTableViewController()
+        let sitesViewModel = SitesViewModel()
+        sitesViewModel.userId = userId
+        sitesViewController.viewModel = sitesViewModel
+        sitesViewController.tabBarItem = UITabBarItem(title: R.string.localizable.sites(), image: #imageLiteral(resourceName: "sites"), selectedImage: #imageLiteral(resourceName: "sites-filled"))
+        sitesViewController.view.backgroundColor = .white
+        sitesViewController.navigationItem.title = R.string.localizable.sites()
+        self.controller = sitesViewController
     }
     
     func start() {
         presenter.setupNavigationBar(barTintColor: .systemBlue, titleTextAttributes: [.foregroundColor: UIColor.white], tintColor: .white, barStyle: .black, isTranslucent: false)
-        controller.viewModel.mapCoordinatorDelegate = self
+        controller.viewModel.sitesCoordinatorDelegate = self
         presenter.pushViewController(controller, animated: true)
     }
 }
 
 
-extension MapCoordinator: SiteDetailsDelegate {
+extension SitesCoordinator: SiteDetailsDelegate {
     func openSiteDetails(siteDetails: SiteDetails) {
         let siteDetailsViewController = SiteDetailsViewController()
         let siteDetailsViewModel = SiteDetailsViewModel()
@@ -45,7 +45,7 @@ extension MapCoordinator: SiteDetailsDelegate {
 }
 
 
-extension MapCoordinator: ViewControllerDelegate {
+extension SitesCoordinator: CoordinatorDelegate {
     func viewControllerHasFinished() {
         childCoordinators.removeAll()
         controller.removeFromParent()

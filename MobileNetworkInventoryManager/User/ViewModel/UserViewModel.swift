@@ -2,7 +2,7 @@
 //  UserViewModel.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Internship on 20/05/2020.
+//  Created by Danijel Trifunović on 20/05/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
 //
 
@@ -13,7 +13,7 @@ import CoreLocation
 import RealmSwift
 
 class UserViewModel {
-    weak var userCoordinatorDelegate: ViewControllerDelegate?
+    weak var userCoordinatorDelegate: CoordinatorDelegate?
     var userId: Int!
     var userData: UserPreview!
     var shouldFollowUser: Bool = false

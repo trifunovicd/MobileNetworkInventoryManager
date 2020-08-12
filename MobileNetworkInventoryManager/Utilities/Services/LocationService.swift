@@ -2,7 +2,7 @@
 //  LocationService.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Internship on 07/06/2020.
+//  Created by Danijel Trifunović on 07/06/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
 //
 

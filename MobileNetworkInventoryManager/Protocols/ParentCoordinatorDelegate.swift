@@ -1,5 +1,5 @@
 //
-//  CoordinatorDelegate.swift
+//  ParentCoordinatorDelegate.swift
 //  MobileNetworkInventoryManager
 //
 //  Created by Danijel Trifunović on 21/05/2020.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol CoordinatorDelegate: AnyObject {
-    func viewControllerHasFinished()
+protocol ParentCoordinatorDelegate: AnyObject {
+    func childDidFinish(child: Coordinator)
 }

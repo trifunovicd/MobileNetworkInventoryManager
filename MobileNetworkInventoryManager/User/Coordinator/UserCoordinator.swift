@@ -2,14 +2,14 @@
 //  UserCoordinator.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Internship on 20/05/2020.
+//  Created by Danijel Trifunović on 20/05/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
 //
 
 import UIKit
 
 class UserCoordinator: Coordinator {
-    weak var parentCoordinator: CoordinatorDelegate?
+    weak var parentCoordinator: ParentCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
     let controller: UserViewController
@@ -34,7 +34,7 @@ class UserCoordinator: Coordinator {
 }
 
 
-extension UserCoordinator: ViewControllerDelegate {
+extension UserCoordinator: CoordinatorDelegate {
     func viewControllerHasFinished() {
         childCoordinators.removeAll()
         controller.removeFromParent()

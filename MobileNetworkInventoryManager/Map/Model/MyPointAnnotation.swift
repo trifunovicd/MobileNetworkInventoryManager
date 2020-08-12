@@ -2,7 +2,7 @@
 //  MyPointAnnotation.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Internship on 09/06/2020.
+//  Created by Danijel Trifunović on 09/06/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
 //
 

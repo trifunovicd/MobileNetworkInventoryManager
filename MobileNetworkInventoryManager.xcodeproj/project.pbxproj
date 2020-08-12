@@ -43,8 +43,8 @@
 		B98D192A2475CDC00053ABF5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D19292475CDC00053ABF5 /* LoginViewController.swift */; };
 		B98D192C2475D5830053ABF5 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D192B2475D5830053ABF5 /* Utilities.swift */; };
 		B98D192E2475DE9B0053ABF5 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D192D2475DE9B0053ABF5 /* Request.swift */; };
-		B98D19302475DFE20053ABF5 /* CoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D192F2475DFE20053ABF5 /* CoordinatorDelegate.swift */; };
-		B98D19322475E1720053ABF5 /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D19312475E1720053ABF5 /* ViewControllerDelegate.swift */; };
+		B98D19302475DFE20053ABF5 /* ParentCoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D192F2475DFE20053ABF5 /* ParentCoordinatorDelegate.swift */; };
+		B98D19322475E1720053ABF5 /* CoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D19312475E1720053ABF5 /* CoordinatorDelegate.swift */; };
 		B9BFA4952486862F007C63B4 /* LoggedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BFA4942486862F007C63B4 /* LoggedUser.swift */; };
 		B9BFA497248696DB007C63B4 /* SiteSortSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BFA496248696DB007C63B4 /* SiteSortSettings.swift */; };
 		B9C15925248915E2001E1B02 /* SiteDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C15924248915E2001E1B02 /* SiteDetailsViewController.swift */; };
@@ -135,8 +135,8 @@
 		B98D19292475CDC00053ABF5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B98D192B2475D5830053ABF5 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		B98D192D2475DE9B0053ABF5 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		B98D192F2475DFE20053ABF5 /* CoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorDelegate.swift; sourceTree = "<group>"; };
-		B98D19312475E1720053ABF5 /* ViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerDelegate.swift; sourceTree = "<group>"; };
+		B98D192F2475DFE20053ABF5 /* ParentCoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentCoordinatorDelegate.swift; sourceTree = "<group>"; };
+		B98D19312475E1720053ABF5 /* CoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorDelegate.swift; sourceTree = "<group>"; };
 		B9BFA4942486862F007C63B4 /* LoggedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedUser.swift; sourceTree = "<group>"; };
 		B9BFA496248696DB007C63B4 /* SiteSortSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSortSettings.swift; sourceTree = "<group>"; };
 		B9C15924248915E2001E1B02 /* SiteDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDetailsViewController.swift; sourceTree = "<group>"; };
@@ -215,6 +215,7 @@
 		B907F2A8248532B70063754C /* Sort */ = {
 			isa = PBXGroup;
 			children = (
+				B998C53224E458EB007BB5F8 /* Protocol */,
 				B907F2A9248532CA0063754C /* Model */,
 				B907F2AA248532D40063754C /* View */,
 				B907F2AB248532DA0063754C /* ViewModel */,
@@ -356,11 +357,8 @@
 			isa = PBXGroup;
 			children = (
 				B98D18ED247597090053ABF5 /* Coordinator.swift */,
-				B98D192F2475DFE20053ABF5 /* CoordinatorDelegate.swift */,
-				B98D19312475E1720053ABF5 /* ViewControllerDelegate.swift */,
-				B928A8592484422A0092D246 /* SortDelegate.swift */,
-				B9C1592B248917B6001E1B02 /* SiteDetailsDelegate.swift */,
-				B9E73591248C0C0600349E97 /* TaskDetailsDelegate.swift */,
+				B98D192F2475DFE20053ABF5 /* ParentCoordinatorDelegate.swift */,
+				B98D19312475E1720053ABF5 /* CoordinatorDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -369,11 +367,6 @@
 			isa = PBXGroup;
 			children = (
 				B98D18F02475975E0053ABF5 /* AppCoordinator.swift */,
-				B98D19222475CA460053ABF5 /* LoginCoordinator.swift */,
-				B98D18F2247597860053ABF5 /* SitesCoordinator.swift */,
-				B98D19072475B51B0053ABF5 /* TasksCoordinator.swift */,
-				B98D19172475B96E0053ABF5 /* MapCoordinator.swift */,
-				B98D19202475BABC0053ABF5 /* UserCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -381,6 +374,8 @@
 		B98D18F42475A2A00053ABF5 /* Sites */ = {
 			isa = PBXGroup;
 			children = (
+				B998C52D24E4570E007BB5F8 /* Protocol */,
+				B998C52C24E45677007BB5F8 /* Coordinator */,
 				B9F293E2247EED4E00ABF197 /* Model */,
 				B98D18F92475A3420053ABF5 /* View */,
 				B98D18FA2475A34E0053ABF5 /* ViewModel */,
@@ -428,6 +423,8 @@
 		B98D19092475B61F0053ABF5 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
+				B998C52F24E4574A007BB5F8 /* Protocol */,
+				B998C52E24E45737007BB5F8 /* Coordinator */,
 				B9E73581248BA1AD00349E97 /* Model */,
 				B98D190A2475B6290053ABF5 /* View */,
 				B98D190B2475B6320053ABF5 /* ViewModel */,
@@ -455,6 +452,7 @@
 		B98D19102475B8C60053ABF5 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				B998C53024E45762007BB5F8 /* Coordinator */,
 				B94A1C7D248F0A7A00C68BAF /* Model */,
 				B98D19112475B8EB0053ABF5 /* View */,
 				B98D19122475B8F10053ABF5 /* ViewModel */,
@@ -481,6 +479,7 @@
 		B98D19192475BA3B0053ABF5 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				B998C53124E458B3007BB5F8 /* Coordinator */,
 				B9EF08D52476642200D4C7A8 /* Model */,
 				B98D191A2475BA440053ABF5 /* View */,
 				B98D191B2475BA490053ABF5 /* ViewModel */,
@@ -507,6 +506,7 @@
 		B98D19242475CD560053ABF5 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				B998C52B24E45651007BB5F8 /* Coordinator */,
 				B9EF08D22476616E00D4C7A8 /* Model */,
 				B98D19252475CD730053ABF5 /* View */,
 				B98D19262475CD790053ABF5 /* ViewModel */,
@@ -528,6 +528,70 @@
 				B98D19272475CD9D0053ABF5 /* LoginViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B998C52B24E45651007BB5F8 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				B98D19222475CA460053ABF5 /* LoginCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		B998C52C24E45677007BB5F8 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				B98D18F2247597860053ABF5 /* SitesCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		B998C52D24E4570E007BB5F8 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				B9C1592B248917B6001E1B02 /* SiteDetailsDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		B998C52E24E45737007BB5F8 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				B98D19072475B51B0053ABF5 /* TasksCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		B998C52F24E4574A007BB5F8 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				B9E73591248C0C0600349E97 /* TaskDetailsDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		B998C53024E45762007BB5F8 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				B98D19172475B96E0053ABF5 /* MapCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		B998C53124E458B3007BB5F8 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				B98D19202475BABC0053ABF5 /* UserCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		B998C53224E458EB007BB5F8 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				B928A8592484422A0092D246 /* SortDelegate.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		B9C1592124891516001E1B02 /* SiteDetails */ = {
@@ -938,7 +1002,7 @@
 				B965F66A247D5F9E00E2E4A2 /* Login.swift in Sources */,
 				B94A1C7F248F0A8F00C68BAF /* MyPointAnnotation.swift in Sources */,
 				B98D19212475BABC0053ABF5 /* UserCoordinator.swift in Sources */,
-				B98D19302475DFE20053ABF5 /* CoordinatorDelegate.swift in Sources */,
+				B98D19302475DFE20053ABF5 /* ParentCoordinatorDelegate.swift in Sources */,
 				B907F2A7248530E80063754C /* Sort.swift in Sources */,
 				B9C1592A248916F6001E1B02 /* SiteDetails.swift in Sources */,
 				B98D192E2475DE9B0053ABF5 /* Request.swift in Sources */,
@@ -951,7 +1015,7 @@
 				B9E7359A248C138000349E97 /* TaskDetailsViewController.swift in Sources */,
 				B928A85C248460B70092D246 /* SortView.swift in Sources */,
 				B9F293E9247F010E00ABF197 /* SitesTableViewController.swift in Sources */,
-				B98D19322475E1720053ABF5 /* ViewControllerDelegate.swift in Sources */,
+				B98D19322475E1720053ABF5 /* CoordinatorDelegate.swift in Sources */,
 				B9BFA4952486862F007C63B4 /* LoggedUser.swift in Sources */,
 				B98D18EE247597090053ABF5 /* Coordinator.swift in Sources */,
 				B98D190F2475B6B20053ABF5 /* TasksViewModel.swift in Sources */,

@@ -2,7 +2,7 @@
 //  LoginViewModel.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Internship on 20/05/2020.
+//  Created by Danijel Trifunović on 20/05/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
 //
 
@@ -12,7 +12,7 @@ import RxCocoa
 import RealmSwift
 
 class LoginViewModel {
-    weak var loginCoordinatorDelegate: ViewControllerDelegate?
+    weak var loginCoordinatorDelegate: CoordinatorDelegate?
     let loginRequest = PublishSubject<(String, String)>()
     let alertOfError = PublishSubject<Void>()
     let alertOfFailedLogin = PublishSubject<Void>()

@@ -2,7 +2,7 @@
 //  Site.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Internship on 27/05/2020.
+//  Created by Danijel Trifunović on 27/05/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
 //
 
