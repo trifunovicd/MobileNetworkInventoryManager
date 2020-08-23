@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TaskDetails {
+public struct TaskDetails {
     let taskId: Int
     let siteMark: String
     let siteName: String

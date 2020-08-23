@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SitePreview {
+public struct SitePreview {
     let siteId: Int
     let mark: String
     let name: String

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Site: Codable {
+public struct Site: Codable {
     let site_id: Int
     let mark: String
     let name: String

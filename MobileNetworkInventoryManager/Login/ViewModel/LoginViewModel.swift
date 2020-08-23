@@ -11,63 +11,73 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 
-class LoginViewModel {
-    weak var loginCoordinatorDelegate: CoordinatorDelegate?
-    let loginRequest = PublishSubject<(String, String)>()
-    let alertOfError = PublishSubject<Void>()
-    let alertOfFailedLogin = PublishSubject<Void>()
-    let alertOfMissingData = PublishSubject<Void>()
+public class LoginViewModel: ViewModelType {
     
-    func initialize() -> Disposable{
-        loginRequest
-            .asObservable()
-            .flatMap(getLoginObservale)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let userId):
-                    if userId == 0 {
-                        self?.alertOfFailedLogin.onNext(())
-                    }
-                    else {
-                        self?.setLoggedUser(userId: userId)
-                    }
-                case .failure(let error):
-                    print(error)
-                    self?.alertOfError.onNext(())
-                }
-            })
+    public struct Input {
+        let loginSubject: PublishSubject<(String, String)>
     }
     
-    private func getLoginObservale(username: String, password: String) -> Observable<Result<Int, Error>> {
-        let observable: Observable<[Login]> = getRequest(url: makeUrl(username: username, password: password))
-        
-        return observable.map { (userData) -> Result<Int, Error> in
-            
-            if !userData.isEmpty {
-                let userId = userData[0].user_id
-                return Result.success(userId)
-            }
-            else {
-                return Result.success(0)
-            }
-            
-        }.catchError { (error) -> Observable<Result<Int, Error>> in
-            let result = Result<Int, Error>.failure(error)
-            return Observable.just(result)
-        }
-        
+    public struct Output {
+        var disposables: [Disposable]
+        let alertOfError: PublishSubject<LoginError>
     }
     
-    func handleLogin(username: String, password: String) {
+    public struct Dependecies {
+        let subscribeScheduler: SchedulerType
+        weak var loginCoordinatorDelegate: CoordinatorDelegate?
+        let userRepository: UserRepository
+    }
+    
+    public init(dependecies: Dependecies) {
+        self.dependecies = dependecies
+    }
+
+    var input: Input!
+    var output: Output!
+    var dependecies: Dependecies
+
+    public func transform(input: Input) -> Output {
+        var disposables = [Disposable]()
+        disposables.append(initializeLoginObserver(for: input.loginSubject))
+        
+        let output = Output(disposables: disposables, alertOfError: PublishSubject())
+        
+        self.input = input
+        self.output = output
+        
+        return output
+    }
+    
+    public func handleLogin(username: String, password: String) {
         if username.isEmpty || password.isEmpty {
-            alertOfMissingData.onNext(())
-        }
-        else {
-            loginRequest.onNext((username, password))
+            self.output.alertOfError.onNext(.missingFields)
+        } else {
+            self.input.loginSubject.onNext((username, password))
         }
     }
+}
+
+private extension LoginViewModel {
+    func initializeLoginObserver(for subject: PublishSubject<(String, String)>) -> Disposable {
+        return subject.flatMap {[unowned self] (username, password) -> Observable<DataWrapper<[Login]>> in
+            return self.dependecies.userRepository.login(username: username, password: password)
+        }
+        .observeOn(MainScheduler.instance)
+        .subscribeOn(dependecies.subscribeScheduler)
+        .subscribe(onNext: { [unowned self] (dataWrapper) in
+            guard let safeData = dataWrapper.data else {
+                self.handleError(error: dataWrapper.error)
+                return
+            }
+            if safeData.isEmpty {
+                self.output.alertOfError.onNext(.failedLogin)
+            } else {
+                self.setLoggedUser(userId: safeData[0].user_id)
+            }
+        })
+    }
     
-    private func setLoggedUser(userId: Int) {
+    func setLoggedUser(userId: Int) {
         let loggedUser = LoggedUser()
         loggedUser.id = userId
         
@@ -78,9 +88,24 @@ class LoginViewModel {
                 realm.add(loggedUser, update: .modified)
             }
             
-            loginCoordinatorDelegate?.viewControllerHasFinished()
+            self.dependecies.loginCoordinatorDelegate?.viewControllerHasFinished()
         } catch  {
             print(error)
+        }
+    }
+    
+    func handleError(error: Error?) {
+        if let networkError = error as? NetworkError {
+            switch networkError {
+            case .canNotProcessData:
+                self.output.alertOfError.onNext(.failedLoad(text: R.string.localizable.cannot_process_data()))
+            case .noDataAvailable:
+                self.output.alertOfError.onNext(.failedLoad(text: R.string.localizable.no_data_available()))
+            case .notConnectedToInternet:
+                self.output.alertOfError.onNext(.failedLoad(text: R.string.localizable.no_internet_connection()))
+            }
+        } else {
+            self.output.alertOfError.onNext(.failedLoad(text: .empty))
         }
     }
 }

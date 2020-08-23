@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol SiteDetailsDelegate: AnyObject {
+public protocol SiteDetailsDelegate: class {
     func openSiteDetails(siteDetails: SiteDetails)
 }

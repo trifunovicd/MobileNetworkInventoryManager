@@ -54,8 +54,8 @@ class MapViewModel {
     }
     
     private func getItemsObservale() -> Observable<Result<([Site], [UserPreview], User), Error>> {
-        let sitesObservable: Observable<[Site]> = getRequest(url: makeUrl(action: .getAllSites, userId: nil))
-        let usersObservable: Observable<[User]> = getRequest(url: makeUrl(action: .getAllUsers, userId: nil))
+        let sitesObservable: Observable<[Site]> = RestManager.getRequest(url: makeUrl(action: .getAllSites, userId: nil))
+        let usersObservable: Observable<[User]> = RestManager.getRequest(url: makeUrl(action: .getAllUsers, userId: nil))
         
         var uPreviews: [UserPreview] = []
         

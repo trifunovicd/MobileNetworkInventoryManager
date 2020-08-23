@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TaskPreview {
+public struct TaskPreview {
     let taskId: Int
     let taskCategoryName: String
     let siteMark: String

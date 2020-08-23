@@ -50,7 +50,7 @@ class UserViewModel {
     
     
     private func getUserObservale() -> Observable<Result<UserPreview, Error>> {
-        let observable: Observable<[User]> = getRequest(url: makeUrl(action: .getUserData, userId: userId))
+        let observable: Observable<[User]> = RestManager.getRequest(url: makeUrl(action: .getUserData, userId: userId))
         
         return observable.map { (userData) -> Result<UserPreview, Error> in
             let user = userData[0]

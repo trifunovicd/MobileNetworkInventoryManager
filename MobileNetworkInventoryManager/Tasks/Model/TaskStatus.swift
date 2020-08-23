@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TaskStatus: Codable {
+public struct TaskStatus: Codable {
     let status_id: Int
     let name: String
 }

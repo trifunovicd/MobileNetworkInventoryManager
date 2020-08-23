@@ -9,11 +9,11 @@
 import Foundation
 import RealmSwift
 
-class LoggedUser: Object {
+public class LoggedUser: Object {
     @objc dynamic var user: String = "loggedUser"
     @objc dynamic var id: Int = 0
     
-    override static func primaryKey() -> String? {
+    public override static func primaryKey() -> String? {
         return "user"
     }
 }

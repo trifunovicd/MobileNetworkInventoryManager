@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Task: Codable {
+public struct Task: Codable {
     let task_id: Int
     let site_id: Int
     let site_mark: String

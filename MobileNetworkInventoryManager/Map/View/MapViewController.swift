@@ -42,7 +42,7 @@ class MapViewController: UIViewController {
         setup()
 
         viewModel.initialize().disposed(by: disposeBag)
-        viewModel.itemsRequest.onNext(())
+//        viewModel.itemsRequest.onNext(())
     }
     
     @objc private func handleRefresh() {
@@ -70,7 +70,7 @@ class MapViewController: UIViewController {
     }
     
     private func setupLayout() {
-        view.addSubviews(views: [segmentedControl, mapView])
+        view.addSubviews(segmentedControl, mapView)
         
         NSLayoutConstraint.activate([
             segmentedControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
@@ -86,7 +86,7 @@ class MapViewController: UIViewController {
     
     private func setObservers() {
         viewModel.alertOfError.subscribe(onNext: { [weak self] in
-            let alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
+            let alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(""), actionTitle: R.string.localizable.alert_ok_action())
             self?.present(alert, animated: true, completion: nil)
         }).disposed(by: disposeBag)
         

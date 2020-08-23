@@ -7,27 +7,36 @@
 //
 
 import UIKit
+import RxSwift
 
-class LoginCoordinator: Coordinator {
+public class LoginCoordinator: NSObject, Coordinator {
     weak var parentCoordinator: ParentCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
-    let controller: LoginViewController
+    var controller: LoginViewController!
     
     init(presenter: UINavigationController) {
         self.presenter = presenter
-        let loginViewModel = LoginViewModel()
-        let loginViewController = LoginViewController()
-        loginViewController.viewModel = loginViewModel
-        self.controller = loginViewController
+        super.init()
+        self.controller = createController()
     }
     
     func start() {
-        controller.viewModel.loginCoordinatorDelegate = self
+        presenter.setNavigationBarHidden(true, animated: false)
         presenter.pushViewController(controller, animated: true)
+    }
+    
+    deinit {
+        printDeinit()
     }
 }
 
+extension LoginCoordinator {
+    func createController() -> LoginViewController {
+        let viewModel = LoginViewModel(dependecies: LoginViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), loginCoordinatorDelegate: self, userRepository: UserRepositoryImpl()))
+        return LoginViewController(viewModel: viewModel)
+    }
+}
 
 extension LoginCoordinator: CoordinatorDelegate {
     func viewControllerHasFinished() {

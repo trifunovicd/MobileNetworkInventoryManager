@@ -201,7 +201,7 @@ class SiteDetailsViewController: UIViewController {
         
         userLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 255), size: CGSize(width: 35, height: 35))
         siteLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 215), size: CGSize(width: 35, height: 35))
-        mapView.addSubviews(views: [userLocationButton, siteLocationButton])
+        mapView.addSubviews(userLocationButton, siteLocationButton)
         
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .white
@@ -211,9 +211,9 @@ class SiteDetailsViewController: UIViewController {
         containerScrollView.backgroundColor = .white
         containerScrollView.translatesAutoresizingMaskIntoConstraints = false
 
-        containerScrollView.addSubviews(views: [markLabel, markText, nameLabel, nameText, addressLabel, addressText, techLabel, techText, powerLabel, powerText, directionsLabel, directionsText])
+        containerScrollView.addSubviews(markLabel, markText, nameLabel, nameText, addressLabel, addressText, techLabel, techText, powerLabel, powerText, directionsLabel, directionsText)
         scrollView.addSubview(containerScrollView)
-        view.addSubviews(views: [mapView, closeButton, distanceView, distanceLabel, scrollView])
+        view.addSubviews(mapView, closeButton, distanceView, distanceLabel, scrollView)
         
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

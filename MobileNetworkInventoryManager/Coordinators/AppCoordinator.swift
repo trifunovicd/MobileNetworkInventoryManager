@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class AppCoordinator: Coordinator {
+public class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     let window: UIWindow
     var presenter: UINavigationController

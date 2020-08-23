@@ -12,168 +12,128 @@ import RxCocoa
 import RealmSwift
 import CoreLocation
 
-class TasksViewModel {
-    weak var tasksCoordinatorDelegate: TaskDetailsDelegate?
-    var sortView: SortView!
-    var filterText: String = ""
-    var filterIndex: TasksSelectedScope = .name
-    var segmentedIndex: Int = 0
-    var userId: Int!
+public class TasksViewModel: ViewModelType {
+    
+    public struct Input {
+        let tasksSubject: ReplaySubject<()>
+        let taskDetailsSubject: PublishSubject<TaskPreview>
+    }
+    
+    public struct Output {
+        var disposables: [Disposable]
+        let alertOfError: PublishSubject<LoadError>
+        var filteredTasksPreviews: BehaviorRelay<[TaskPreview]>
+        var sortView: SortView!
+        let filterAction: PublishSubject<Bool>
+        let showNavigationButtons: PublishSubject<Bool>
+        let endRefreshing: PublishSubject<()>
+        let resignResponder: PublishSubject<()>
+        let setupSegmentedControl: PublishSubject<()>
+    }
+    
+    public struct Dependecies {
+        let subscribeScheduler: SchedulerType
+        weak var tasksCoordinatorDelegate: TaskDetailsDelegate?
+        let userRepository: UserRepository
+        let taskRepository: TaskRepository
+        var userId: Int!
+    }
+    
+    public init(dependecies: Dependecies) {
+        self.dependecies = dependecies
+    }
+
+    var input: Input!
+    var output: Output!
+    var dependecies: Dependecies
+    
     var tasks: [Task] = []
     var tasksPreviews: [TaskPreview] = []
     var segmentedTasksPreviews: [TaskPreview] = []
-    var filteredTasksPreviews: [TaskPreview] = []
     var taskStatusList: [TaskStatus] = []
-    let tasksRequest = PublishSubject<Void>()
-    let fetchFinished = PublishSubject<Void>()
-    let alertOfError = PublishSubject<Void>()
-    let setupSegmentedControl = PublishSubject<Void>()
-    let filterAction = PublishSubject<Bool>()
-    let showNavigationButtons = PublishSubject<Bool>()
-    let endRefreshing = PublishSubject<Void>()
-    let resignResponder = PublishSubject<Void>()
+    var filterText: String = ""
+    var filterIndex: TasksSelectedScope = .name
+    var segmentedIndex: Int = 0
     
-    func initialize() -> Disposable{
-        tasksRequest
-            .asObservable()
-            .flatMap(getTasksObservale)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let data):
-                    self?.tasks = data.0
-                    self?.tasksPreviews = data.1
-                    self?.taskStatusList = data.2
-                    self?.endRefreshing.onNext(())
-                    self?.setupSegmentedControl.onNext(())
-                case .failure(let error):
-                    print(error)
-                    self?.endRefreshing.onNext(())
-                    self?.alertOfError.onNext(())
-                }
-            })
-    }
-    
-    private func getTasksObservale() -> Observable<Result<([Task], [TaskPreview], [TaskStatus]), Error>> {
-        let tasksObservable: Observable<[Task]> = getRequest(url: makeUrl(action: .getTasksForUser, userId: userId))
-        let userObservable: Observable<[User]> = getRequest(url: makeUrl(action: .getUserData, userId: userId))
-        let statusObservable: Observable<[TaskStatus]> = getRequest(url: makeUrl(action: .getTaskStatus, userId: nil))
+    public func transform(input: Input) -> Output {
+        var disposables = [Disposable]()
+        disposables.append(initializeTasksObservable(for: input.tasksSubject))
+        disposables.append(initializeTaskDetailsObservable(for: input.taskDetailsSubject))
+        let output = Output(disposables: disposables, alertOfError: PublishSubject(), filteredTasksPreviews: BehaviorRelay.init(value: []), filterAction: PublishSubject(), showNavigationButtons: PublishSubject(), endRefreshing: PublishSubject(), resignResponder: PublishSubject(), setupSegmentedControl: PublishSubject())
         
-        var previews: [TaskPreview] = []
+        self.input = input
+        self.output = output
         
-        return Observable.combineLatest(tasksObservable, userObservable, statusObservable, resultSelector: { tasks, user, statusList in
-            
-            for task in tasks {
-                let taskPreview = TaskPreview(taskId: task.task_id, taskCategoryName: task.task_category_name, siteMark: task.site_mark, siteName: task.site_name, taskOpeningTime: task.task_opening_time.getDateFromString(), distance: getDistance(userLocation: (user[0].lat, user[0].lng), siteLocation: (task.site_lat, task.site_lng)), taskStatus: task.task_status)
-                
-                previews.append(taskPreview)
-            }
-            return (tasks, previews, statusList)
-            
-        }).map { (data) -> Result<([Task], [TaskPreview], [TaskStatus]), Error> in
-            return Result.success(data)
-            
-        }.catchError { error -> Observable<Result<([Task], [TaskPreview], [TaskStatus]), Error>> in
-            let result = Result<([Task], [TaskPreview], [TaskStatus]), Error>.failure(error)
-            return Observable.just(result)
-        }
-    }
-    
-    
-    func showTaskDetails(taskPreview: TaskPreview) {
-        for task in tasks {
-            if task.task_id == taskPreview.taskId {
-                var openingTime: String = ""
-                var closingTime: String = ""
-                if let opening = taskPreview.taskOpeningTime {
-                    openingTime = opening.getStringFromDate()
-                }
-                if let sClosing = task.task_closing_time, let dClosing = sClosing.getDateFromString() {
-                    closingTime = dClosing.getStringFromDate()
-                }
-                let taskDetails = TaskDetails(taskId: task.task_id, siteMark: task.site_mark, siteName: task.site_name, siteAddress: task.site_address, siteTechnology: getTechnology(is2GAvailable: task.is_2G_available, is3GAvailable: task.is_3G_available, is4GAvailable: task.is_4G_available), siteDistance: taskPreview.distance, siteLat: task.site_lat, siteLng: task.site_lng, siteDirections: task.site_directions, sitePowerSupply: task.site_power_supply, taskDescription: task.task_description, taskCategoryName: task.task_category_name, taskStatusName: task.task_status_name, taskOpeningTime: openingTime, taskClosingTime: closingTime)
-
-                tasksCoordinatorDelegate?.openTaskDetails(taskDetails: taskDetails)
-                break
-            }
-        }
-    }
-    
-    func getSegmentedOptions() -> [String]{
-        var options: [String] = []
-        for status in taskStatusList {
-            options.append(status.name)
-        }
-        return options
-    }
-    
-    func handleSegmentedOptionChange(index: Int) {
-        segmentedTasksPreviews = tasksPreviews.filter({ (task) -> Bool in
-            return task.taskStatus == taskStatusList[index].status_id
-        })
-        
-        segmentedIndex = index
-        getSortSettings()
+        return output
     }
     
     func setupSortView(frame: CGRect) {
         let sortViewModel = SortViewModel(frame: frame, delegate: self, sortType: .tasks)
-        sortView = SortView(viewModel: sortViewModel)
+        output.sortView = SortView(viewModel: sortViewModel)
     }
     
-    func handleTextChange(searchText: String, index: TasksSelectedScope) {
-        if searchText.isEmpty {
-            filteredTasksPreviews = segmentedTasksPreviews
-        }
-        else {
-            filterTableView(index: index, text: searchText)
-        }
+}
 
-        filterText = searchText
-        filterIndex = index
-        
-        fetchFinished.onNext(())
-    }
-    
-    private func filterTableView(index: TasksSelectedScope, text: String) {
-        switch index {
-        case .name:
-            filteredTasksPreviews = segmentedTasksPreviews.filter({ (task) -> Bool in
-                return task.siteName.lowercased().contains(text.lowercased())
-            })
-        case .task:
-            filteredTasksPreviews = segmentedTasksPreviews.filter({ (task) -> Bool in
-                return task.taskCategoryName.lowercased().contains(text.lowercased())
-            })
-        case .date:
-            filteredTasksPreviews = segmentedTasksPreviews.filter({ (task) -> Bool in
-                guard let openingTime = task.taskOpeningTime else {return false}
-                return openingTime.getStringFromDate().lowercased().contains(text.lowercased())
-            })
-        case .mark:
-            filteredTasksPreviews = segmentedTasksPreviews.filter({ (task) -> Bool in
-                return task.siteMark.lowercased().contains(text.lowercased())
-            })
+private extension TasksViewModel {
+    func initializeTasksObservable(for subject: ReplaySubject<()>) -> Disposable {
+        return subject.flatMap {[unowned self] (_) -> Observable<DataWrapper<([Task], [TaskPreview], [TaskStatus])>> in
+            return self.combineObservables(tasksObservable: self.dependecies.taskRepository.getTasks(userId: self.dependecies.userId), userObservable: self.dependecies.userRepository.getUserData(userId: self.dependecies.userId), statusObservable: self.dependecies.taskRepository.getTaskStatuses())
         }
-    }
-    
-    private func setSortSettings(value: Int, order: Int) {
-        let sortSettings = TaskSortSettings()
-        sortSettings.value = value
-        sortSettings.order = order
-        
-        do {
-            let realm = try Realm()
-            
-            try realm.write {
-                realm.add(sortSettings, update: .modified)
+        .observeOn(MainScheduler.instance)
+        .subscribeOn(dependecies.subscribeScheduler)
+        .subscribe(onNext: { [unowned self] (dataWrapper) in
+            guard let safeData = dataWrapper.data else {
+                self.output.endRefreshing.onNext(())
+                self.handleError(error: dataWrapper.error)
+                return
             }
-            
-            getSortSettings()
-        } catch  {
-            print(error)
-        }
+            self.tasks = safeData.0
+            self.tasksPreviews = safeData.1
+            self.taskStatusList = safeData.2
+            self.output.endRefreshing.onNext(())
+            self.output.setupSegmentedControl.onNext(())
+        })
     }
     
+    func combineObservables(tasksObservable: Observable<DataWrapper<[Task]>>, userObservable: Observable<DataWrapper<[User]>>, statusObservable: Observable<DataWrapper<[TaskStatus]>>) -> Observable<DataWrapper<([Task], [TaskPreview], [TaskStatus])>> {
+            
+            var previews: [TaskPreview] = []
+            
+            return Observable<DataWrapper<([Task], [TaskPreview], [TaskStatus])>>.combineLatest(tasksObservable, userObservable, statusObservable, resultSelector: { tasksWrapper, userWrapper, statusListWrapper in
+                
+                if let tasks = tasksWrapper.data, let user = userWrapper.data, let statusList = statusListWrapper.data {
+                    for task in tasks {
+                        let taskPreview = TaskPreview(taskId: task.task_id, taskCategoryName: task.task_category_name, siteMark: task.site_mark, siteName: task.site_name, taskOpeningTime: task.task_opening_time.getDateFromString(), distance: getDistance(userLocation: (user[0].lat, user[0].lng), siteLocation: (task.site_lat, task.site_lng)), taskStatus: task.task_status)
+                        
+                        previews.append(taskPreview)
+                    }
+                    return DataWrapper(data: (tasks, previews, statusList), error: nil)
+                }
+                guard let sitesNetError = tasksWrapper.error as? NetworkError,
+                    let userNetError = userWrapper.error as? NetworkError,
+                    let statusListNetError = statusListWrapper.error as? NetworkError,
+                    sitesNetError == .notConnectedToInternet || userNetError == .notConnectedToInternet || statusListNetError == .notConnectedToInternet else {
+                        return DataWrapper(data: nil, error: NetworkError.noDataAvailable)
+                }
+                return DataWrapper(data: nil, error: NetworkError.notConnectedToInternet)
+            })
+        }
+    
+    func handleError(error: Error?) {
+        if let networkError = error as? NetworkError {
+            switch networkError {
+            case .notConnectedToInternet:
+                self.output.alertOfError.onNext(.failedLoad(text: R.string.localizable.no_internet_connection()))
+            default:
+                self.output.alertOfError.onNext(.failedLoad(text: .empty))
+            }
+        } else {
+            self.output.alertOfError.onNext(.failedLoad(text: .empty))
+        }
+    }
+}
+
+private extension TasksViewModel {
     private func getSortSettings() {
         do {
             let realm = try Realm()
@@ -194,11 +154,11 @@ class TasksViewModel {
     
     private func applySettings(sortSettings: TaskSortSettings) {
         guard let order = Order(rawValue: sortSettings.order) else { return }
-        sortSitesBy(value: sortSettings.value, order: order)
-        sortView.viewModel.settings = (sortSettings.value, sortSettings.order)
+        sortTasksBy(value: sortSettings.value, order: order)
+        output.sortView.viewModel.settings = (sortSettings.value, sortSettings.order)
     }
     
-    private func sortSitesBy(value: Int, order: Order) {
+    private func sortTasksBy(value: Int, order: Order) {
         switch value {
         case TasksSortType.date.rawValue:
             sortByDate(order: order)
@@ -285,9 +245,111 @@ class TasksViewModel {
     }
 }
 
+private extension TasksViewModel {
+    func initializeTaskDetailsObservable(for subject: PublishSubject<TaskPreview>) -> Disposable{
+        return subject
+        .observeOn(MainScheduler.instance)
+        .subscribeOn(dependecies.subscribeScheduler)
+        .subscribe(onNext: {[unowned self] (taskPreview) in
+            self.showTaskDetails(taskPreview: taskPreview)
+        })
+    }
+    
+    func showTaskDetails(taskPreview: TaskPreview) {
+        for task in tasks {
+            if task.task_id == taskPreview.taskId {
+                var openingTime: String = ""
+                var closingTime: String = ""
+                if let opening = taskPreview.taskOpeningTime {
+                    openingTime = opening.getStringFromDate()
+                }
+                if let sClosing = task.task_closing_time, let dClosing = sClosing.getDateFromString() {
+                    closingTime = dClosing.getStringFromDate()
+                }
+                let taskDetails = TaskDetails(taskId: task.task_id, siteMark: task.site_mark, siteName: task.site_name, siteAddress: task.site_address, siteTechnology: getTechnology(is2GAvailable: task.is_2G_available, is3GAvailable: task.is_3G_available, is4GAvailable: task.is_4G_available), siteDistance: taskPreview.distance, siteLat: task.site_lat, siteLng: task.site_lng, siteDirections: task.site_directions, sitePowerSupply: task.site_power_supply, taskDescription: task.task_description, taskCategoryName: task.task_category_name, taskStatusName: task.task_status_name, taskOpeningTime: openingTime, taskClosingTime: closingTime)
+
+                dependecies.tasksCoordinatorDelegate?.openTaskDetails(taskDetails: taskDetails)
+                break
+            }
+        }
+    }
+}
+
+public extension TasksViewModel {
+    func getSegmentedOptions() -> [String]{
+        var options: [String] = []
+        for status in taskStatusList {
+            options.append(status.name)
+        }
+        return options
+    }
+    
+    func handleSegmentedOptionChange(index: Int) {
+        segmentedTasksPreviews = tasksPreviews.filter({ (task) -> Bool in
+            return task.taskStatus == taskStatusList[index].status_id
+        })
+        
+        segmentedIndex = index
+        getSortSettings()
+    }
+}
+
+public extension TasksViewModel {
+    func handleTextChange(searchText: String, index: TasksSelectedScope) {
+        if searchText.isEmpty {
+            output.filteredTasksPreviews.accept(segmentedTasksPreviews)
+        }
+        else {
+            filterTableView(index: index, text: searchText)
+        }
+
+        filterText = searchText
+        filterIndex = index
+    }
+    
+    private func filterTableView(index: TasksSelectedScope, text: String) {
+        switch index {
+        case .name:
+            output.filteredTasksPreviews.accept(segmentedTasksPreviews.filter({ (task) -> Bool in
+                    return task.siteName.lowercased().contains(text.lowercased())
+            }))
+        case .task:
+            output.filteredTasksPreviews.accept(segmentedTasksPreviews.filter({ (task) -> Bool in
+                return task.taskCategoryName.lowercased().contains(text.lowercased())
+            }))
+        case .date:
+            output.filteredTasksPreviews.accept(segmentedTasksPreviews.filter({ (task) -> Bool in
+                guard let openingTime = task.taskOpeningTime else {return false}
+                return openingTime.getStringFromDate().lowercased().contains(text.lowercased())
+            }))
+        case .mark:
+            output.filteredTasksPreviews.accept(segmentedTasksPreviews.filter({ (task) -> Bool in
+                return task.siteMark.lowercased().contains(text.lowercased())
+            }))
+        }
+    }
+}
 
 extension TasksViewModel: SortDelegate {
     func sortBy(value: Int, order: Int) {
         setSortSettings(value: value, order: order)
+    }
+    
+    private func setSortSettings(value: Int, order: Int) {
+        let sortSettings = TaskSortSettings()
+        sortSettings.value = value
+        sortSettings.order = order
+        
+        do {
+            let realm = try Realm()
+            
+            try realm.write {
+                realm.add(sortSettings, update: .modified)
+            }
+            
+            getSortSettings()
+        } catch  {
+            print(error)
+        }
     }
 }

@@ -94,7 +94,7 @@ class LocationService: NSObject {
     private func makeRequest() {
         guard let location = self.latestLocation else { return }
         let postString = R.string.localizable.update_user_location(self.userId, location.latitude, location.longitude, Date().getMSSQLVariant())
-        postRequest(url: Urls.baseUrlPost.rawValue, postString: postString)
+        RestManager.postRequest(url: Urls.baseUrlPost.rawValue, postString: postString)
     }
 }
 

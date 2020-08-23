@@ -1,5 +1,5 @@
 //
-//  SitesTableViewCell.swift
+//  CardTableViewCell.swift
 //  MobileNetworkInventoryManager
 //
 //  Created by Danijel Trifunović on 27/05/2020.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class SitesTableViewCell: UITableViewCell {
+public class CardTableViewCell: UITableViewCell {
     
-    private let siteNameLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 17)
@@ -18,7 +18,7 @@ class SitesTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let siteAddressLabel: UILabel = {
+    private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 17)
@@ -27,7 +27,7 @@ class SitesTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let siteTechnologyLabel: UILabel = {
+    private let infoLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 17)
@@ -52,11 +52,11 @@ class SitesTableViewCell: UITableViewCell {
     
     var onCellClicked: (() -> Void)?
 
-    override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupLayout()
@@ -66,7 +66,7 @@ class SitesTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
     }
@@ -75,15 +75,29 @@ class SitesTableViewCell: UITableViewCell {
         onCellClicked!()
     }
     
-    func configure(_ site: SitePreview) {
-        siteNameLabel.text = site.name
-        siteAddressLabel.text = site.address
-        siteTechnologyLabel.text = site.technology
-        siteMarkLabel.text = site.mark
-    }
-    
-    private func setupLayout() {
+    func configure(_ item: Any) {
+        if let site = item as? SitePreview {
+            titleLabel.text = site.name
+            subtitleLabel.text = site.address
+            infoLabel.text = site.technology
+            siteMarkLabel.text = site.mark
+        }
         
+        if let task = item as? TaskPreview {
+            titleLabel.text = task.siteName
+            subtitleLabel.text = task.taskCategoryName
+            if let openingTime = task.taskOpeningTime {
+                infoLabel.text = openingTime.getStringFromDate()
+            } else {
+                infoLabel.text = "-"
+            }
+            siteMarkLabel.text = task.siteMark
+        }
+    }
+}
+
+private extension CardTableViewCell {
+    func setupLayout() {
         let containerView = UIView()
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 10
@@ -105,37 +119,44 @@ class SitesTableViewCell: UITableViewCell {
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        containerView.addSubviews(views: [siteNameLabel, siteAddressLabel, siteTechnologyLabel, stackView])
+        containerView.addSubviews(titleLabel, subtitleLabel, infoLabel, stackView)
         
         contentView.addSubview(containerView)
         contentView.backgroundColor = .white
         
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-            
-            siteNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
-            siteNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            siteNameLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
-            
-            siteAddressLabel.topAnchor.constraint(equalTo: siteNameLabel.bottomAnchor, constant: 8),
-            siteAddressLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            siteAddressLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
-            
-            siteTechnologyLabel.topAnchor.constraint(equalTo: siteAddressLabel.bottomAnchor, constant: 8),
-            siteTechnologyLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            siteTechnologyLabel.trailingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: -16),
-            siteTechnologyLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
-            
-            siteImageView.heightAnchor.constraint(equalToConstant: 35),
-            siteImageView.widthAnchor.constraint(equalToConstant: 35),
-            
-            stackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
-            stackView.widthAnchor.constraint(equalToConstant: 60)
-        ])
+        setConstraints(containerView: containerView, stackView: stackView)
     }
-
+    
+    func setConstraints(containerView: UIView, stackView: UIStackView) {
+        containerView.snp.makeConstraints { (maker) in
+            maker.top.leading.trailing.bottom.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 8, bottom: 4, right: 8))
+        }
+        
+        titleLabel.snp.makeConstraints { (maker) in
+            maker.top.leading.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 0, right: 0))
+            maker.trailing.equalTo(stackView.snp.leading).offset(-16)
+        }
+        
+        subtitleLabel.snp.makeConstraints { (maker) in
+            maker.top.equalTo(titleLabel.snp.bottom).offset(8)
+            maker.leading.equalToSuperview().offset(16)
+            maker.trailing.equalTo(stackView.snp.leading).offset(-16)
+        }
+        
+        infoLabel.snp.makeConstraints { (maker) in
+            maker.top.equalTo(subtitleLabel.snp.bottom).offset(8)
+            maker.leading.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 0))
+            maker.trailing.equalTo(stackView.snp.leading).offset(-16)
+        }
+        
+        siteImageView.snp.makeConstraints { (maker) in
+            maker.height.width.equalTo(35)
+        }
+        
+        stackView.snp.makeConstraints { (maker) in
+            maker.centerY.equalToSuperview()
+            maker.trailing.equalToSuperview().offset(-8)
+            maker.width.equalTo(60)
+        }
+    }
 }

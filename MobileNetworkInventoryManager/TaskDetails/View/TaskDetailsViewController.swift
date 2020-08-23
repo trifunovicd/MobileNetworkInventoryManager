@@ -345,7 +345,7 @@ class TaskDetailsViewController: UIViewController {
         
         userLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 255), size: CGSize(width: 35, height: 35))
         siteLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 215), size: CGSize(width: 35, height: 35))
-        mapView.addSubviews(views: [userLocationButton, siteLocationButton])
+        mapView.addSubviews(userLocationButton, siteLocationButton)
         
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .white
@@ -361,10 +361,10 @@ class TaskDetailsViewController: UIViewController {
         siteDetailsStackView.backgroundColor = .white
         siteDetailsStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        siteDetailsView.addSubviews(views: [markLabel, markText, nameLabel, nameText, addressLabel, addressText, techLabel, techText, powerLabel, powerText, directionsLabel, directionsText])
-        containerScrollView.addSubviews(views: [openingTimeLabel, openingTimeText, closingTimeLabel, closingTimeText, taskStatusLabel, taskStatusText, taskCategoryLabel, taskCategoryText, taskDescriptionLabel, taskDescriptionText, siteDetailsStackView])
+        siteDetailsView.addSubviews(markLabel, markText, nameLabel, nameText, addressLabel, addressText, techLabel, techText, powerLabel, powerText, directionsLabel, directionsText)
+        containerScrollView.addSubviews(openingTimeLabel, openingTimeText, closingTimeLabel, closingTimeText, taskStatusLabel, taskStatusText, taskCategoryLabel, taskCategoryText, taskDescriptionLabel, taskDescriptionText, siteDetailsStackView)
         scrollView.addSubview(containerScrollView)
-        view.addSubviews(views: [mapView, closeButton, distanceView, distanceLabel, scrollView])
+        view.addSubviews(mapView, closeButton, distanceView, distanceLabel, scrollView)
         
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

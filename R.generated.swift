@@ -133,14 +133,14 @@ struct R: Rswift.Validatable {
     static let marker = Rswift.ImageResource(bundle: R.hostingBundle, name: "marker")
     /// Image `refresh`.
     static let refresh = Rswift.ImageResource(bundle: R.hostingBundle, name: "refresh")
-    /// Image `sites-filled`.
-    static let sitesFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "sites-filled")
+    /// Image `sites_filled`.
+    static let sites_filled = Rswift.ImageResource(bundle: R.hostingBundle, name: "sites_filled")
     /// Image `sites`.
     static let sites = Rswift.ImageResource(bundle: R.hostingBundle, name: "sites")
     /// Image `sort`.
     static let sort = Rswift.ImageResource(bundle: R.hostingBundle, name: "sort")
-    /// Image `tasks-filled`.
-    static let tasksFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "tasks-filled")
+    /// Image `tasks_filled`.
+    static let tasks_filled = Rswift.ImageResource(bundle: R.hostingBundle, name: "tasks_filled")
     /// Image `tasks`.
     static let tasks = Rswift.ImageResource(bundle: R.hostingBundle, name: "tasks")
     /// Image `user-filled`.
@@ -247,9 +247,9 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "sites-filled", bundle: ..., traitCollection: ...)`
-    static func sitesFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.sitesFilled, compatibleWith: traitCollection)
+    /// `UIImage(named: "sites_filled", bundle: ..., traitCollection: ...)`
+    static func sites_filled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.sites_filled, compatibleWith: traitCollection)
     }
     #endif
 
@@ -268,9 +268,9 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "tasks-filled", bundle: ..., traitCollection: ...)`
-    static func tasksFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.tasksFilled, compatibleWith: traitCollection)
+    /// `UIImage(named: "tasks_filled", bundle: ..., traitCollection: ...)`
+    static func tasks_filled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.tasks_filled, compatibleWith: traitCollection)
     }
     #endif
 
@@ -291,39 +291,9 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.info` struct is generated, and contains static references to 1 properties.
-  struct info {
-    struct uiApplicationSceneManifest {
-      static let _key = "UIApplicationSceneManifest"
-      static let uiApplicationSupportsMultipleScenes = false
-
-      struct uiSceneConfigurations {
-        static let _key = "UISceneConfigurations"
-
-        struct uiWindowSceneSessionRoleApplication {
-          struct defaultConfiguration {
-            static let _key = "Default Configuration"
-            static let uiSceneConfigurationName = infoPlistString(path: ["UIApplicationSceneManifest", "UISceneConfigurations", "UIWindowSceneSessionRoleApplication", "Default Configuration"], key: "UISceneConfigurationName") ?? "Default Configuration"
-            static let uiSceneDelegateClassName = infoPlistString(path: ["UIApplicationSceneManifest", "UISceneConfigurations", "UIWindowSceneSessionRoleApplication", "Default Configuration"], key: "UISceneDelegateClassName") ?? "$(PRODUCT_MODULE_NAME).SceneDelegate"
-
-            fileprivate init() {}
-          }
-
-          fileprivate init() {}
-        }
-
-        fileprivate init() {}
-      }
-
-      fileprivate init() {}
-    }
-
-    fileprivate init() {}
-  }
-
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 67 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 70 localization keys.
     struct localizable {
       /// en translation: %s km
       ///
@@ -365,7 +335,7 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let site_address = Rswift.StringResource(key: "site_address", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: An error occurred while fetching data.
+      /// en translation: An error occurred while fetching data. %s
       ///
       /// Locales: en
       static let error_alert_message = Rswift.StringResource(key: "error_alert_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
@@ -373,6 +343,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let ascending = Rswift.StringResource(key: "ascending", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Cannot process data.
+      ///
+      /// Locales: en
+      static let cannot_process_data = Rswift.StringResource(key: "cannot_process_data", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Category:
       ///
       /// Locales: en
@@ -477,6 +451,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let user_name = Rswift.StringResource(key: "user_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: No data available.
+      ///
+      /// Locales: en
+      static let no_data_available = Rswift.StringResource(key: "no_data_available", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: No internet connection.
+      ///
+      /// Locales: en
+      static let no_internet_connection = Rswift.StringResource(key: "no_internet_connection", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: OK
       ///
       /// Locales: en
@@ -754,19 +736,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("site_address", bundle: bundle, comment: "")
       }
 
-      /// en translation: An error occurred while fetching data.
+      /// en translation: An error occurred while fetching data. %s
       ///
       /// Locales: en
-      static func error_alert_message(preferredLanguages: [String]? = nil) -> String {
+      static func error_alert_message(_ value1: UnsafePointer<CChar>, preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("error_alert_message", bundle: hostingBundle, comment: "")
+          let format = NSLocalizedString("error_alert_message", bundle: hostingBundle, comment: "")
+          return String(format: format, locale: applicationLocale, value1)
         }
 
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+        guard let (locale, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
           return "error_alert_message"
         }
 
-        return NSLocalizedString("error_alert_message", bundle: bundle, comment: "")
+        let format = NSLocalizedString("error_alert_message", bundle: bundle, comment: "")
+        return String(format: format, locale: locale, value1)
       }
 
       /// en translation: Ascending
@@ -782,6 +766,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("ascending", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Cannot process data.
+      ///
+      /// Locales: en
+      static func cannot_process_data(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("cannot_process_data", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "cannot_process_data"
+        }
+
+        return NSLocalizedString("cannot_process_data", bundle: bundle, comment: "")
       }
 
       /// en translation: Category:
@@ -1172,6 +1171,36 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("user_name", bundle: bundle, comment: "")
+      }
+
+      /// en translation: No data available.
+      ///
+      /// Locales: en
+      static func no_data_available(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("no_data_available", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "no_data_available"
+        }
+
+        return NSLocalizedString("no_data_available", bundle: bundle, comment: "")
+      }
+
+      /// en translation: No internet connection.
+      ///
+      /// Locales: en
+      static func no_internet_connection(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("no_internet_connection", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "no_internet_connection"
+        }
+
+        return NSLocalizedString("no_internet_connection", bundle: bundle, comment: "")
       }
 
       /// en translation: OK

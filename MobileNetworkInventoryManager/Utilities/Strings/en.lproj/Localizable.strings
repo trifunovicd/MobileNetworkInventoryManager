@@ -5,6 +5,15 @@
   Created by Danijel Trifunović on 20/05/2020.
   Copyright © 2020 Danijel Trifunović. All rights reserved.
 */
+"check_if_user_exists" = "?action=check_if_user_exists&username='%s'&password='%s'";
+"get_all_sites" = "?action=get_all_sites";
+"get_all_users" = "?action=get_all_users";
+"get_tasks_for_user" = "?action=get_tasks_for_user&user_id=%d";
+"get_user_data" = "?action=get_user_data&user_id=%d";
+"get_task_status" = "?action=get_task_status";
+"update_user_location" = "action_id=update_user_location&user_id=%d&lat=%f&lng=%f&recorded=%s";
+
+
 "sites" = "Sites";
 "tasks" = "Tasks";
 "map" = "Map";
@@ -15,15 +24,11 @@
 "users" = "Users";
 "refresh_control_title" = "Fetching Data ...";
 "search_sites_placeholder" = "Search sites";
-"check_if_user_exists" = "?action=check_if_user_exists&username='%s'&password='%s'";
-"get_all_sites" = "?action=get_all_sites";
-"get_all_users" = "?action=get_all_users";
-"get_tasks_for_user" = "?action=get_tasks_for_user&user_id=%d";
-"get_user_data" = "?action=get_user_data&user_id=%d";
-"get_task_status" = "?action=get_task_status";
-"update_user_location" = "action_id=update_user_location&user_id=%d&lat=%f&lng=%f&recorded=%s";
 "error_alert_title" = "Error";
-"error_alert_message" = "An error occurred while fetching data.";
+"error_alert_message" = "An error occurred while fetching data. %s";
+"no_data_available" = "No data available.";
+"cannot_process_data" = "Cannot process data.";
+"no_internet_connection" = "No internet connection.";
 "failed_login_alert_title" = "Login Failed";
 "failed_login_alert_message" = "The username or password is incorrect.";
 "missing_data_alert_title" = "Missing Fields";

@@ -7,32 +7,37 @@
 //
 
 import UIKit
+import RxSwift
 
-class TasksCoordinator: Coordinator {
+class TasksCoordinator: NSObject, Coordinator {
     weak var parentCoordinator: ParentCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
-    let controller: TasksViewController
+    var controller: TasksViewController!
     
     init(presenter: UINavigationController, userId: Int) {
         self.presenter = presenter
-        let tasksViewController = TasksViewController()
-        let tasksViewModel = TasksViewModel()
-        tasksViewModel.userId = userId
-        tasksViewController.viewModel = tasksViewModel
-        tasksViewController.tabBarItem = UITabBarItem(title: R.string.localizable.tasks(), image: #imageLiteral(resourceName: "tasks"), selectedImage: #imageLiteral(resourceName: "tasks-filled"))
-        tasksViewController.view.backgroundColor = .white
-        tasksViewController.navigationItem.title = R.string.localizable.tasks()
-        self.controller = tasksViewController
+        super.init()
+        self.controller = createController(userId: userId)
+        self.controller.tabBarItem = UITabBarItem(title: R.string.localizable.tasks(), image: R.image.tasks(), selectedImage: R.image.tasks_filled())
     }
     
     func start() {
         presenter.setupNavigationBar(barTintColor: .systemBlue, titleTextAttributes: [.foregroundColor: UIColor.white], tintColor: .white, barStyle: .black, isTranslucent: false)
-        controller.viewModel.tasksCoordinatorDelegate = self
         presenter.pushViewController(controller, animated: true)
+    }
+    
+    deinit {
+        printDeinit()
     }
 }
 
+extension TasksCoordinator {
+    func createController(userId: Int) -> TasksViewController {
+        let viewModel = TasksViewModel(dependecies: TasksViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), tasksCoordinatorDelegate: self, userRepository: UserRepositoryImpl(), taskRepository: TaskRepositoryImpl(), userId: userId))
+        return TasksViewController(viewModel: viewModel)
+    }
+}
 
 extension TasksCoordinator: TaskDetailsDelegate {
     func openTaskDetails(taskDetails: TaskDetails) {
@@ -43,7 +48,6 @@ extension TasksCoordinator: TaskDetailsDelegate {
         presenter.present(taskDetailsViewController, animated: true, completion: nil)
     }
 }
-
 
 extension TasksCoordinator: CoordinatorDelegate {
     func viewControllerHasFinished() {

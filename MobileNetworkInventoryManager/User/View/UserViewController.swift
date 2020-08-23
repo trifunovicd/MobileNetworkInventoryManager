@@ -96,7 +96,7 @@ class UserViewController: UIViewController {
         mapView.delegate = self
         setup()
         viewModel.initialize().disposed(by: disposeBag)
-        viewModel.userRequest.onNext(())
+//        viewModel.userRequest.onNext(())
     }
     
     @objc private func handleLogout() {
@@ -129,9 +129,9 @@ class UserViewController: UIViewController {
         containerScrollView.backgroundColor = .white
         containerScrollView.translatesAutoresizingMaskIntoConstraints = false
 
-        containerScrollView.addSubviews(views: [nameLabel, nameText, usernameLabel, usernameText, recordedLabel, recordedText])
+        containerScrollView.addSubviews(nameLabel, nameText, usernameLabel, usernameText, recordedLabel, recordedText)
         scrollView.addSubview(containerScrollView)
-        view.addSubviews(views: [mapView, scrollView])
+        view.addSubviews(mapView, scrollView)
 
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -183,7 +183,7 @@ class UserViewController: UIViewController {
         }).disposed(by: disposeBag)
 
         viewModel.alertOfError.subscribe(onNext: { [weak self] in
-            let alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
+            let alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(""), actionTitle: R.string.localizable.alert_ok_action())
             self?.present(alert, animated: true, completion: nil)
         }).disposed(by: disposeBag)
         

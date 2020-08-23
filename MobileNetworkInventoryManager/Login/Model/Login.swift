@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct Login: Codable {
+public struct Login: Codable {
     let user_id: Int
 }

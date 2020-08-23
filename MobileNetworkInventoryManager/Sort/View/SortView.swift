@@ -85,7 +85,7 @@ class SortView: NSObject {
     }
     
     private func setup() {
-        pickerHeader.addSubviews(views: [sortLabel, doneButton, closeButton])
+        pickerHeader.addSubviews(sortLabel, doneButton, closeButton)
         
         NSLayoutConstraint.activate([
             sortLabel.centerXAnchor.constraint(equalTo: pickerHeader.centerXAnchor),

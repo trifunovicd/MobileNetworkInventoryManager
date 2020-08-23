@@ -7,35 +7,40 @@
 //
 
 import UIKit
+import RxSwift
 
-class SitesCoordinator: Coordinator {
+public class SitesCoordinator: NSObject, Coordinator {
     weak var parentCoordinator: ParentCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
-    let controller: SitesTableViewController
+    var controller: SitesTableViewController!
     
     init(presenter: UINavigationController, userId: Int) {
         self.presenter = presenter
-        let sitesViewController = SitesTableViewController()
-        let sitesViewModel = SitesViewModel()
-        sitesViewModel.userId = userId
-        sitesViewController.viewModel = sitesViewModel
-        sitesViewController.tabBarItem = UITabBarItem(title: R.string.localizable.sites(), image: #imageLiteral(resourceName: "sites"), selectedImage: #imageLiteral(resourceName: "sites-filled"))
-        sitesViewController.view.backgroundColor = .white
-        sitesViewController.navigationItem.title = R.string.localizable.sites()
-        self.controller = sitesViewController
+        super.init()
+        self.controller = createController(userId: userId)
+        self.controller.tabBarItem = UITabBarItem(title: R.string.localizable.sites(), image: R.image.sites(), selectedImage: R.image.sites_filled())
     }
     
     func start() {
         presenter.setupNavigationBar(barTintColor: .systemBlue, titleTextAttributes: [.foregroundColor: UIColor.white], tintColor: .white, barStyle: .black, isTranslucent: false)
-        controller.viewModel.sitesCoordinatorDelegate = self
         presenter.pushViewController(controller, animated: true)
+    }
+    
+    deinit {
+        printDeinit()
     }
 }
 
+extension SitesCoordinator {
+    func createController(userId: Int) -> SitesTableViewController {
+        let viewModel = SitesViewModel(dependecies: SitesViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), sitesCoordinatorDelegate: self, userRepository: UserRepositoryImpl(), siteRepository: SiteRepositoryImpl(), userId: userId))
+        return SitesTableViewController(viewModel: viewModel)
+    }
+}
 
 extension SitesCoordinator: SiteDetailsDelegate {
-    func openSiteDetails(siteDetails: SiteDetails) {
+    public func openSiteDetails(siteDetails: SiteDetails) {
         let siteDetailsViewController = SiteDetailsViewController()
         let siteDetailsViewModel = SiteDetailsViewModel()
         siteDetailsViewModel.siteDetails = siteDetails
@@ -43,7 +48,6 @@ extension SitesCoordinator: SiteDetailsDelegate {
         presenter.present(siteDetailsViewController, animated: true, completion: nil)
     }
 }
-
 
 extension SitesCoordinator: CoordinatorDelegate {
     func viewControllerHasFinished() {
