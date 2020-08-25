@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-class MyPointAnnotation : MKPointAnnotation {
+public class MyPointAnnotation : MKPointAnnotation {
     var siteIdentifier: Int?
     var recorded: String?
     var distance: String?

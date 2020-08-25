@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class LocationService: NSObject {
+public class LocationService: NSObject {
     static let instance = LocationService()
     var locationManager: CLLocationManager!
     private var latestLocation: CLLocationCoordinate2D!
@@ -17,7 +17,6 @@ class LocationService: NSObject {
     private var initialUpdate: Bool = true
     private var timer: Timer?
     var userId: Int!
-    
     
     func start() {
         locationManager = CLLocationManager()
@@ -100,7 +99,7 @@ class LocationService: NSObject {
 
 
 extension LocationService: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: R.string.localizable.notification_name()), object: self, userInfo: [R.string.localizable.notification_info() : locations])
         
         guard let location = locations.last else { return }
@@ -109,7 +108,7 @@ extension LocationService: CLLocationManagerDelegate {
         print(location.coordinate)
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkLocationAuthorization()
     }
 }

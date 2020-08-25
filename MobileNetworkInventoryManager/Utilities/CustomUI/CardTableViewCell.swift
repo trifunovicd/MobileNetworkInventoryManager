@@ -45,7 +45,7 @@ public class CardTableViewCell: UITableViewCell {
     }()
     
     private let siteImageView: UIImageView = {
-        let view = UIImageView(image: #imageLiteral(resourceName: "cell-tower"))
+        let view = UIImageView(image: R.image.cell_tower())
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -58,7 +58,6 @@ public class CardTableViewCell: UITableViewCell {
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setupLayout()
     }
     

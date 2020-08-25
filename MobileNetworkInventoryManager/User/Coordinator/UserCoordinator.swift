@@ -20,7 +20,7 @@ class UserCoordinator: Coordinator {
         let userViewModel = UserViewModel()
         userViewModel.userId = userId
         userViewController.viewModel = userViewModel
-        userViewController.tabBarItem = UITabBarItem(title: R.string.localizable.user(), image: #imageLiteral(resourceName: "user"), selectedImage: #imageLiteral(resourceName: "user-filled"))
+        userViewController.tabBarItem = UITabBarItem(title: R.string.localizable.user(), image: R.image.user(), selectedImage: R.image.user_filled())
         userViewController.view.backgroundColor = .white
         userViewController.navigationItem.title = R.string.localizable.user()
         self.controller = userViewController

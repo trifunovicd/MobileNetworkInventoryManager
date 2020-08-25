@@ -24,9 +24,9 @@ class UserViewController: UIViewController {
     
     private let userLocationButton: UIButton = {
         let button = UIButton()
-        let image = #imageLiteral(resourceName: "gps").withRenderingMode(.alwaysTemplate)
+        let image = R.image.gps()?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.setImage(#imageLiteral(resourceName: "gps-filled"), for: .highlighted)
+        button.setImage(R.image.gps_filled(), for: .highlighted)
         button.backgroundColor = .white
         button.tintColor = .systemBlue
         button.layer.cornerRadius = 5

@@ -93,7 +93,7 @@ class MapViewModel {
             if site.site_id == siteId {
                 let technology = getTechnology(is2GAvailable: site.is_2G_available, is3GAvailable: site.is_3G_available, is4GAvailable: site.is_4G_available)
                 let distance = getDistance(userLocation: (loggedUser.lat, loggedUser.lng), siteLocation: (site.lat, site.lng))
-                let siteDetails = SiteDetails(siteId: site.site_id, mark: site.mark, name: site.name, address: site.address, technology: technology, distance: distance, lat: site.lat, lng: site.lng, directions: site.directions, powerSupply: site.power_supply)
+                let siteDetails = SiteDetails(siteId: site.site_id, siteMark: site.mark, siteName: site.name, siteAddress: site.address, siteTechnology: technology, siteDistance: distance, siteLat: site.lat, siteLng: site.lng, siteDirections: site.directions, sitePowerSupply: site.power_supply)
 
                 mapCoordinatorDelegate?.openSiteDetails(siteDetails: siteDetails)
                 break

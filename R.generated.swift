@@ -109,26 +109,26 @@ struct R: Rswift.Validatable {
   struct image {
     /// Image `avatar`.
     static let avatar = Rswift.ImageResource(bundle: R.hostingBundle, name: "avatar")
-    /// Image `cell-tower`.
-    static let cellTower = Rswift.ImageResource(bundle: R.hostingBundle, name: "cell-tower")
-    /// Image `close-modal`.
-    static let closeModal = Rswift.ImageResource(bundle: R.hostingBundle, name: "close-modal")
+    /// Image `cell_tower`.
+    static let cell_tower = Rswift.ImageResource(bundle: R.hostingBundle, name: "cell_tower")
+    /// Image `close_modal`.
+    static let close_modal = Rswift.ImageResource(bundle: R.hostingBundle, name: "close_modal")
     /// Image `close`.
     static let close = Rswift.ImageResource(bundle: R.hostingBundle, name: "close")
     /// Image `done`.
     static let done = Rswift.ImageResource(bundle: R.hostingBundle, name: "done")
-    /// Image `gps-filled`.
-    static let gpsFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "gps-filled")
+    /// Image `gps_filled`.
+    static let gps_filled = Rswift.ImageResource(bundle: R.hostingBundle, name: "gps_filled")
     /// Image `gps`.
     static let gps = Rswift.ImageResource(bundle: R.hostingBundle, name: "gps")
     /// Image `logout`.
     static let logout = Rswift.ImageResource(bundle: R.hostingBundle, name: "logout")
-    /// Image `map-filled`.
-    static let mapFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "map-filled")
+    /// Image `map_filled`.
+    static let map_filled = Rswift.ImageResource(bundle: R.hostingBundle, name: "map_filled")
     /// Image `map`.
     static let map = Rswift.ImageResource(bundle: R.hostingBundle, name: "map")
-    /// Image `marker-filled`.
-    static let markerFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "marker-filled")
+    /// Image `marker_filled`.
+    static let marker_filled = Rswift.ImageResource(bundle: R.hostingBundle, name: "marker_filled")
     /// Image `marker`.
     static let marker = Rswift.ImageResource(bundle: R.hostingBundle, name: "marker")
     /// Image `refresh`.
@@ -143,8 +143,8 @@ struct R: Rswift.Validatable {
     static let tasks_filled = Rswift.ImageResource(bundle: R.hostingBundle, name: "tasks_filled")
     /// Image `tasks`.
     static let tasks = Rswift.ImageResource(bundle: R.hostingBundle, name: "tasks")
-    /// Image `user-filled`.
-    static let userFilled = Rswift.ImageResource(bundle: R.hostingBundle, name: "user-filled")
+    /// Image `user_filled`.
+    static let user_filled = Rswift.ImageResource(bundle: R.hostingBundle, name: "user_filled")
     /// Image `user`.
     static let user = Rswift.ImageResource(bundle: R.hostingBundle, name: "user")
 
@@ -156,9 +156,9 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "cell-tower", bundle: ..., traitCollection: ...)`
-    static func cellTower(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.cellTower, compatibleWith: traitCollection)
+    /// `UIImage(named: "cell_tower", bundle: ..., traitCollection: ...)`
+    static func cell_tower(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.cell_tower, compatibleWith: traitCollection)
     }
     #endif
 
@@ -170,9 +170,9 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "close-modal", bundle: ..., traitCollection: ...)`
-    static func closeModal(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.closeModal, compatibleWith: traitCollection)
+    /// `UIImage(named: "close_modal", bundle: ..., traitCollection: ...)`
+    static func close_modal(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.close_modal, compatibleWith: traitCollection)
     }
     #endif
 
@@ -191,9 +191,9 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "gps-filled", bundle: ..., traitCollection: ...)`
-    static func gpsFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.gpsFilled, compatibleWith: traitCollection)
+    /// `UIImage(named: "gps_filled", bundle: ..., traitCollection: ...)`
+    static func gps_filled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.gps_filled, compatibleWith: traitCollection)
     }
     #endif
 
@@ -212,9 +212,9 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "map-filled", bundle: ..., traitCollection: ...)`
-    static func mapFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.mapFilled, compatibleWith: traitCollection)
+    /// `UIImage(named: "map_filled", bundle: ..., traitCollection: ...)`
+    static func map_filled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.map_filled, compatibleWith: traitCollection)
     }
     #endif
 
@@ -226,9 +226,9 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "marker-filled", bundle: ..., traitCollection: ...)`
-    static func markerFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.markerFilled, compatibleWith: traitCollection)
+    /// `UIImage(named: "marker_filled", bundle: ..., traitCollection: ...)`
+    static func marker_filled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.marker_filled, compatibleWith: traitCollection)
     }
     #endif
 
@@ -282,9 +282,9 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "user-filled", bundle: ..., traitCollection: ...)`
-    static func userFilled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.userFilled, compatibleWith: traitCollection)
+    /// `UIImage(named: "user_filled", bundle: ..., traitCollection: ...)`
+    static func user_filled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.user_filled, compatibleWith: traitCollection)
     }
     #endif
 
@@ -293,7 +293,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 70 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 69 localization keys.
     struct localizable {
       /// en translation: %s km
       ///
@@ -383,10 +383,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let refresh_control_title = Rswift.StringResource(key: "refresh_control_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Hide site details...
-      ///
-      /// Locales: en
-      static let hide_site_details = Rswift.StringResource(key: "hide_site_details", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Location
       ///
       /// Locales: en
@@ -491,10 +487,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let search_sites_placeholder = Rswift.StringResource(key: "search_sites_placeholder", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Show site details...
-      ///
-      /// Locales: en
-      static let show_site_details = Rswift.StringResource(key: "show_site_details", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Site details
       ///
       /// Locales: en
@@ -515,6 +507,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let scope_task = Rswift.StringResource(key: "scope_task", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Task details
+      ///
+      /// Locales: en
+      static let task_details = Rswift.StringResource(key: "task_details", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Tasks
       ///
       /// Locales: en
@@ -918,21 +914,6 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("refresh_control_title", bundle: bundle, comment: "")
       }
 
-      /// en translation: Hide site details...
-      ///
-      /// Locales: en
-      static func hide_site_details(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("hide_site_details", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "hide_site_details"
-        }
-
-        return NSLocalizedString("hide_site_details", bundle: bundle, comment: "")
-      }
-
       /// en translation: Location
       ///
       /// Locales: en
@@ -1323,21 +1304,6 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("search_sites_placeholder", bundle: bundle, comment: "")
       }
 
-      /// en translation: Show site details...
-      ///
-      /// Locales: en
-      static func show_site_details(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("show_site_details", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "show_site_details"
-        }
-
-        return NSLocalizedString("show_site_details", bundle: bundle, comment: "")
-      }
-
       /// en translation: Site details
       ///
       /// Locales: en
@@ -1411,6 +1377,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("scope_task", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Task details
+      ///
+      /// Locales: en
+      static func task_details(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("task_details", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "task_details"
+        }
+
+        return NSLocalizedString("task_details", bundle: bundle, comment: "")
       }
 
       /// en translation: Tasks

@@ -34,17 +34,15 @@ class TasksCoordinator: NSObject, Coordinator {
 
 extension TasksCoordinator {
     func createController(userId: Int) -> TasksViewController {
-        let viewModel = TasksViewModel(dependecies: TasksViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), tasksCoordinatorDelegate: self, userRepository: UserRepositoryImpl(), taskRepository: TaskRepositoryImpl(), userId: userId))
+        let viewModel = TasksViewModel(dependecies: TasksViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), coordinatorDelegate: self, taskDetailsDelegate: self, userRepository: UserRepositoryImpl(), taskRepository: TaskRepositoryImpl(), userId: userId))
         return TasksViewController(viewModel: viewModel)
     }
 }
 
 extension TasksCoordinator: TaskDetailsDelegate {
     func openTaskDetails(taskDetails: TaskDetails) {
-        let taskDetailsViewController = TaskDetailsViewController()
-        let taskDetailsViewModel = TaskDetailsViewModel()
-        taskDetailsViewModel.taskDetails = taskDetails
-        taskDetailsViewController.viewModel = taskDetailsViewModel
+        let viewModel = DetailsViewModel(dependecies: DetailsViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), details: taskDetails, locationService: LocationService.instance, screenType: .task))
+        let taskDetailsViewController = DetailsViewController(viewModel: viewModel)
         presenter.present(taskDetailsViewController, animated: true, completion: nil)
     }
 }

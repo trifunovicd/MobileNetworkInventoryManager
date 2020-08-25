@@ -33,7 +33,8 @@ public class TasksViewModel: ViewModelType {
     
     public struct Dependecies {
         let subscribeScheduler: SchedulerType
-        weak var tasksCoordinatorDelegate: TaskDetailsDelegate?
+        weak var coordinatorDelegate: CoordinatorDelegate?
+        weak var taskDetailsDelegate: TaskDetailsDelegate?
         let userRepository: UserRepository
         let taskRepository: TaskRepository
         var userId: Int!
@@ -266,9 +267,9 @@ private extension TasksViewModel {
                 if let sClosing = task.task_closing_time, let dClosing = sClosing.getDateFromString() {
                     closingTime = dClosing.getStringFromDate()
                 }
-                let taskDetails = TaskDetails(taskId: task.task_id, siteMark: task.site_mark, siteName: task.site_name, siteAddress: task.site_address, siteTechnology: getTechnology(is2GAvailable: task.is_2G_available, is3GAvailable: task.is_3G_available, is4GAvailable: task.is_4G_available), siteDistance: taskPreview.distance, siteLat: task.site_lat, siteLng: task.site_lng, siteDirections: task.site_directions, sitePowerSupply: task.site_power_supply, taskDescription: task.task_description, taskCategoryName: task.task_category_name, taskStatusName: task.task_status_name, taskOpeningTime: openingTime, taskClosingTime: closingTime)
-
-                dependecies.tasksCoordinatorDelegate?.openTaskDetails(taskDetails: taskDetails)
+                let taskDetails = TaskDetails(siteId: task.site_id, siteMark: task.site_mark, siteName: task.site_name, siteAddress: task.site_address, siteTechnology: getTechnology(is2GAvailable: task.is_2G_available, is3GAvailable: task.is_3G_available, is4GAvailable: task.is_4G_available), siteDistance: taskPreview.distance, siteLat: task.site_lat, siteLng: task.site_lng, siteDirections: task.site_directions, sitePowerSupply: task.site_power_supply, taskId: task.task_id, taskDescription: task.task_description, taskCategoryName: task.task_category_name, taskStatusName: task.task_status_name, taskOpeningTime: openingTime, taskClosingTime: closingTime)
+                print(taskDetails)
+                dependecies.taskDetailsDelegate?.openTaskDetails(taskDetails: taskDetails)
                 break
             }
         }

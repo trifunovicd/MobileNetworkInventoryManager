@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import RxSwift
 
-class MapCoordinator: Coordinator {
+class MapCoordinator: NSObject, Coordinator {
     weak var parentCoordinator: ParentCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
@@ -20,7 +21,7 @@ class MapCoordinator: Coordinator {
         let mapViewModel = MapViewModel()
         mapViewModel.userId = userId
         mapViewController.viewModel = mapViewModel
-        mapViewController.tabBarItem = UITabBarItem(title: R.string.localizable.map(), image: #imageLiteral(resourceName: "map"), selectedImage: #imageLiteral(resourceName: "map-filled"))
+        mapViewController.tabBarItem = UITabBarItem(title: R.string.localizable.map(), image: R.image.map(), selectedImage: R.image.map_filled())
         mapViewController.view.backgroundColor = .white
         mapViewController.navigationItem.title = R.string.localizable.map()
         self.controller = mapViewController
@@ -36,10 +37,8 @@ class MapCoordinator: Coordinator {
 
 extension MapCoordinator: SiteDetailsDelegate {
     func openSiteDetails(siteDetails: SiteDetails) {
-        let siteDetailsViewController = SiteDetailsViewController()
-        let siteDetailsViewModel = SiteDetailsViewModel()
-        siteDetailsViewModel.siteDetails = siteDetails
-        siteDetailsViewController.viewModel = siteDetailsViewModel
+        let viewModel = DetailsViewModel(dependecies: DetailsViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), details: siteDetails, locationService: LocationService.instance, screenType: .site))
+        let siteDetailsViewController = DetailsViewController(viewModel: viewModel)
         presenter.present(siteDetailsViewController, animated: true, completion: nil)
     }
 }

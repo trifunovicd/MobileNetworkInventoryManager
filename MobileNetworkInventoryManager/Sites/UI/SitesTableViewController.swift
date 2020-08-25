@@ -43,6 +43,10 @@ public class SitesTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        printDeinit()
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
@@ -53,8 +57,11 @@ public class SitesTableViewController: UITableViewController {
         viewModel.output.showNavigationButtons.onNext(true)
     }
     
-    deinit {
-        printDeinit()
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isMovingFromParent{
+            viewModel.dependecies.coordinatorDelegate?.viewControllerHasFinished()
+        }
     }
 }
 

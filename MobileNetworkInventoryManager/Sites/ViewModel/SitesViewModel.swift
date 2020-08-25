@@ -32,7 +32,8 @@ public class SitesViewModel: ViewModelType {
     
     public struct Dependecies {
         let subscribeScheduler: SchedulerType
-        weak var sitesCoordinatorDelegate: SiteDetailsDelegate?
+        weak var coordinatorDelegate: CoordinatorDelegate?
+        weak var siteDetailsDelegate: SiteDetailsDelegate?
         let userRepository: UserRepository
         let siteRepository: SiteRepository
         var userId: Int!
@@ -234,9 +235,9 @@ private extension SitesViewModel {
     func showSiteDetails(sitePreview: SitePreview) {
         for site in sites {
             if site.site_id == sitePreview.siteId {
-                let siteDetails = SiteDetails(siteId: site.site_id, mark: site.mark, name: site.name, address: site.address, technology: sitePreview.technology, distance: sitePreview.distance, lat: site.lat, lng: site.lng, directions: site.directions, powerSupply: site.power_supply)
+                let siteDetails = SiteDetails(siteId: site.site_id, siteMark: site.mark, siteName: site.name, siteAddress: site.address, siteTechnology: sitePreview.technology, siteDistance: sitePreview.distance, siteLat: site.lat, siteLng: site.lng, siteDirections: site.directions, sitePowerSupply: site.power_supply)
                 
-                dependecies.sitesCoordinatorDelegate?.openSiteDetails(siteDetails: siteDetails)
+                dependecies.siteDetailsDelegate?.openSiteDetails(siteDetails: siteDetails)
                 break
             }
         }

@@ -34,17 +34,15 @@ public class SitesCoordinator: NSObject, Coordinator {
 
 extension SitesCoordinator {
     func createController(userId: Int) -> SitesTableViewController {
-        let viewModel = SitesViewModel(dependecies: SitesViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), sitesCoordinatorDelegate: self, userRepository: UserRepositoryImpl(), siteRepository: SiteRepositoryImpl(), userId: userId))
+        let viewModel = SitesViewModel(dependecies: SitesViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), coordinatorDelegate: self, siteDetailsDelegate: self, userRepository: UserRepositoryImpl(), siteRepository: SiteRepositoryImpl(), userId: userId))
         return SitesTableViewController(viewModel: viewModel)
     }
 }
 
 extension SitesCoordinator: SiteDetailsDelegate {
     public func openSiteDetails(siteDetails: SiteDetails) {
-        let siteDetailsViewController = SiteDetailsViewController()
-        let siteDetailsViewModel = SiteDetailsViewModel()
-        siteDetailsViewModel.siteDetails = siteDetails
-        siteDetailsViewController.viewModel = siteDetailsViewModel
+        let viewModel = DetailsViewModel(dependecies: DetailsViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), details: siteDetails, locationService: LocationService.instance, screenType: .site))
+        let siteDetailsViewController = DetailsViewController(viewModel: viewModel)
         presenter.present(siteDetailsViewController, animated: true, completion: nil)
     }
 }

@@ -62,14 +62,16 @@ public class RestManager {
             return false
         }
     }
-    
+}
+
+extension RestManager {
     public static func postRequest(url: String, postString: String) {
         guard let url = URL(string: url) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = postString.data(using: .utf8)
 
-        AF.request(request).validate().responseJSON { response in
+        AF.request(request).validate().responseData { response in
             switch response.result {
             case .success(let data):
                 print(data)

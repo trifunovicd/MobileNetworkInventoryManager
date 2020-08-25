@@ -63,6 +63,10 @@ class TasksViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        printDeinit()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
@@ -76,8 +80,11 @@ class TasksViewController: UIViewController {
         viewModel.output.showNavigationButtons.onNext(true)
     }
     
-    deinit {
-        printDeinit()
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isMovingFromParent{
+            viewModel.dependecies.coordinatorDelegate?.viewControllerHasFinished()
+        }
     }
 }
 

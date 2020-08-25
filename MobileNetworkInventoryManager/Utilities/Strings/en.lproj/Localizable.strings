@@ -72,8 +72,7 @@
 "user_location" = "Location";
 "user_recorded" = "Location recorded:";
 "my_location" = "My Location";
-"show_site_details" = "Show site details...";
 "site_details" = "Site details";
-"hide_site_details" = "Hide site details...";
+"task_details" = "Task details";
 "distance_in_km" = "%s km";
 "distance_in_m" = "%s m";
