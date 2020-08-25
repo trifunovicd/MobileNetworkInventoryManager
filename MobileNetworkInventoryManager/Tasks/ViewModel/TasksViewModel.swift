@@ -98,9 +98,9 @@ private extension TasksViewModel {
     
     func combineObservables(tasksObservable: Observable<DataWrapper<[Task]>>, userObservable: Observable<DataWrapper<[User]>>, statusObservable: Observable<DataWrapper<[TaskStatus]>>) -> Observable<DataWrapper<([Task], [TaskPreview], [TaskStatus])>> {
             
-            var previews: [TaskPreview] = []
-            
             return Observable<DataWrapper<([Task], [TaskPreview], [TaskStatus])>>.combineLatest(tasksObservable, userObservable, statusObservable, resultSelector: { tasksWrapper, userWrapper, statusListWrapper in
+                
+                var previews: [TaskPreview] = []
                 
                 if let tasks = tasksWrapper.data, let user = userWrapper.data, let statusList = statusListWrapper.data {
                     for task in tasks {
@@ -110,10 +110,10 @@ private extension TasksViewModel {
                     }
                     return DataWrapper(data: (tasks, previews, statusList), error: nil)
                 }
-                guard let sitesNetError = tasksWrapper.error as? NetworkError,
+                guard let tasksNetError = tasksWrapper.error as? NetworkError,
                     let userNetError = userWrapper.error as? NetworkError,
                     let statusListNetError = statusListWrapper.error as? NetworkError,
-                    sitesNetError == .notConnectedToInternet || userNetError == .notConnectedToInternet || statusListNetError == .notConnectedToInternet else {
+                    tasksNetError == .notConnectedToInternet || userNetError == .notConnectedToInternet || statusListNetError == .notConnectedToInternet else {
                         return DataWrapper(data: nil, error: NetworkError.noDataAvailable)
                 }
                 return DataWrapper(data: nil, error: NetworkError.notConnectedToInternet)

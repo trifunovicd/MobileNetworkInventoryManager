@@ -69,7 +69,7 @@ class TasksViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLayout()
+        setup()
         initializeVM()
         searchBar.delegate = self
         tableView.delegate = self
@@ -89,7 +89,7 @@ class TasksViewController: UIViewController {
 }
 
 private extension TasksViewController {
-    func setupLayout() {
+    func setup() {
         if #available(iOS 13.0, *) {
             UITextField.appearance(whenContainedInInstancesOf: [type(of: searchBar)]).tintColor = .white
         }
@@ -98,10 +98,10 @@ private extension TasksViewController {
         }
         view.backgroundColor = .white
         navigationItem.title = R.string.localizable.tasks()
-        setupViews()
+        setupLayout()
     }
     
-    func setupViews() {
+    func setupLayout() {
         view.addSubviews(segmentedControl, tableView)
         setConstraints()
     }

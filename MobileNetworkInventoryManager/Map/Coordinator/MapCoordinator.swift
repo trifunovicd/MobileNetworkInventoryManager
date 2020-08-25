@@ -13,27 +13,31 @@ class MapCoordinator: NSObject, Coordinator {
     weak var parentCoordinator: ParentCoordinatorDelegate?
     var childCoordinators: [Coordinator] = []
     var presenter: UINavigationController
-    let controller: MapViewController
+    var controller: MapViewController!
     
     init(presenter: UINavigationController, userId: Int) {
         self.presenter = presenter
-        let mapViewController = MapViewController()
-        let mapViewModel = MapViewModel()
-        mapViewModel.userId = userId
-        mapViewController.viewModel = mapViewModel
-        mapViewController.tabBarItem = UITabBarItem(title: R.string.localizable.map(), image: R.image.map(), selectedImage: R.image.map_filled())
-        mapViewController.view.backgroundColor = .white
-        mapViewController.navigationItem.title = R.string.localizable.map()
-        self.controller = mapViewController
+        super.init()
+        self.controller = createController(userId: userId)
+        self.controller.tabBarItem = UITabBarItem(title: R.string.localizable.map(), image: R.image.map(), selectedImage: R.image.map_filled())
     }
     
     func start() {
         presenter.setupNavigationBar(barTintColor: .systemBlue, titleTextAttributes: [.foregroundColor: UIColor.white], tintColor: .white, barStyle: .black, isTranslucent: false)
-        controller.viewModel.mapCoordinatorDelegate = self
         presenter.pushViewController(controller, animated: true)
+    }
+    
+    deinit {
+        printDeinit()
     }
 }
 
+extension MapCoordinator {
+    func createController(userId: Int) -> MapViewController {
+        let viewModel = MapViewModel(dependecies: MapViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), coordinatorDelegate: self, mapCoordinatorDelegate: self, userRepository: UserRepositoryImpl(), siteRepository: SiteRepositoryImpl(), locationService: LocationService.instance, userId: userId))
+        return MapViewController(viewModel: viewModel)
+    }
+}
 
 extension MapCoordinator: SiteDetailsDelegate {
     func openSiteDetails(siteDetails: SiteDetails) {
@@ -42,7 +46,6 @@ extension MapCoordinator: SiteDetailsDelegate {
         presenter.present(siteDetailsViewController, animated: true, completion: nil)
     }
 }
-
 
 extension MapCoordinator: CoordinatorDelegate {
     func viewControllerHasFinished() {
