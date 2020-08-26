@@ -14,6 +14,7 @@ public class HeaderTitleView: UITableViewHeaderFooterView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textColor = .white
+        label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
     
@@ -27,9 +28,7 @@ public class HeaderTitleView: UITableViewHeaderFooterView {
     }
     
     public func configureCell(with title: String) {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.22
-        titleLabel.attributedText = NSMutableAttributedString(string: title.uppercased(), attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        titleLabel.text = title.uppercased()
     }
 }
 
@@ -42,7 +41,7 @@ private extension HeaderTitleView {
     
     func setupConstraints() {
         titleLabel.snp.makeConstraints { (maker) in
-            maker.top.leading.trailing.bottom.equalToSuperview().inset(UIEdgeInsets(top: 5, left: 16, bottom: 5, right: 0))
+            maker.top.leading.trailing.bottom.equalToSuperview().inset(UIEdgeInsets(top: 7, left: 16, bottom: 5, right: 0))
         }
     }
 }

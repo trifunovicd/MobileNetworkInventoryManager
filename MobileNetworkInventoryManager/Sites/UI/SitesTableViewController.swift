@@ -80,6 +80,9 @@ private extension SitesTableViewController {
     
     func setupTable() {
         tableView.register(CardTableViewCell.self, forCellReuseIdentifier: CardTableViewCell.identifier)
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.backgroundColor = .white
         tableView.separatorStyle = .none
         tableView.refreshControl = myRefreshControl
     }

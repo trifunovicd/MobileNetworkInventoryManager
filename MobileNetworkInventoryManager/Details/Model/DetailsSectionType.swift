@@ -11,4 +11,5 @@ import Foundation
 public enum DetailsSectionType {
     case site
     case task
+    case user
 }

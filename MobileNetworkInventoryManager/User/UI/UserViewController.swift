@@ -1,24 +1,23 @@
 //
-//  DetailsViewController.swift
+//  UserViewController.swift
 //  MobileNetworkInventoryManager
 //
-//  Created by Danijel Trifunović on 06/06/2020.
+//  Created by Danijel Trifunović on 20/05/2020.
 //  Copyright © 2020 Danijel Trifunović. All rights reserved.
-//
+
 
 import UIKit
 import RxSwift
 import RxCocoa
 import MapKit
 
-public class DetailsViewController: UIViewController {
-
-    private let viewModel: DetailsViewModel
+public class UserViewController: UIViewController {
+    
+    private let viewModel: UserViewModel
     private let disposeBag: DisposeBag = DisposeBag()
     
     private let mapView: MKMapView = {
         let mapView = MKMapView()
-        mapView.showsUserLocation = true
         mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
     }()
@@ -33,50 +32,8 @@ public class DetailsViewController: UIViewController {
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.gray.cgColor
-        button.addTarget(self, action: #selector(showLocation(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(showLocation), for: .touchUpInside)
         return button
-    }()
-    
-    private let siteLocationButton: UIButton = {
-        let button = UIButton()
-        let image = R.image.marker()?.withRenderingMode(.alwaysTemplate)
-        let selectedImage = R.image.marker_filled()?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
-        button.setImage(selectedImage, for: .highlighted)
-        button.backgroundColor = .white
-        button.tintColor = .systemRed
-        button.layer.cornerRadius = 5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.gray.cgColor
-        button.addTarget(self, action: #selector(showLocation(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    private let closeButton: UIButton = {
-        let button = UIButton()
-        let image = R.image.close_modal()?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
-        button.tintColor = UIColor.black.withAlphaComponent(0.5)
-        button.addTarget(self, action: #selector(closeModal), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private let distanceView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 5
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.gray.cgColor
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let distanceLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 18)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
     }()
     
     private let tableView: UITableView = {
@@ -93,7 +50,7 @@ public class DetailsViewController: UIViewController {
         return view
     }()
     
-    public init(viewModel: DetailsViewModel) {
+    public init(viewModel: UserViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -114,92 +71,70 @@ public class DetailsViewController: UIViewController {
     }
 }
 
-private extension DetailsViewController {
+private extension UserViewController {
     func setup() {
+        navigationItem.setRightBarButton(UIBarButtonItem(image: R.image.logout(), style: .plain, target: self, action: #selector(handleLogout)), animated: true)
+        navigationItem.setLeftBarButton(UIBarButtonItem(image: R.image.refresh(), style: .plain, target: self, action: #selector(handleRefresh)), animated: true)
         mapView.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         setupLayout()
-     }
-     
+    }
+    
     func setupLayout() {
         view.backgroundColor = .white
-         
-        userLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 255), size: CGSize(width: 35, height: 35))
-        siteLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 215), size: CGSize(width: 35, height: 35))
-        mapView.addSubviews(userLocationButton, siteLocationButton)
+        navigationItem.title = R.string.localizable.user()
 
-        view.addSubviews(mapView, closeButton, distanceView, distanceLabel, tableView)
+        userLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 255), size: CGSize(width: 35, height: 35))
+        mapView.addSubview(userLocationButton)
+
+        view.addSubviews(mapView, tableView)
         setConstraints()
     }
-     
+    
     func setConstraints() {
         mapView.snp.makeConstraints { (maker) in
             maker.top.leading.trailing.equalToSuperview()
             maker.height.equalTo(300)
         }
         
-        closeButton.snp.makeConstraints { (maker) in
-            maker.top.trailing.equalToSuperview().inset(8)
-            maker.height.width.equalTo(30)
-        }
-        
-        distanceView.snp.makeConstraints { (maker) in
-            maker.top.leading.equalToSuperview().inset(UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 0))
-            maker.trailing.equalTo(distanceLabel.snp.trailing).offset(8)
-        }
-        
-        distanceLabel.snp.makeConstraints { (maker) in
-            maker.top.leading.bottom.equalTo(distanceView).inset(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 0))
-        }
-        
         tableView.snp.makeConstraints { (maker) in
-            maker.top.equalTo(mapView.snp.bottom)//.offset(30)
+            maker.top.equalTo(mapView.snp.bottom)
             maker.leading.trailing.bottom.equalToSuperview()
         }
     }
 }
 
-private extension DetailsViewController {
+private extension UserViewController {
     func initializeVM() {
-        let input = DetailsViewModel.Input(loadDataSubject: ReplaySubject.create(bufferSize: 1))
+        let input = UserViewModel.Input(loadDataSubject: ReplaySubject.create(bufferSize: 1))
         let output = viewModel.transform(input: input)
         disposeBag.insert(output.disposables)
         subscribeToScreenData()
-        initializeCloseModalObserver(for: output.closeModal)
-        initializeAddSiteMarkerObserver(for: output.addSiteMarker)
+        initializeAddUserMarkerObserver(for: output.addUserMarker)
         initializeCenterMapViewObserver(for: output.centerMapView)
-        initializeUpdateDistanceObserver(for: output.updateDistance)
+        initializeErrorObserver(for: output.alertOfError)
     }
 
     func subscribeToScreenData() {
         viewModel.output.screenData
         .observeOn(MainScheduler.instance)
         .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-        .subscribe(onNext: { [unowned self] (_) in
-            self.distanceLabel.text = self.viewModel.dependecies.details.siteDistance.getDistanceString()
+        .subscribe(onNext: { [unowned self] (data) in
             self.tableView.reloadData()
-            self.viewModel.output.addSiteMarker.onNext(())
+            if !data.isEmpty {
+                self.viewModel.output.addUserMarker.onNext(())
+            }
         })
         .disposed(by: disposeBag)
     }
     
-    func initializeCloseModalObserver(for subject: PublishSubject<()>) {
+    func initializeAddUserMarkerObserver(for subject: PublishSubject<()>) {
         subject
         .observeOn(MainScheduler.instance)
         .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
         .subscribe(onNext: { [unowned self] in
-            self.dismiss(animated: true, completion: nil)
-        })
-        .disposed(by: disposeBag)
-    }
-    
-    func initializeAddSiteMarkerObserver(for subject: PublishSubject<()>) {
-        subject
-        .observeOn(MainScheduler.instance)
-        .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-        .subscribe(onNext: { [unowned self] in
-            self.addSiteMarker()
+            self.addUserMarker()
         })
         .disposed(by: disposeBag)
     }
@@ -214,56 +149,61 @@ private extension DetailsViewController {
         .disposed(by: disposeBag)
     }
     
-    func initializeUpdateDistanceObserver(for subject: PublishSubject<CLLocationCoordinate2D>) {
+    func initializeErrorObserver(for subject: PublishSubject<LoadError>) {
         subject
-        .observeOn(MainScheduler.instance)
-        .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-        .subscribe(onNext: { [unowned self] coordinate in
-            self.updateDistance(coordinate: coordinate)
+        .asDriver(onErrorJustReturn: .failedLoad(text: .empty))
+        .do(onNext: { [unowned self] (error) in
+            let alert: UIAlertController
+            switch error {
+            case .failedLoad(let text):
+                alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(text), actionTitle: R.string.localizable.alert_ok_action())
+            }
+            self.present(alert, animated: true, completion: nil)
         })
+        .drive()
         .disposed(by: disposeBag)
     }
 }
 
-private extension DetailsViewController {
-    @objc func closeModal() {
-        viewModel.output.closeModal.onNext(())
+private extension UserViewController {
+    
+    @objc func handleLogout() {
+        viewModel.logout()
     }
     
-    @objc func showLocation(_ sender: UIButton) {
-        if sender == siteLocationButton {
-            let coordinate = CLLocationCoordinate2D(latitude: viewModel.dependecies.details.siteLat, longitude: viewModel.dependecies.details.siteLng)
-            viewModel.output.centerMapView.onNext(coordinate)
-            viewModel.output.shouldFollowUser = false
-        }
-        else {
-            guard let coordinate = viewModel.dependecies.locationService.locationManager.location?.coordinate else { return }
-            viewModel.output.centerMapView.onNext(coordinate)
-            viewModel.output.shouldFollowUser = true
-        }
+    @objc func handleRefresh() {
+        viewModel.input.loadDataSubject.onNext(())
     }
     
-    func addSiteMarker() {
-        let siteLocation = MKPointAnnotation()
-        siteLocation.title = viewModel.dependecies.details.siteName
-        siteLocation.coordinate = CLLocationCoordinate2D(latitude: viewModel.dependecies.details.siteLat, longitude: viewModel.dependecies.details.siteLng)
-        mapView.addAnnotation(siteLocation)
+    @objc func showLocation() {
+        mapView.showsUserLocation = true
+        mapView.removeAnnotations(mapView.annotations)
+        viewModel.shouldFollowUser = true
         
-        viewModel.output.centerMapView.onNext(siteLocation.coordinate)
+        guard let coordinate = viewModel.dependecies.locationService.locationManager.location?.coordinate else { return }
+        viewModel.output.centerMapView.onNext(coordinate)
     }
-    
+
+    func addUserMarker() {
+        mapView.showsUserLocation = false
+        mapView.removeAnnotations(mapView.annotations)
+        viewModel.shouldFollowUser = false
+        
+        let userLocation = MKPointAnnotation()
+        userLocation.title = R.string.localizable.my_location()
+        userLocation.coordinate = CLLocationCoordinate2D(latitude: viewModel.output.userData.lat, longitude: viewModel.output.userData.lng)
+        mapView.addAnnotation(userLocation)
+        
+        viewModel.output.centerMapView.onNext(userLocation.coordinate)
+    }
+
     func centerMapView(coordinate: CLLocationCoordinate2D) {
         let region = MKCoordinateRegion.init(center: coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
         mapView.setRegion(region, animated: true)
     }
-    
-    func updateDistance(coordinate: CLLocationCoordinate2D) {
-        let distance = getDistance(userLocation: (coordinate.latitude, coordinate.longitude), siteLocation: (viewModel.dependecies.details.siteLat, viewModel.dependecies.details.siteLng))
-        distanceLabel.text = distance.getDistanceString()
-    }
 }
 
-extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
+extension UserViewController: UITableViewDelegate, UITableViewDataSource {
     public func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.output.screenData.value.count
     }
@@ -307,11 +247,11 @@ extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension DetailsViewController: MKMapViewDelegate {
+extension UserViewController: MKMapViewDelegate {
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else { return nil }
 
-        let identifier = "SiteLocationAnnotation"
+        let identifier = "UserLocationAnnotation"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
 
         if annotationView == nil {

@@ -49,6 +49,9 @@ class TasksViewController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(CardTableViewCell.self, forCellReuseIdentifier: CardTableViewCell.identifier)
+        table.estimatedRowHeight = UITableView.automaticDimension
+        table.rowHeight = UITableView.automaticDimension
+        table.backgroundColor = .white
         table.separatorStyle = .none
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
