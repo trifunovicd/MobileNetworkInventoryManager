@@ -9,12 +9,12 @@
 import Foundation
 import RealmSwift
 
-class TaskSortSettings: Object {
+public class TaskSortSettings: Object {
     @objc dynamic var id: String = "taskSort"
     @objc dynamic var value: TasksSortType.RawValue = 0
     @objc dynamic var order: Order.RawValue = 0
     
-    override static func primaryKey() -> String? {
+    public override static func primaryKey() -> String? {
         return "id"
     }
 }

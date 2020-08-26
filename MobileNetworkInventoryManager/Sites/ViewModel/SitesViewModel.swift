@@ -15,7 +15,7 @@ import CoreLocation
 public class SitesViewModel: ViewModelType {
     
     public struct Input {
-        let sitesSubject: ReplaySubject<()>
+        let loadDataSubject: ReplaySubject<()>
         let siteDetailsSubject: PublishSubject<SitePreview>
     }
     
@@ -54,7 +54,7 @@ public class SitesViewModel: ViewModelType {
     
     public func transform(input: Input) -> Output {
         var disposables = [Disposable]()
-        disposables.append(initializeSitesObservable(for: input.sitesSubject))
+        disposables.append(initializeLoadDataObservable(for: input.loadDataSubject))
         disposables.append(initializeSiteDetailsObservable(for: input.siteDetailsSubject))
         let output = Output(disposables: disposables, alertOfError: PublishSubject(), filteredSitesPreviews: BehaviorRelay.init(value: []), filterAction: PublishSubject(), showNavigationButtons: PublishSubject(), endRefreshing: PublishSubject(), resignResponder: PublishSubject())
         
@@ -65,13 +65,13 @@ public class SitesViewModel: ViewModelType {
     }
     
     func setupSortView(frame: CGRect) {
-        let sortViewModel = SortViewModel(frame: frame, delegate: self, sortType: .sites)
+        let sortViewModel = SortViewModel(dependecies: SortViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), delegate: self, sortType: .sites, frame: frame))
         output.sortView = SortView(viewModel: sortViewModel)
     }
 }
 
 private extension SitesViewModel {
-    func initializeSitesObservable(for subject: ReplaySubject<()>) -> Disposable {
+    func initializeLoadDataObservable(for subject: ReplaySubject<()>) -> Disposable {
         return subject.flatMap {[unowned self] (_) -> Observable<DataWrapper<([Site], [SitePreview])>> in
             return self.combineObservables(sitesObservable: self.dependecies.siteRepository.getSites(), userObservable: self.dependecies.userRepository.getUserData(userId: self.dependecies.userId))
         }
@@ -149,7 +149,7 @@ private extension SitesViewModel {
     func applySettings(sortSettings: SiteSortSettings) {
         guard let order = Order(rawValue: sortSettings.order) else { return }
         sortSitesBy(value: sortSettings.value, order: order)
-        output.sortView.viewModel.settings = (sortSettings.value, sortSettings.order)
+        output.sortView.viewModel.output.settings = (sortSettings.value, sortSettings.order)
     }
     
     func sortSitesBy(value: Int, order: Order) {
@@ -280,7 +280,7 @@ public extension SitesViewModel {
 }
 
 extension SitesViewModel: SortDelegate {
-    func sortBy(value: Int, order: Int) {
+    public func sortBy(value: Int, order: Int) {
         setSortSettings(value: value, order: order)
     }
     

@@ -11,8 +11,8 @@ import RxSwift
 
 public class LoginCoordinator: NSObject, Coordinator {
     weak var parentCoordinator: ParentCoordinatorDelegate?
-    var childCoordinators: [Coordinator] = []
-    var presenter: UINavigationController
+    public var childCoordinators: [Coordinator] = []
+    public var presenter: UINavigationController
     var controller: LoginViewController!
     
     init(presenter: UINavigationController) {
@@ -21,7 +21,7 @@ public class LoginCoordinator: NSObject, Coordinator {
         self.controller = createController()
     }
     
-    func start() {
+    public func start() {
         presenter.setNavigationBarHidden(true, animated: false)
         presenter.pushViewController(controller, animated: true)
     }
@@ -39,7 +39,7 @@ extension LoginCoordinator {
 }
 
 extension LoginCoordinator: CoordinatorDelegate {
-    func viewControllerHasFinished() {
+    public func viewControllerHasFinished() {
         childCoordinators.removeAll()
         controller.removeFromParent()
         parentCoordinator?.childDidFinish(child: self)

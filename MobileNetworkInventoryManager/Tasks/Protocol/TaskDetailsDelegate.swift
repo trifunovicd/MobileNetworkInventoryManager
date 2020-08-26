@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol TaskDetailsDelegate: AnyObject {
+public protocol TaskDetailsDelegate: class {
     func openTaskDetails(taskDetails: TaskDetails)
 }

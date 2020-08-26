@@ -97,7 +97,6 @@ public class LocationService: NSObject {
     }
 }
 
-
 extension LocationService: CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: R.string.localizable.notification_name()), object: self, userInfo: [R.string.localizable.notification_info() : locations])

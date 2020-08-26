@@ -271,7 +271,7 @@
 			children = (
 				B998C53224E458EB007BB5F8 /* Protocol */,
 				B907F2A9248532CA0063754C /* Model */,
-				B907F2AA248532D40063754C /* View */,
+				B907F2AA248532D40063754C /* UI */,
 				B907F2AB248532DA0063754C /* ViewModel */,
 			);
 			path = Sort;
@@ -287,12 +287,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		B907F2AA248532D40063754C /* View */ = {
+		B907F2AA248532D40063754C /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				B928A85B248460B70092D246 /* SortView.swift */,
 			);
-			path = View;
+			path = UI;
 			sourceTree = "<group>";
 		};
 		B907F2AB248532DA0063754C /* ViewModel */ = {
@@ -537,18 +537,18 @@
 			children = (
 				B998C53024E45762007BB5F8 /* Coordinator */,
 				B94A1C7D248F0A7A00C68BAF /* Model */,
-				B98D19112475B8EB0053ABF5 /* View */,
+				B98D19112475B8EB0053ABF5 /* UI */,
 				B98D19122475B8F10053ABF5 /* ViewModel */,
 			);
 			path = Map;
 			sourceTree = "<group>";
 		};
-		B98D19112475B8EB0053ABF5 /* View */ = {
+		B98D19112475B8EB0053ABF5 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				B98D19152475B9350053ABF5 /* MapViewController.swift */,
 			);
-			path = View;
+			path = UI;
 			sourceTree = "<group>";
 		};
 		B98D19122475B8F10053ABF5 /* ViewModel */ = {

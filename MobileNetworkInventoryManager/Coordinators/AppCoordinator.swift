@@ -10,9 +10,9 @@ import UIKit
 import RealmSwift
 
 public class AppCoordinator: Coordinator {
-    var childCoordinators: [Coordinator] = []
+    public var childCoordinators: [Coordinator] = []
     let window: UIWindow
-    var presenter: UINavigationController
+    public var presenter: UINavigationController
     let tabController: UITabBarController
     let locationService: LocationService
     var userId: Int!
@@ -28,7 +28,7 @@ public class AppCoordinator: Coordinator {
         self.locationService = LocationService.instance
     }
     
-    func start() {
+    public func start() {
         checkForLoggedUser()
     }
     
@@ -109,7 +109,7 @@ public class AppCoordinator: Coordinator {
 
 
 extension AppCoordinator: ParentCoordinatorDelegate {
-    func childDidFinish(child: Coordinator) {
+    public func childDidFinish(child: Coordinator) {
         removeChildCoordinator(childCoordinator: child)
 
         if child is LoginCoordinator {

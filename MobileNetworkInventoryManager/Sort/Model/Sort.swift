@@ -8,24 +8,24 @@
 
 import Foundation
 
-enum SortType {
+public enum SortType {
     case sites
     case tasks
 }
 
-enum Order: Int {
+public enum Order: Int {
     case ascending = 0
     case descending = 1
 }
 
-enum SitesSortType: Int {
+public enum SitesSortType: Int {
     case mark = 0
     case name = 1
     case address = 2
     case distance = 3
 }
 
-enum TasksSortType: Int {
+public enum TasksSortType: Int {
     case date = 0
     case mark = 1
     case name = 2

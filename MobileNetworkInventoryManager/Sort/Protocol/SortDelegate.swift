@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol SortDelegate: AnyObject {
+public protocol SortDelegate: class {
     func sortBy(value: Int, order: Int)
 }

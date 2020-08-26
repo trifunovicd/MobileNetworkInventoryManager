@@ -9,12 +9,12 @@
 import Foundation
 import RealmSwift
 
-class SiteSortSettings: Object {
+public class SiteSortSettings: Object {
     @objc dynamic var id: String = "siteSort"
     @objc dynamic var value: SitesSortType.RawValue = 0
     @objc dynamic var order: Order.RawValue = 0
     
-    override static func primaryKey() -> String? {
+    public override static func primaryKey() -> String? {
         return "id"
     }
 }

@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol ParentCoordinatorDelegate: AnyObject {
+public protocol ParentCoordinatorDelegate: class {
     func childDidFinish(child: Coordinator)
 }

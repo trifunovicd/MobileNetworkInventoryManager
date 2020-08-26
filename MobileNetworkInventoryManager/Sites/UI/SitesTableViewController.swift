@@ -52,8 +52,8 @@ public class SitesTableViewController: UITableViewController {
         setupLayout()
         initializeVM()
         searchBar.delegate = self
-        viewModel.input.sitesSubject.onNext(())
         viewModel.setupSortView(frame: view.frame)
+        viewModel.input.loadDataSubject.onNext(())
         viewModel.output.showNavigationButtons.onNext(true)
     }
     
@@ -90,7 +90,7 @@ private extension SitesTableViewController {
     func showNavigationButtons(shouldShow: Bool) {
         if shouldShow {
             navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowSearchBar)), animated: true)
-            navigationItem.setLeftBarButton(UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: #selector(openSortOptions)), animated: true)
+            navigationItem.setLeftBarButton(UIBarButtonItem(image: R.image.sort(), style: .plain, target: self, action: #selector(openSortOptions)), animated: true)
         }
         else {
             navigationItem.setRightBarButton(nil, animated: true)
@@ -133,7 +133,7 @@ private extension SitesTableViewController {
 
 private extension SitesTableViewController {
     func initializeVM() {
-        let input = SitesViewModel.Input(sitesSubject: ReplaySubject.create(bufferSize: 1), siteDetailsSubject: PublishSubject())
+        let input = SitesViewModel.Input(loadDataSubject: ReplaySubject.create(bufferSize: 1), siteDetailsSubject: PublishSubject())
         let output = viewModel.transform(input: input)
         disposeBag.insert(output.disposables)
         initializeErrorObserver(for: output.alertOfError)
@@ -164,7 +164,7 @@ private extension SitesTableViewController {
         myRefreshControl.rx.controlEvent(.valueChanged)
         .asObservable()
         .subscribe(onNext: { [unowned self] in
-            self.viewModel.input.sitesSubject.onNext(())
+            self.viewModel.input.loadDataSubject.onNext(())
         }).disposed(by: disposeBag)
     }
     

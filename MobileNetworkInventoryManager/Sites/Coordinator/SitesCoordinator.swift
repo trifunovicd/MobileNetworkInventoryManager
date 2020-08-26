@@ -11,8 +11,8 @@ import RxSwift
 
 public class SitesCoordinator: NSObject, Coordinator {
     weak var parentCoordinator: ParentCoordinatorDelegate?
-    var childCoordinators: [Coordinator] = []
-    var presenter: UINavigationController
+    public var childCoordinators: [Coordinator] = []
+    public var presenter: UINavigationController
     var controller: SitesTableViewController!
     
     init(presenter: UINavigationController, userId: Int) {
@@ -22,7 +22,7 @@ public class SitesCoordinator: NSObject, Coordinator {
         self.controller.tabBarItem = UITabBarItem(title: R.string.localizable.sites(), image: R.image.sites(), selectedImage: R.image.sites_filled())
     }
     
-    func start() {
+    public func start() {
         presenter.setupNavigationBar(barTintColor: .systemBlue, titleTextAttributes: [.foregroundColor: UIColor.white], tintColor: .white, barStyle: .black, isTranslucent: false)
         presenter.pushViewController(controller, animated: true)
     }
@@ -48,7 +48,7 @@ extension SitesCoordinator: SiteDetailsDelegate {
 }
 
 extension SitesCoordinator: CoordinatorDelegate {
-    func viewControllerHasFinished() {
+    public func viewControllerHasFinished() {
         childCoordinators.removeAll()
         controller.removeFromParent()
         parentCoordinator?.childDidFinish(child: self)

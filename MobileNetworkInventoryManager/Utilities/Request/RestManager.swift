@@ -11,8 +11,7 @@ import Alamofire
 import RxSwift
 
 public class RestManager {
-    public static func getRequest<Data: Codable> (url: String) -> Observable<Data> {
-        
+    static func getRequest<Data: Codable> (url: String) -> Observable<Data> {
         return Observable.create { observer in
             let request = AF.request(url).validate().responseData { response in
                 switch response.result {
@@ -43,7 +42,6 @@ public class RestManager {
                     }
                 }
             }
-                
             return Disposables.create{
                 request.cancel()
             }
@@ -65,7 +63,7 @@ public class RestManager {
 }
 
 extension RestManager {
-    public static func postRequest(url: String, postString: String) {
+    static func postRequest(url: String, postString: String) {
         guard let url = URL(string: url) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

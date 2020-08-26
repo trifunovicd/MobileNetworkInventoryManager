@@ -15,7 +15,7 @@ import CoreLocation
 public class TasksViewModel: ViewModelType {
     
     public struct Input {
-        let tasksSubject: ReplaySubject<()>
+        let loadDataSubject: ReplaySubject<()>
         let taskDetailsSubject: PublishSubject<TaskPreview>
     }
     
@@ -58,7 +58,7 @@ public class TasksViewModel: ViewModelType {
     
     public func transform(input: Input) -> Output {
         var disposables = [Disposable]()
-        disposables.append(initializeTasksObservable(for: input.tasksSubject))
+        disposables.append(initializeLoadDataObservable(for: input.loadDataSubject))
         disposables.append(initializeTaskDetailsObservable(for: input.taskDetailsSubject))
         let output = Output(disposables: disposables, alertOfError: PublishSubject(), filteredTasksPreviews: BehaviorRelay.init(value: []), filterAction: PublishSubject(), showNavigationButtons: PublishSubject(), endRefreshing: PublishSubject(), resignResponder: PublishSubject(), setupSegmentedControl: PublishSubject())
         
@@ -69,14 +69,14 @@ public class TasksViewModel: ViewModelType {
     }
     
     func setupSortView(frame: CGRect) {
-        let sortViewModel = SortViewModel(frame: frame, delegate: self, sortType: .tasks)
+        let sortViewModel = SortViewModel(dependecies: SortViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), delegate: self, sortType: .tasks, frame: frame))
         output.sortView = SortView(viewModel: sortViewModel)
     }
     
 }
 
 private extension TasksViewModel {
-    func initializeTasksObservable(for subject: ReplaySubject<()>) -> Disposable {
+    func initializeLoadDataObservable(for subject: ReplaySubject<()>) -> Disposable {
         return subject.flatMap {[unowned self] (_) -> Observable<DataWrapper<([Task], [TaskPreview], [TaskStatus])>> in
             return self.combineObservables(tasksObservable: self.dependecies.taskRepository.getTasks(userId: self.dependecies.userId), userObservable: self.dependecies.userRepository.getUserData(userId: self.dependecies.userId), statusObservable: self.dependecies.taskRepository.getTaskStatuses())
         }
@@ -156,7 +156,7 @@ private extension TasksViewModel {
     private func applySettings(sortSettings: TaskSortSettings) {
         guard let order = Order(rawValue: sortSettings.order) else { return }
         sortTasksBy(value: sortSettings.value, order: order)
-        output.sortView.viewModel.settings = (sortSettings.value, sortSettings.order)
+        output.sortView.viewModel.output.settings = (sortSettings.value, sortSettings.order)
     }
     
     private func sortTasksBy(value: Int, order: Order) {
@@ -332,7 +332,7 @@ public extension TasksViewModel {
 }
 
 extension TasksViewModel: SortDelegate {
-    func sortBy(value: Int, order: Int) {
+    public func sortBy(value: Int, order: Int) {
         setSortSettings(value: value, order: order)
     }
     

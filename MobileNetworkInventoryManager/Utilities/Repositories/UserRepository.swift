@@ -30,5 +30,4 @@ public protocol UserRepository {
     func login(username: String, password: String) -> Observable<DataWrapper<[Login]>>
     func getUserData(userId: Int) -> Observable<DataWrapper<[User]>>
     func getAllUsers() -> Observable<DataWrapper<[User]>>
-//    func updateUserLocation() -> 
 }

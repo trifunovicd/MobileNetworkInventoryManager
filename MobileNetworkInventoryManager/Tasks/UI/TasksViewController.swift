@@ -78,8 +78,8 @@ class TasksViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.refreshControl = myRefreshControl
-        viewModel.input.tasksSubject.onNext(())
         viewModel.setupSortView(frame: view.frame)
+        viewModel.input.loadDataSubject.onNext(())
         viewModel.output.showNavigationButtons.onNext(true)
     }
     
@@ -179,7 +179,7 @@ private extension TasksViewController {
 
 private extension TasksViewController {
     func initializeVM() {
-        let input = TasksViewModel.Input(tasksSubject: ReplaySubject.create(bufferSize: 1), taskDetailsSubject: PublishSubject())
+        let input = TasksViewModel.Input(loadDataSubject: ReplaySubject.create(bufferSize: 1), taskDetailsSubject: PublishSubject())
         let output = viewModel.transform(input: input)
         disposeBag.insert(output.disposables)
         initializeErrorObserver(for: output.alertOfError)
@@ -211,7 +211,7 @@ private extension TasksViewController {
         myRefreshControl.rx.controlEvent(.valueChanged)
         .asObservable()
         .subscribe(onNext: { [unowned self] in
-            self.viewModel.input.tasksSubject.onNext(())
+            self.viewModel.input.loadDataSubject.onNext(())
         }).disposed(by: disposeBag)
     }
     
