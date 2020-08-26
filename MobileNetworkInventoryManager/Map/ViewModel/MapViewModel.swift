@@ -97,36 +97,30 @@ private extension MapViewModel {
     
     func combineObservables(sitesObservable: Observable<DataWrapper<[Site]>>, usersObservable: Observable<DataWrapper<[User]>>) -> Observable<DataWrapper<([Site], [UserPreview], User)>> {
             
-            return Observable<DataWrapper<([Site], [UserPreview], User)>>.combineLatest(sitesObservable, usersObservable, resultSelector: { sitesWrapper, usersWrapper in
-                var currentUser: User!
-                var uPreviews: [UserPreview] = []
-                
-                if let sites = sitesWrapper.data, let users = usersWrapper.data {
-                    for user in users {
-                        if user.user_id == self.dependecies.userId {
-                            currentUser = user
-                            break
-                        }
+        return Observable<DataWrapper<([Site], [UserPreview], User)>>.combineLatest(sitesObservable, usersObservable, resultSelector: { sitesWrapper, usersWrapper in
+            var currentUser: User!
+            var uPreviews: [UserPreview] = []
+            
+            if let sites = sitesWrapper.data, let users = usersWrapper.data {
+                for user in users {
+                    if user.user_id == self.dependecies.userId {
+                        currentUser = user
+                    } else {
+                        let distance = getDistance(userLocation: (currentUser.lat, currentUser.lng), siteLocation: (user.lat, user.lng))
+                        let userPreview = UserPreview(name: user.name, surname: user.surname, username: user.username, lat: user.lat, lng: user.lng, recorded: user.recorded, distance: distance.getDistanceString())
+                        uPreviews.append(userPreview)
                     }
-                    
-                    for user in users {
-                        if user.user_id != self.dependecies.userId {
-                            let distance = getDistance(userLocation: (currentUser.lat, currentUser.lng), siteLocation: (user.lat, user.lng))
-                            let userPreview = UserPreview(name: user.name, surname: user.surname, username: user.username, lat: user.lat, lng: user.lng, recorded: user.recorded, distance: distance.getDistanceString())
-                            uPreviews.append(userPreview)
-                        }
-                    }
-    
-                    return DataWrapper(data: (sites, uPreviews, currentUser), error: nil)
                 }
-                guard let sitesNetError = sitesWrapper.error as? NetworkError,
-                    let usersNetError = usersWrapper.error as? NetworkError,
-                    sitesNetError == .notConnectedToInternet || usersNetError == .notConnectedToInternet else {
-                        return DataWrapper(data: nil, error: NetworkError.noDataAvailable)
-                }
-                return DataWrapper(data: nil, error: NetworkError.notConnectedToInternet)
-            })
-        }
+                return DataWrapper(data: (sites, uPreviews, currentUser), error: nil)
+            }
+            guard let sitesNetError = sitesWrapper.error as? NetworkError,
+                let usersNetError = usersWrapper.error as? NetworkError,
+                sitesNetError == .notConnectedToInternet || usersNetError == .notConnectedToInternet else {
+                    return DataWrapper(data: nil, error: NetworkError.noDataAvailable)
+            }
+            return DataWrapper(data: nil, error: NetworkError.notConnectedToInternet)
+        })
+    }
     
     func handleError(error: Error?) {
         if let networkError = error as? NetworkError {
