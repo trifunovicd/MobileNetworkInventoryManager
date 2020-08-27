@@ -83,6 +83,7 @@ public class LoginViewController: UIViewController, AlertView {
 private extension LoginViewController {
     func setupLayout() {
         view.backgroundColor = .white
+        hideKeyboardWhenTappedAround()
         view.addSubviews(avatarImageView, usernameTextField, passwordTextField, loginButton)
         setConstraints()
     }

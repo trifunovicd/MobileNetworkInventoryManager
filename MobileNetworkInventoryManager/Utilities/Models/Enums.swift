@@ -34,3 +34,17 @@ public enum Action {
     case getUserData
     case getTaskStatus
 }
+
+public enum Status: Int {
+    case completed = 1
+    case notCompleted = 2
+    
+    func getTitle() -> String {
+        switch self {
+        case .completed:
+            return R.string.localizable.completed()
+        case .notCompleted:
+            return R.string.localizable.not_completed()
+        }
+    }
+}

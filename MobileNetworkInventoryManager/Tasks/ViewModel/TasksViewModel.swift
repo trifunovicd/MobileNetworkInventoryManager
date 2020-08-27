@@ -279,8 +279,15 @@ private extension TasksViewModel {
 public extension TasksViewModel {
     func getSegmentedOptions() -> [String]{
         var options: [String] = []
+        var localizableOptions: [String] = []
         for status in taskStatusList {
+            if let taskStatus = Status(rawValue: status.status_id) {
+                localizableOptions.append(taskStatus.getTitle())
+            }
             options.append(status.name)
+        }
+        if options.count == localizableOptions.count {
+            return localizableOptions
         }
         return options
     }

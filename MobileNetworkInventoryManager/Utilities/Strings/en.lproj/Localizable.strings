@@ -77,3 +77,5 @@
 "distance_in_km" = "%s km";
 "distance_in_m" = "%s m";
 "my_info" = "My info";
+"completed" = "Completed";
+"not_completed" = "Not completed";

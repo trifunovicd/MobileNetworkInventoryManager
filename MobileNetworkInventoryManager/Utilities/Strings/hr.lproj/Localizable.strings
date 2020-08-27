@@ -1,0 +1,81 @@
+/* 
+  Localizable.strings
+  MobileNetworkInventoryManager
+
+  Created by Danijel Trifunović on 20/05/2020.
+  Copyright © 2020 Danijel Trifunović. All rights reserved.
+*/
+"check_if_user_exists" = "?action=check_if_user_exists&username='%s'&password='%s'";
+"get_all_sites" = "?action=get_all_sites";
+"get_all_users" = "?action=get_all_users";
+"get_tasks_for_user" = "?action=get_tasks_for_user&user_id=%d";
+"get_user_data" = "?action=get_user_data&user_id=%d";
+"get_task_status" = "?action=get_task_status";
+"update_user_location" = "action_id=update_user_location&user_id=%d&lat=%f&lng=%f&recorded=%s";
+
+
+"sites" = "Mjesta";
+"tasks" = "Zadaci";
+"map" = "Karta";
+"user" = "Korisnik";
+"username" = "Korisničko ime";
+"password" = "Lozinka";
+"login" = "Prijava";
+"users" = "Korisnici";
+"refresh_control_title" = "Dohvaćanje podataka ...";
+"search_sites_placeholder" = "Pretraži mjesta";
+"error_alert_title" = "Greška";
+"error_alert_message" = "Došlo je do pogreške prilikom dohvaćanja podataka. %s";
+"no_data_available" = "Nema dostupnih podataka.";
+"cannot_process_data" = "Podaci se ne mogu obraditi.";
+"no_internet_connection" = "Nema internetske veze.";
+"failed_login_alert_title" = "Prijava nije uspjela";
+"failed_login_alert_message" = "Korisničko ime ili lozinka nisu točni.";
+"missing_data_alert_title" = "Nepopunjena polja";
+"missing_data_alert_message" = "Unesite svoje korisničko ime i lozinku.";
+"location_off_alert_title" = "Lokacija je isključena";
+"location_off_alert_message" = "Uključite svoju lokaciju da bi sve značajke funkcionirale.";
+"location_denied_alert_title" = "Lokacija je odbijena";
+"location_denied_alert_message" = "Dopustite aplikaciji da upotrebljava vašu lokaciju za rad svih značajki.";
+"location_restricted_alert_title" = "Lokacija je ograničena";
+"location_restricted_alert_message" = "Aplikacija nije ovlaštena za upotrebu lokacijskih usluga.";
+"alert_ok_action" = "U redu";
+"cell_error" = "The dequeued cell is not an instance of %s.";
+"notification_name" = "LocationsUpdated";
+"notification_info" = "locations";
+"ascending" = "Uzlazno";
+"descending" = "Silazno";
+"scope_name" = "Naziv";
+"scope_address" = "Adresa";
+"scope_tech" = "Tehnologija";
+"scope_mark" = "Oznaka";
+"scope_task" = "Zadatak";
+"scope_date" = "Datum";
+"distance" = "Udaljenost";
+"logged_user_key" = "loggedUser";
+"site_sort_key" = "siteSort";
+"task_sort_key" = "taskSort";
+"sort" = "Sortiraj";
+"site_directions" = "Upute:";
+"site_mark" = "Oznaka:";
+"site_name" = "Naziv:";
+"site_address" = "Adresa:";
+"site_tech" = "Tehnologija:";
+"site_power" = "Napajanje:";
+"task_opening_time" = "Vrijeme otvaranja:";
+"task_closing_time" = "Vrijeme zatvaranja:";
+"task_status" = "Status:";
+"task_category" = "Kategorija:";
+"task_description" = "Opis:";
+"user_name" = "Naziv:";
+"user_username" = "Korisničko ime:";
+"user_location" = "Lokacija";
+"user_recorded" = "Lokacija zabilježena:";
+"my_location" = "Moja lokacija";
+"site_details" = "Detalji mjesta";
+"task_details" = "Detalji zadatka";
+"distance_in_km" = "%s km";
+"distance_in_m" = "%s m";
+"my_info" = "Moji podaci";
+"completed" = "Završeno";
+"not_completed" = "Aktivno";
