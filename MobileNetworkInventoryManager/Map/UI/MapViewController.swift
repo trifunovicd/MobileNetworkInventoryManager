@@ -207,13 +207,13 @@ extension MapViewController: MKMapViewDelegate {
 
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView!.canShowCallout = true
+            annotationView?.canShowCallout = true
             
             let button = UIButton(type: UIButton.ButtonType.detailDisclosure)
             annotationView?.rightCalloutAccessoryView = button
             
         } else {
-            annotationView!.annotation = annotation
+            annotationView?.annotation = annotation
         }
         
         return annotationView

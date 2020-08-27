@@ -155,8 +155,9 @@ private extension SortView {
     }
     
     func showView() {
-        picker.selectRow(viewModel.output.settings.value, inComponent: 0, animated: false)
-        picker.selectRow(viewModel.output.settings.order, inComponent: 1, animated: false)
+        guard let settings = viewModel.output.settings else { return }
+        picker.selectRow(settings.value, inComponent: 0, animated: false)
+        picker.selectRow(settings.order, inComponent: 1, animated: false)
         
         transparentView.frame = viewModel.dependecies.frame
         viewModel.output.window?.addSubview(transparentView)

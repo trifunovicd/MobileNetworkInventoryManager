@@ -19,7 +19,7 @@ public class SortViewModel: ViewModelType {
     public struct Output {
         var disposables: [Disposable]
         let showView: PublishSubject<Bool>
-        var settings: (value: Int, order: Int)!
+        var settings: (value: Int, order: Int)?
         let window = UIApplication.shared.keyWindow
         let screenSize = UIScreen.main.bounds.size
         var height: CGFloat = 260
