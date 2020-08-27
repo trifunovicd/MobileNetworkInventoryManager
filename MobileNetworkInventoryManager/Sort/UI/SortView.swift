@@ -31,7 +31,7 @@ public class SortView: NSObject {
     
     private let doneButton: UIButton = {
         let button = UIButton()
-        let image = #imageLiteral(resourceName: "done").withRenderingMode(.alwaysTemplate)
+        let image = R.image.done()?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .white
         return button
@@ -39,7 +39,7 @@ public class SortView: NSObject {
     
     private let closeButton: UIButton = {
         let button = UIButton()
-        let image = #imageLiteral(resourceName: "close").withRenderingMode(.alwaysTemplate)
+        let image = R.image.close()?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .white
         return button

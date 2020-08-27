@@ -121,7 +121,7 @@ private extension TasksViewController {
     private func showNavigationButtons(shouldShow: Bool) {
         if shouldShow {
             navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowSearchBar)), animated: true)
-            navigationItem.setLeftBarButton(UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: #selector(openSortOptions)), animated: true)
+            navigationItem.setLeftBarButton(UIBarButtonItem(image: R.image.sort(), style: .plain, target: self, action: #selector(openSortOptions)), animated: true)
         }
         else {
             navigationItem.setRightBarButton(nil, animated: true)
