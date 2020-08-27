@@ -18,7 +18,6 @@ public class UserViewController: UIViewController, AlertView {
     
     private let mapView: MKMapView = {
         let mapView = MKMapView()
-        mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
     }()
     
@@ -42,7 +41,6 @@ public class UserViewController: UIViewController, AlertView {
         view.register(HeaderTitleView.self, forHeaderFooterViewReuseIdentifier: HeaderTitleView.identifier)
         view.estimatedRowHeight = UITableView.automaticDimension
         view.rowHeight = UITableView.automaticDimension
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         view.separatorStyle = .none
         view.bounces = false

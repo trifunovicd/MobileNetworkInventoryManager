@@ -14,7 +14,6 @@ class DetailsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 17)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -23,7 +22,6 @@ class DetailsTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.textColor = .darkGray
         label.font = .systemFont(ofSize: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     

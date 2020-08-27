@@ -42,7 +42,6 @@ class TasksViewController: UIViewController, AlertView {
             control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
         }
         control.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
-        control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
     
@@ -53,7 +52,6 @@ class TasksViewController: UIViewController, AlertView {
         table.rowHeight = UITableView.automaticDimension
         table.backgroundColor = .white
         table.separatorStyle = .none
-        table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     

@@ -14,7 +14,6 @@ public class CardTableViewCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 17)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -23,7 +22,6 @@ public class CardTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 17)
         label.textColor = .darkGray
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -32,7 +30,6 @@ public class CardTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 17)
         label.textColor = .darkGray
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -40,13 +37,11 @@ public class CardTableViewCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 14)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let siteImageView: UIImageView = {
         let view = UIImageView(image: R.image.cell_tower())
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -107,7 +102,6 @@ private extension CardTableViewCell {
         containerView.layer.shadowRadius = 2
         containerView.layer.shadowColor = UIColor.gray.cgColor
         containerView.layer.shadowOffset = CGSize(width: 0, height: 1)
-        containerView.translatesAutoresizingMaskIntoConstraints = false
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellClicked))
         containerView.addGestureRecognizer(tapGesture)
@@ -116,7 +110,6 @@ private extension CardTableViewCell {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         containerView.addSubviews(titleLabel, subtitleLabel, infoLabel, stackView)
         

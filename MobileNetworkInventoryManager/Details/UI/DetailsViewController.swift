@@ -19,7 +19,6 @@ public class DetailsViewController: UIViewController, TransformData {
     private let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.showsUserLocation = true
-        mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
     }()
     
@@ -58,7 +57,6 @@ public class DetailsViewController: UIViewController, TransformData {
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.black.withAlphaComponent(0.5)
         button.addTarget(self, action: #selector(closeModal), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -68,14 +66,12 @@ public class DetailsViewController: UIViewController, TransformData {
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.gray.cgColor
         view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private let distanceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -85,7 +81,6 @@ public class DetailsViewController: UIViewController, TransformData {
         view.register(HeaderTitleView.self, forHeaderFooterViewReuseIdentifier: HeaderTitleView.identifier)
         view.estimatedRowHeight = UITableView.automaticDimension
         view.rowHeight = UITableView.automaticDimension
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         view.separatorStyle = .none
         view.bounces = false

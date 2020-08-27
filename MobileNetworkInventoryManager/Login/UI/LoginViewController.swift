@@ -18,7 +18,6 @@ public class LoginViewController: UIViewController, AlertView {
     
     private let avatarImageView: UIImageView = {
         let view = UIImageView(image: R.image.avatar())
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -30,7 +29,6 @@ public class LoginViewController: UIViewController, AlertView {
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.gray.cgColor
-        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -42,7 +40,6 @@ public class LoginViewController: UIViewController, AlertView {
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.gray.cgColor
-        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -53,7 +50,6 @@ public class LoginViewController: UIViewController, AlertView {
         button.layer.cornerRadius = 10
         button.isUserInteractionEnabled = true
         button.addTarget(self, action: #selector(login), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     

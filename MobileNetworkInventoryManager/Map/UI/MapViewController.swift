@@ -24,14 +24,12 @@ public class MapViewController: UIViewController, AlertView {
             control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
         }
         control.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
-        control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
     
     private let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.showsUserLocation = true
-        mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
     }()
     

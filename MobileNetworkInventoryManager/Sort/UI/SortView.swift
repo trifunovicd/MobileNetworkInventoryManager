@@ -26,7 +26,6 @@ public class SortView: NSObject {
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 20)
         label.text = R.string.localizable.sort()
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -35,7 +34,6 @@ public class SortView: NSObject {
         let image = #imageLiteral(resourceName: "done").withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -44,7 +42,6 @@ public class SortView: NSObject {
         let image = #imageLiteral(resourceName: "close").withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
