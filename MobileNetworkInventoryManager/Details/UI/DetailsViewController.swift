@@ -300,6 +300,16 @@ extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return 0
     }
+    
+    public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.tintColor = .white
+        return view
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 10
+    }
 }
 
 extension DetailsViewController: MKMapViewDelegate {
