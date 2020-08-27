@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import CoreLocation
 
-public class MapViewModel: ViewModelType {
+public class MapViewModel: ViewModelType, TransformData {
     
     public struct Input {
         let loadDataSubject: ReplaySubject<()>
@@ -106,7 +106,7 @@ private extension MapViewModel {
                     if user.user_id == self.dependecies.userId {
                         currentUser = user
                     } else {
-                        let distance = getDistance(userLocation: (currentUser.lat, currentUser.lng), siteLocation: (user.lat, user.lng))
+                        let distance = self.getDistance(userLocation: (currentUser.lat, currentUser.lng), siteLocation: (user.lat, user.lng))
                         let userPreview = UserPreview(name: user.name, surname: user.surname, username: user.username, lat: user.lat, lng: user.lng, recorded: user.recorded, distance: distance.getDistanceString())
                         uPreviews.append(userPreview)
                     }

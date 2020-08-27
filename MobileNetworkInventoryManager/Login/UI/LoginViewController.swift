@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-public class LoginViewController: UIViewController {
+public class LoginViewController: UIViewController, AlertView {
     
     let viewModel: LoginViewModel
     private let disposeBag: DisposeBag = DisposeBag()
@@ -134,11 +134,11 @@ private extension LoginViewController {
             
             switch error {
             case .failedLoad(let text):
-                alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(text), actionTitle: R.string.localizable.alert_ok_action())
+                alert = self.getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(text), actionTitle: R.string.localizable.alert_ok_action())
             case .failedLogin:
-                alert = getAlert(title: R.string.localizable.failed_login_alert_title(), message: R.string.localizable.failed_login_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
+                alert = self.getAlert(title: R.string.localizable.failed_login_alert_title(), message: R.string.localizable.failed_login_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
             case .missingFields:
-                alert = getAlert(title: R.string.localizable.missing_data_alert_title(), message: R.string.localizable.missing_data_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
+                alert = self.getAlert(title: R.string.localizable.missing_data_alert_title(), message: R.string.localizable.missing_data_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
             }
             
             self.present(alert, animated: true, completion: nil)

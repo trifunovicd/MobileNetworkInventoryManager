@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TasksViewController: UIViewController {
+class TasksViewController: UIViewController, AlertView {
 
     private let viewModel: TasksViewModel
     private let disposeBag: DisposeBag = DisposeBag()
@@ -199,7 +199,7 @@ private extension TasksViewController {
             let alert: UIAlertController
             switch error {
             case .failedLoad(let text):
-                alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(text), actionTitle: R.string.localizable.alert_ok_action())
+                alert = self.getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(text), actionTitle: R.string.localizable.alert_ok_action())
             }
             self.present(alert, animated: true, completion: nil)
         })

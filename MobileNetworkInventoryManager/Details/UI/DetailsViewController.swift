@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import MapKit
 
-public class DetailsViewController: UIViewController {
+public class DetailsViewController: UIViewController, TransformData {
 
     private let viewModel: DetailsViewModel
     private let disposeBag: DisposeBag = DisposeBag()
@@ -258,7 +258,7 @@ private extension DetailsViewController {
     }
     
     func updateDistance(coordinate: CLLocationCoordinate2D) {
-        let distance = getDistance(userLocation: (coordinate.latitude, coordinate.longitude), siteLocation: (viewModel.dependecies.details.siteLat, viewModel.dependecies.details.siteLng))
+        let distance = self.getDistance(userLocation: (coordinate.latitude, coordinate.longitude), siteLocation: (viewModel.dependecies.details.siteLat, viewModel.dependecies.details.siteLng))
         distanceLabel.text = distance.getDistanceString()
     }
 }

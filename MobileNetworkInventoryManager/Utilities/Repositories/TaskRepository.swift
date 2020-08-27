@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-public class TaskRepositoryImpl: TaskRepository {
+public class TaskRepositoryImpl: TaskRepository, UrlMaker {
     public func getTasks(userId: Int) -> Observable<DataWrapper<[Task]>> {
         let observable: Observable<[Task]> = RestManager.getRequest(url: makeUrl(action: .getTasksForUser, userId: userId))
         return observable.mapToDataWrapperAndHandleError()

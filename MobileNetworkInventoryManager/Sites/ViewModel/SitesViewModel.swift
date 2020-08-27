@@ -12,7 +12,7 @@ import RxCocoa
 import RealmSwift
 import CoreLocation
 
-public class SitesViewModel: ViewModelType {
+public class SitesViewModel: ViewModelType, TransformData {
     
     public struct Input {
         let loadDataSubject: ReplaySubject<()>
@@ -98,7 +98,7 @@ private extension SitesViewModel {
                 
                 if let sites = sitesWrapper.data, let user = userWrapper.data {
                     for site in sites {
-                        let sitePreview = SitePreview(siteId: site.site_id, mark: site.mark, name: site.name, address: site.address, technology: getTechnology(is2GAvailable: site.is_2G_available, is3GAvailable: site.is_3G_available, is4GAvailable: site.is_4G_available), distance: getDistance(userLocation: (user[0].lat, user[0].lng), siteLocation: (site.lat, site.lng)))
+                        let sitePreview = SitePreview(siteId: site.site_id, mark: site.mark, name: site.name, address: site.address, technology: self.getTechnology(is2GAvailable: site.is_2G_available, is3GAvailable: site.is_3G_available, is4GAvailable: site.is_4G_available), distance: self.getDistance(userLocation: (user[0].lat, user[0].lng), siteLocation: (site.lat, site.lng)))
                         
                         previews.append(sitePreview)
                     }

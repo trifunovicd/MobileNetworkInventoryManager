@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-public class UserRepositoryImpl: UserRepository {
+public class UserRepositoryImpl: UserRepository, UrlMaker {
     public func login(username: String, password: String) -> Observable<DataWrapper<[Login]>> {
         let observable: Observable<[Login]> = RestManager.getRequest(url: makeUrl(username: username, password: password))
         return observable.mapToDataWrapperAndHandleError()

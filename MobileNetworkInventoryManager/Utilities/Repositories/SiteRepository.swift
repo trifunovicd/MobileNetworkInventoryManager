@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-public class SiteRepositoryImpl: SiteRepository {
+public class SiteRepositoryImpl: SiteRepository, UrlMaker {
     public func getSites() -> Observable<DataWrapper<[Site]>> {
         let observable: Observable<[Site]> = RestManager.getRequest(url: makeUrl(action: .getAllSites, userId: nil))
         return observable.mapToDataWrapperAndHandleError()

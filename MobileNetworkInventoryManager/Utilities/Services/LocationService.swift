@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-public class LocationService: NSObject {
+public class LocationService: NSObject, AlertView, TopViewController {
     static let instance = LocationService()
     var locationManager: CLLocationManager!
     private var latestLocation: CLLocationCoordinate2D!
@@ -37,7 +37,7 @@ public class LocationService: NSObject {
         }
         else {
             let alert = getAlert(title: R.string.localizable.location_off_alert_title(), message: R.string.localizable.location_off_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
-            topMostViewController()?.present(alert, animated: true, completion: nil)
+            topViewController()?.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -54,12 +54,12 @@ public class LocationService: NSObject {
             startTimer()
         case .denied:
             let alert = getAlert(title: R.string.localizable.location_denied_alert_title(), message: R.string.localizable.location_denied_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
-            topMostViewController()?.present(alert, animated: true, completion: nil)
+            topViewController()?.present(alert, animated: true, completion: nil)
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
             let alert = getAlert(title: R.string.localizable.location_restricted_alert_title(), message: R.string.localizable.location_restricted_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
-            topMostViewController()?.present(alert, animated: true, completion: nil)
+            topViewController()?.present(alert, animated: true, completion: nil)
         case .authorizedAlways:
             break
         @unknown default:

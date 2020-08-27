@@ -12,7 +12,7 @@ import RxCocoa
 import RealmSwift
 import CoreLocation
 
-public class TasksViewModel: ViewModelType {
+public class TasksViewModel: ViewModelType, TransformData {
     
     public struct Input {
         let loadDataSubject: ReplaySubject<()>
@@ -104,7 +104,7 @@ private extension TasksViewModel {
                 
                 if let tasks = tasksWrapper.data, let user = userWrapper.data, let statusList = statusListWrapper.data {
                     for task in tasks {
-                        let taskPreview = TaskPreview(taskId: task.task_id, taskCategoryName: task.task_category_name, siteMark: task.site_mark, siteName: task.site_name, taskOpeningTime: task.task_opening_time.getDateFromString(), distance: getDistance(userLocation: (user[0].lat, user[0].lng), siteLocation: (task.site_lat, task.site_lng)), taskStatus: task.task_status)
+                        let taskPreview = TaskPreview(taskId: task.task_id, taskCategoryName: task.task_category_name, siteMark: task.site_mark, siteName: task.site_name, taskOpeningTime: task.task_opening_time.getDateFromString(), distance: self.getDistance(userLocation: (user[0].lat, user[0].lng), siteLocation: (task.site_lat, task.site_lng)), taskStatus: task.task_status)
                         
                         previews.append(taskPreview)
                     }

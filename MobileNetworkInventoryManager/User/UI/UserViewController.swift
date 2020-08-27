@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import MapKit
 
-public class UserViewController: UIViewController {
+public class UserViewController: UIViewController, AlertView {
     
     private let viewModel: UserViewModel
     private let disposeBag: DisposeBag = DisposeBag()
@@ -156,7 +156,7 @@ private extension UserViewController {
             let alert: UIAlertController
             switch error {
             case .failedLoad(let text):
-                alert = getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(text), actionTitle: R.string.localizable.alert_ok_action())
+                alert = self.getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(text), actionTitle: R.string.localizable.alert_ok_action())
             }
             self.present(alert, animated: true, completion: nil)
         })
