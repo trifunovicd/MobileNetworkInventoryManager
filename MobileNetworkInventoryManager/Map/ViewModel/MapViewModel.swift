@@ -177,7 +177,8 @@ public extension MapViewModel {
             for site in sites {
                 for siteStatus in sitesStatus {
                     if site.site_id == siteStatus.site_id {
-                        output.addMarker.onNext((site, siteStatus.has_active_task))
+                        let hasActiveTask = siteStatus.has_active_task == 1 ? true : false
+                        output.addMarker.onNext((site, hasActiveTask))
                     }
                 }
             }

@@ -106,11 +106,11 @@ private extension MapViewController {
     func addMarker(data: Any) {
         let location = MyPointAnnotation()
         
-        if let site = data as? (Site, Int) {
+        if let site = data as? (Site, Bool) {
             location.title = site.0.name
             location.subtitle = site.0.address
             location.siteIdentifier = site.0.site_id
-            location.siteHasActiveTask = site.1 == 1 ? true : false
+            location.siteHasActiveTask = site.1
             location.coordinate = CLLocationCoordinate2D(latitude: site.0.lat, longitude: site.0.lng)
         }
         else if let user = data as? UserPreview {
