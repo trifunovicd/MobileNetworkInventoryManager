@@ -35,6 +35,8 @@ extension UrlMaker {
             url = url + R.string.localizable.get_user_data(userId)
         case .getTaskStatus:
             url = url + R.string.localizable.get_task_status()
+        case .getSiteStatus:
+            url = url + R.string.localizable.get_site_status()
         }
         
         return url

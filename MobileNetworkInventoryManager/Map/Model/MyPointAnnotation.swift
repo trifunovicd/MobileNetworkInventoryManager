@@ -11,6 +11,7 @@ import MapKit
 
 public class MyPointAnnotation : MKPointAnnotation {
     var siteIdentifier: Int?
+    var siteHasActiveTask: Bool?
     var recorded: String?
     var distance: String?
     var showDistance: Bool?

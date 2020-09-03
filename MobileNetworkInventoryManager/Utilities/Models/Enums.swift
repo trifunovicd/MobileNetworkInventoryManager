@@ -33,6 +33,7 @@ public enum Action {
     case getTasksForUser
     case getUserData
     case getTaskStatus
+    case getSiteStatus
 }
 
 public enum Status: Int {

@@ -106,11 +106,12 @@ private extension MapViewController {
     func addMarker(data: Any) {
         let location = MyPointAnnotation()
         
-        if let site = data as? Site {
-            location.title = site.name
-            location.subtitle = site.address
-            location.siteIdentifier = site.site_id
-            location.coordinate = CLLocationCoordinate2D(latitude: site.lat, longitude: site.lng)
+        if let site = data as? (Site, Int) {
+            location.title = site.0.name
+            location.subtitle = site.0.address
+            location.siteIdentifier = site.0.site_id
+            location.siteHasActiveTask = site.1 == 1 ? true : false
+            location.coordinate = CLLocationCoordinate2D(latitude: site.0.lat, longitude: site.0.lng)
         }
         else if let user = data as? UserPreview {
             location.title = user.name + " " + user.surname
@@ -200,7 +201,7 @@ private extension MapViewController {
 
 extension MapViewController: MKMapViewDelegate {
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is MyPointAnnotation else { return nil }
+        guard let locationAnnotation = annotation as? MyPointAnnotation else { return nil }
 
         let identifier = "LocationAnnotation"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
@@ -208,6 +209,9 @@ extension MapViewController: MKMapViewDelegate {
         if annotationView == nil {
             let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             pin.pinTintColor = .systemRed
+            if locationAnnotation.siteHasActiveTask == false {
+                pin.pinTintColor = .systemGreen
+            }
             pin.canShowCallout = true
             annotationView = pin
             

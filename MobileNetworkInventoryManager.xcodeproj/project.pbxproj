@@ -35,6 +35,7 @@
 		B94A1C7F248F0A8F00C68BAF /* MyPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94A1C7E248F0A8F00C68BAF /* MyPointAnnotation.swift */; };
 		B965F66A247D5F9E00E2E4A2 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = B965F669247D5F9E00E2E4A2 /* Login.swift */; };
 		B969EF9E248D21F900AE0BDB /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B969EF9D248D21F900AE0BDB /* LocationService.swift */; };
+		B972449B250120620070272D /* SiteStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972449A250120620070272D /* SiteStatus.swift */; };
 		B981E87F24F5A5FB00FF587B /* HeaderTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B981E87E24F5A5FB00FF587B /* HeaderTitleView.swift */; };
 		B981E88124F5A79200FF587B /* UITableViewHeaderFooterView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B981E88024F5A79200FF587B /* UITableViewHeaderFooterView+Extension.swift */; };
 		B98D18BD2475952B0053ABF5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98D18BC2475952B0053ABF5 /* AppDelegate.swift */; };
@@ -152,6 +153,7 @@
 		B94A1C7E248F0A8F00C68BAF /* MyPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPointAnnotation.swift; sourceTree = "<group>"; };
 		B965F669247D5F9E00E2E4A2 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		B969EF9D248D21F900AE0BDB /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		B972449A250120620070272D /* SiteStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteStatus.swift; sourceTree = "<group>"; };
 		B981E87E24F5A5FB00FF587B /* HeaderTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTitleView.swift; sourceTree = "<group>"; };
 		B981E88024F5A79200FF587B /* UITableViewHeaderFooterView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewHeaderFooterView+Extension.swift"; sourceTree = "<group>"; };
 		B98D18B92475952B0053ABF5 /* MobileNetworkInventoryManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileNetworkInventoryManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -360,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				B94A1C7E248F0A8F00C68BAF /* MyPointAnnotation.swift */,
+				B972449A250120620070272D /* SiteStatus.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1129,6 +1132,7 @@
 				B907F2AD2485336A0063754C /* SortViewModel.swift in Sources */,
 				B91D27CA24EB0F590083F332 /* NSObject+Extension.swift in Sources */,
 				B91D27E024EB1CBF0083F332 /* UserRepository.swift in Sources */,
+				B972449B250120620070272D /* SiteStatus.swift in Sources */,
 				B9F293E4247EED5D00ABF197 /* Site.swift in Sources */,
 				B998C5E224E4752A007BB5F8 /* DataWrapper.swift in Sources */,
 				B9F293E7247EF52100ABF197 /* SitePreview.swift in Sources */,

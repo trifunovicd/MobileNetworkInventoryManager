@@ -14,8 +14,14 @@ public class SiteRepositoryImpl: SiteRepository, UrlMaker {
         let observable: Observable<[Site]> = RestManager.getRequest(url: makeUrl(action: .getAllSites, userId: nil))
         return observable.mapToDataWrapperAndHandleError()
     }
+    
+    public func getSitesStatus() -> Observable<DataWrapper<[SiteStatus]>> {
+        let observable: Observable<[SiteStatus]> = RestManager.getRequest(url: makeUrl(action: .getSiteStatus, userId: nil))
+        return observable.mapToDataWrapperAndHandleError()
+    }
 }
 
 public protocol SiteRepository {
     func getSites() -> Observable<DataWrapper<[Site]>>
+    func getSitesStatus() -> Observable<DataWrapper<[SiteStatus]>>
 }

@@ -52,6 +52,7 @@ public class MapViewModel: ViewModelType, TransformData {
     
     var loggedUser: User!
     var sites: [Site] = []
+    var sitesStatus: [SiteStatus] = []
     var usersPreviews: [UserPreview] = []
     var shouldFollowUser: Bool = false
     var segmentedIndex: Int = 0
@@ -78,8 +79,8 @@ public class MapViewModel: ViewModelType, TransformData {
 
 private extension MapViewModel {
     func initializeLoadDataObservable(for subject: ReplaySubject<()>) -> Disposable {
-        return subject.flatMap {[unowned self] (_) -> Observable<DataWrapper<([Site], [UserPreview], User)>> in
-            return self.combineObservables(sitesObservable: self.dependecies.siteRepository.getSites(), usersObservable: self.dependecies.userRepository.getAllUsers())
+        return subject.flatMap {[unowned self] (_) -> Observable<DataWrapper<([Site], [SiteStatus], [UserPreview], User)>> in
+            return self.combineObservables(sitesObservable: self.dependecies.siteRepository.getSites(), sitesStatusObservable: self.dependecies.siteRepository.getSitesStatus(), usersObservable: self.dependecies.userRepository.getAllUsers())
         }
         .observeOn(MainScheduler.instance)
         .subscribeOn(dependecies.subscribeScheduler)
@@ -89,19 +90,20 @@ private extension MapViewModel {
                 return
             }
             self.sites = safeData.0
-            self.usersPreviews = safeData.1
-            self.loggedUser = safeData.2
+            self.sitesStatus = safeData.1
+            self.usersPreviews = safeData.2
+            self.loggedUser = safeData.3
             self.handleSegmentedOptionChange(index: self.segmentedIndex)
         })
     }
     
-    func combineObservables(sitesObservable: Observable<DataWrapper<[Site]>>, usersObservable: Observable<DataWrapper<[User]>>) -> Observable<DataWrapper<([Site], [UserPreview], User)>> {
+    func combineObservables(sitesObservable: Observable<DataWrapper<[Site]>>, sitesStatusObservable: Observable<DataWrapper<[SiteStatus]>>, usersObservable: Observable<DataWrapper<[User]>>) -> Observable<DataWrapper<([Site], [SiteStatus], [UserPreview], User)>> {
             
-        return Observable<DataWrapper<([Site], [UserPreview], User)>>.combineLatest(sitesObservable, usersObservable, resultSelector: { sitesWrapper, usersWrapper in
+        return Observable<DataWrapper<([Site], [SiteStatus], [UserPreview], User)>>.combineLatest(sitesObservable, sitesStatusObservable, usersObservable, resultSelector: { sitesWrapper, sitesStatusWrapper, usersWrapper in
             var currentUser: User!
             var uPreviews: [UserPreview] = []
             
-            if let sites = sitesWrapper.data, let users = usersWrapper.data {
+            if let sites = sitesWrapper.data, let sitesStatus = sitesStatusWrapper.data, let users = usersWrapper.data {
                 for user in users {
                     if user.user_id == self.dependecies.userId {
                         currentUser = user
@@ -111,11 +113,12 @@ private extension MapViewModel {
                         uPreviews.append(userPreview)
                     }
                 }
-                return DataWrapper(data: (sites, uPreviews, currentUser), error: nil)
+                return DataWrapper(data: (sites, sitesStatus, uPreviews, currentUser), error: nil)
             }
             guard let sitesNetError = sitesWrapper.error as? NetworkError,
+                let sitesStatusNetError = sitesStatusWrapper.error as? NetworkError,
                 let usersNetError = usersWrapper.error as? NetworkError,
-                sitesNetError == .notConnectedToInternet || usersNetError == .notConnectedToInternet else {
+                sitesNetError == .notConnectedToInternet || sitesStatusNetError == .notConnectedToInternet || usersNetError == .notConnectedToInternet else {
                     return DataWrapper(data: nil, error: NetworkError.noDataAvailable)
             }
             return DataWrapper(data: nil, error: NetworkError.notConnectedToInternet)
@@ -172,7 +175,11 @@ public extension MapViewModel {
         switch mapType {
         case .sites:
             for site in sites {
-                output.addMarker.onNext(site)
+                for siteStatus in sitesStatus {
+                    if site.site_id == siteStatus.site_id {
+                        output.addMarker.onNext((site, siteStatus.has_active_task))
+                    }
+                }
             }
         case .users:
             for user in usersPreviews {

@@ -321,7 +321,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 73 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 74 localization keys.
     struct localizable {
       /// en translation: %s km
       ///
@@ -343,6 +343,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, hr
       static let get_all_users = Rswift.StringResource(key: "get_all_users", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
+      /// en translation: ?action=get_site_status
+      ///
+      /// Locales: en, hr
+      static let get_site_status = Rswift.StringResource(key: "get_site_status", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
       /// en translation: ?action=get_task_status
       ///
       /// Locales: en, hr
@@ -695,6 +699,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("get_all_users", bundle: bundle, comment: "")
+      }
+
+      /// en translation: ?action=get_site_status
+      ///
+      /// Locales: en, hr
+      static func get_site_status(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("get_site_status", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "get_site_status"
+        }
+
+        return NSLocalizedString("get_site_status", bundle: bundle, comment: "")
       }
 
       /// en translation: ?action=get_task_status

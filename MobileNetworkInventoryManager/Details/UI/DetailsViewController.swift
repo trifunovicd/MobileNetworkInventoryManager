@@ -173,7 +173,7 @@ private extension DetailsViewController {
         
         completedButton.snp.makeConstraints { (maker) in
             maker.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(15)
-            maker.height.equalTo(40)
+            maker.height.equalTo(45)
         }
     }
 }
