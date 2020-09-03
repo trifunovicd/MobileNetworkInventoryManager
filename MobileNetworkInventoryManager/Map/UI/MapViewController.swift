@@ -206,8 +206,10 @@ extension MapViewController: MKMapViewDelegate {
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
 
         if annotationView == nil {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.canShowCallout = true
+            let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            pin.pinTintColor = .systemRed
+            pin.canShowCallout = true
+            annotationView = pin
             
             let button = UIButton(type: UIButton.ButtonType.detailDisclosure)
             annotationView?.rightCalloutAccessoryView = button

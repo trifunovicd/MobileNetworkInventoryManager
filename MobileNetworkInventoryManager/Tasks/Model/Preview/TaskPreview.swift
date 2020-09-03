@@ -14,6 +14,7 @@ public struct TaskPreview {
     let siteMark: String
     let siteName: String
     let taskOpeningTime: Date?
+    let taskClosingTime: Date?
     let distance: Double
     let taskStatus: Int
 }

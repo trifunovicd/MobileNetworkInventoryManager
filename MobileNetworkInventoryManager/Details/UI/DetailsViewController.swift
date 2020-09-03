@@ -84,8 +84,17 @@ public class DetailsViewController: UIViewController, TransformData {
         view.backgroundColor = .white
         view.separatorStyle = .none
         view.bounces = false
-        view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
         return view
+    }()
+    
+    private let completedButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(R.string.localizable.completed(), for: .normal)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 10
+        button.isUserInteractionEnabled = true
+        button.addTarget(self, action: #selector(completed), for: .touchUpInside)
+        return button
     }()
     
     public init(viewModel: DetailsViewModel) {
@@ -119,12 +128,21 @@ private extension DetailsViewController {
      
     func setupLayout() {
         view.backgroundColor = .white
-         
+        
         userLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 255), size: CGSize(width: 35, height: 35))
         siteLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 215), size: CGSize(width: 35, height: 35))
         mapView.addSubviews(userLocationButton, siteLocationButton)
+        
+        switch viewModel.dependecies.screenType {
+        case .site:
+            completedButton.isHidden = true
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+        case .task:
+            completedButton.isHidden = false
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
+        }
 
-        view.addSubviews(mapView, closeButton, distanceView, distanceLabel, tableView)
+        view.addSubviews(mapView, closeButton, distanceView, distanceLabel, tableView, completedButton)
         setConstraints()
     }
      
@@ -151,6 +169,11 @@ private extension DetailsViewController {
         tableView.snp.makeConstraints { (maker) in
             maker.top.equalTo(mapView.snp.bottom)
             maker.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        completedButton.snp.makeConstraints { (maker) in
+            maker.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(15)
+            maker.height.equalTo(40)
         }
     }
 }
@@ -221,6 +244,10 @@ private extension DetailsViewController {
 }
 
 private extension DetailsViewController {
+    @objc func completed() {
+        print("completed")
+    }
+    
     @objc func closeModal() {
         viewModel.output.closeModal.onNext(())
     }

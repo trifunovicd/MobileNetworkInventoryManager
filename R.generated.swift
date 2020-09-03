@@ -105,6 +105,34 @@ struct R: Rswift.Validatable {
   }
   #endif
 
+  /// This `R.color` struct is generated, and contains static references to 2 colors.
+  struct color {
+    /// Color `task_green`.
+    static let task_green = Rswift.ColorResource(bundle: R.hostingBundle, name: "task_green")
+    /// Color `task_red`.
+    static let task_red = Rswift.ColorResource(bundle: R.hostingBundle, name: "task_red")
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "task_green", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func task_green(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.task_green, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "task_red", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func task_red(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.task_red, compatibleWith: traitCollection)
+    }
+    #endif
+
+    fileprivate init() {}
+  }
+
   /// This `R.image` struct is generated, and contains static references to 20 images.
   struct image {
     /// Image `avatar`.
@@ -293,7 +321,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 72 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 73 localization keys.
     struct localizable {
       /// en translation: %s km
       ///
@@ -335,6 +363,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, hr
       static let site_address = Rswift.StringResource(key: "site_address", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
+      /// en translation: All
+      ///
+      /// Locales: en, hr
+      static let all_tasks = Rswift.StringResource(key: "all_tasks", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
       /// en translation: An error occurred while fetching data. %s
       ///
       /// Locales: en, hr
@@ -742,6 +774,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("site_address", bundle: bundle, comment: "")
+      }
+
+      /// en translation: All
+      ///
+      /// Locales: en, hr
+      static func all_tasks(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("all_tasks", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "all_tasks"
+        }
+
+        return NSLocalizedString("all_tasks", bundle: bundle, comment: "")
       }
 
       /// en translation: An error occurred while fetching data. %s

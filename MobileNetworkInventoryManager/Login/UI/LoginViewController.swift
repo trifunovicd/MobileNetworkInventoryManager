@@ -89,28 +89,28 @@ private extension LoginViewController {
     }
     
     func setConstraints() {
-        avatarImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(100)
-            make.centerX.equalToSuperview()
-            make.height.width.equalTo(150)
+        avatarImageView.snp.makeConstraints { (maker) in
+            maker.top.equalTo(view.safeAreaLayoutGuide).offset(100)
+            maker.centerX.equalToSuperview()
+            maker.height.width.equalTo(150)
         }
         
-        usernameTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(avatarImageView.snp.bottom).offset(50)
-            make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 50))
-            make.height.equalTo(40)
+        usernameTextField.snp.makeConstraints { (maker) in
+            maker.top.equalTo(avatarImageView.snp.bottom).offset(50)
+            maker.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 50))
+            maker.height.equalTo(40)
         }
         
-        passwordTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(usernameTextField.snp.bottom).offset(15)
-            make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 50))
-            make.height.equalTo(40)
+        passwordTextField.snp.makeConstraints { (maker) in
+            maker.top.equalTo(usernameTextField.snp.bottom).offset(15)
+            maker.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 50))
+            maker.height.equalTo(40)
         }
         
-        loginButton.snp.makeConstraints { (make) in
-            make.top.equalTo(passwordTextField.snp.bottom).offset(30)
-            make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 50))
-            make.height.equalTo(40)
+        loginButton.snp.makeConstraints { (maker) in
+            maker.top.equalTo(passwordTextField.snp.bottom).offset(30)
+            maker.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 50))
+            maker.height.equalTo(40)
         }
     }
 }

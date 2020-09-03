@@ -36,11 +36,14 @@ public enum Action {
 }
 
 public enum Status: Int {
+    case all = 0
     case completed = 1
     case notCompleted = 2
     
     func getTitle() -> String {
         switch self {
+        case .all:
+            return R.string.localizable.all_tasks()
         case .completed:
             return R.string.localizable.completed()
         case .notCompleted:

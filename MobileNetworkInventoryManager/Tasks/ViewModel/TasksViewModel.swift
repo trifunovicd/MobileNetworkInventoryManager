@@ -51,7 +51,7 @@ public class TasksViewModel: ViewModelType, TransformData {
     var tasks: [Task] = []
     var tasksPreviews: [TaskPreview] = []
     var segmentedTasksPreviews: [TaskPreview] = []
-    var taskStatusList: [TaskStatus] = []
+    var taskStatusList: [TaskStatus] = [TaskStatus(status_id: 0, name: Status.all.getTitle())]
     var filterText: String = ""
     var filterIndex: TasksSelectedScope = .name
     var segmentedIndex: Int = 0
@@ -90,7 +90,7 @@ private extension TasksViewModel {
             }
             self.tasks = safeData.0
             self.tasksPreviews = safeData.1
-            self.taskStatusList = safeData.2
+            self.taskStatusList.append(contentsOf: safeData.2)
             self.output.endRefreshing.onNext(())
             self.output.setupSegmentedControl.onNext(())
         })
@@ -104,7 +104,7 @@ private extension TasksViewModel {
                 
                 if let tasks = tasksWrapper.data, let user = userWrapper.data, let statusList = statusListWrapper.data {
                     for task in tasks {
-                        let taskPreview = TaskPreview(taskId: task.task_id, taskCategoryName: task.task_category_name, siteMark: task.site_mark, siteName: task.site_name, taskOpeningTime: task.task_opening_time.getDateFromString(), distance: self.getDistance(userLocation: (user[0].lat, user[0].lng), siteLocation: (task.site_lat, task.site_lng)), taskStatus: task.task_status)
+                        let taskPreview = TaskPreview(taskId: task.task_id, taskCategoryName: task.task_category_name, siteMark: task.site_mark, siteName: task.site_name, taskOpeningTime: task.task_opening_time.getDateFromString(), taskClosingTime: task.task_closing_time?.getDateFromString(), distance: self.getDistance(userLocation: (user[0].lat, user[0].lng), siteLocation: (task.site_lat, task.site_lng)), taskStatus: task.task_status)
                         
                         previews.append(taskPreview)
                     }
@@ -264,11 +264,10 @@ private extension TasksViewModel {
                 if let opening = taskPreview.taskOpeningTime {
                     openingTime = opening.getStringFromDate()
                 }
-                if let sClosing = task.task_closing_time, let dClosing = sClosing.getDateFromString() {
-                    closingTime = dClosing.getStringFromDate()
+                if let closing = taskPreview.taskClosingTime {
+                    closingTime = closing.getStringFromDate()
                 }
                 let taskDetails = TaskDetails(siteId: task.site_id, siteMark: task.site_mark, siteName: task.site_name, siteAddress: task.site_address, siteTechnology: getTechnology(is2GAvailable: task.is_2G_available, is3GAvailable: task.is_3G_available, is4GAvailable: task.is_4G_available), siteDistance: taskPreview.distance, siteLat: task.site_lat, siteLng: task.site_lng, siteDirections: task.site_directions, sitePowerSupply: task.site_power_supply, taskId: task.task_id, taskDescription: task.task_description, taskCategoryName: task.task_category_name, taskStatusName: task.task_status_name, taskOpeningTime: openingTime, taskClosingTime: closingTime)
-                print(taskDetails)
                 dependecies.taskDetailsDelegate?.openTaskDetails(taskDetails: taskDetails)
                 break
             }
@@ -293,9 +292,13 @@ public extension TasksViewModel {
     }
     
     func handleSegmentedOptionChange(index: Int) {
-        segmentedTasksPreviews = tasksPreviews.filter({ (task) -> Bool in
-            return task.taskStatus == taskStatusList[index].status_id
-        })
+        if index == Status.all.rawValue {
+            segmentedTasksPreviews = tasksPreviews
+        } else {
+            segmentedTasksPreviews = tasksPreviews.filter({ (task) -> Bool in
+                return task.taskStatus == taskStatusList[index].status_id
+            })
+        }
         
         segmentedIndex = index
         getSortSettings()

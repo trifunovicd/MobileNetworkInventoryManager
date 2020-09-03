@@ -45,6 +45,20 @@ public class CardTableViewCell: UITableViewCell {
         return view
     }()
     
+    private let containerView: UIView = {
+        let containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 10
+        containerView.layer.borderWidth = 0.5
+        containerView.layer.borderColor = UIColor.lightGray.cgColor
+        containerView.layer.masksToBounds = false
+        containerView.layer.shadowOpacity = 1
+        containerView.layer.shadowRadius = 2
+        containerView.layer.shadowColor = UIColor.gray.cgColor
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        return containerView
+    }()
+    
     var onCellClicked: (() -> Void)?
 
     public override func awakeFromNib() {
@@ -86,23 +100,13 @@ public class CardTableViewCell: UITableViewCell {
                 infoLabel.text = "-"
             }
             siteMarkLabel.text = task.siteMark
+            containerView.backgroundColor = task.taskClosingTime != nil ? R.color.task_green() : R.color.task_red()
         }
     }
 }
 
 private extension CardTableViewCell {
     func setupLayout() {
-        let containerView = UIView()
-        containerView.backgroundColor = .white
-        containerView.layer.cornerRadius = 10
-        containerView.layer.borderWidth = 0.5
-        containerView.layer.borderColor = UIColor.lightGray.cgColor
-        containerView.layer.masksToBounds = false
-        containerView.layer.shadowOpacity = 1
-        containerView.layer.shadowRadius = 2
-        containerView.layer.shadowColor = UIColor.gray.cgColor
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 1)
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellClicked))
         containerView.addGestureRecognizer(tapGesture)
         
@@ -116,10 +120,10 @@ private extension CardTableViewCell {
         contentView.addSubview(containerView)
         contentView.backgroundColor = .white
         
-        setConstraints(containerView: containerView, stackView: stackView)
+        setConstraints(stackView: stackView)
     }
     
-    func setConstraints(containerView: UIView, stackView: UIStackView) {
+    func setConstraints(stackView: UIStackView) {
         containerView.snp.makeConstraints { (maker) in
             maker.top.leading.trailing.bottom.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 8, bottom: 4, right: 8))
         }
