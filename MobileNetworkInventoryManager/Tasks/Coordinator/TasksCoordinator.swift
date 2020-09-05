@@ -34,14 +34,14 @@ class TasksCoordinator: NSObject, Coordinator {
 
 extension TasksCoordinator {
     func createController(userId: Int) -> TasksViewController {
-        let viewModel = TasksViewModel(dependecies: TasksViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), coordinatorDelegate: self, taskDetailsDelegate: self, userRepository: UserRepositoryImpl(), taskRepository: TaskRepositoryImpl(), userId: userId))
+        let viewModel = TasksViewModel(dependecies: TasksViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), coordinatorDelegate: self, taskDetailsDelegate: self, modalDelegate: self, userRepository: UserRepositoryImpl(), taskRepository: TaskRepositoryImpl(), userId: userId))
         return TasksViewController(viewModel: viewModel)
     }
 }
 
 extension TasksCoordinator: TaskDetailsDelegate {
     func openTaskDetails(taskDetails: TaskDetails) {
-        let viewModel = DetailsViewModel(dependecies: DetailsViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), details: taskDetails, locationService: LocationService.instance, screenType: .task))
+        let viewModel = DetailsViewModel(dependecies: DetailsViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), tasksCoordinatorDelegate: self, taskRepository: TaskRepositoryImpl(), details: taskDetails, locationService: LocationService.instance, screenType: .task))
         let taskDetailsViewController = DetailsViewController(viewModel: viewModel)
         presenter.present(taskDetailsViewController, animated: true, completion: nil)
     }
@@ -52,5 +52,15 @@ extension TasksCoordinator: CoordinatorDelegate {
         childCoordinators.removeAll()
         controller.removeFromParent()
         parentCoordinator?.childDidFinish(child: self)
+    }
+}
+
+extension TasksCoordinator: ModalDelegate {
+    func getTasks() {
+        controller.viewModel.input.loadDataSubject.onNext(())
+    }
+    
+    func dismissModal() {
+        presenter.dismiss(animated: true, completion: nil)
     }
 }

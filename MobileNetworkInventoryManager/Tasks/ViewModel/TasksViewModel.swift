@@ -35,6 +35,7 @@ public class TasksViewModel: ViewModelType, TransformData {
         let subscribeScheduler: SchedulerType
         weak var coordinatorDelegate: CoordinatorDelegate?
         weak var taskDetailsDelegate: TaskDetailsDelegate?
+        weak var modalDelegate: ModalDelegate?
         let userRepository: UserRepository
         let taskRepository: TaskRepository
         var userId: Int!
@@ -51,7 +52,7 @@ public class TasksViewModel: ViewModelType, TransformData {
     var tasks: [Task] = []
     var tasksPreviews: [TaskPreview] = []
     var segmentedTasksPreviews: [TaskPreview] = []
-    var taskStatusList: [TaskStatus] = [TaskStatus(status_id: 0, name: Status.all.getTitle())]
+    var taskStatusList: [TaskStatus] = []
     var filterText: String = ""
     var filterIndex: TasksSelectedScope = .name
     var segmentedIndex: Int = 0
@@ -73,6 +74,11 @@ public class TasksViewModel: ViewModelType, TransformData {
         output.sortView = SortView(viewModel: sortViewModel)
     }
     
+    func getTaskStatusList(data: [TaskStatus]) -> [TaskStatus] {
+        var statusList = [TaskStatus(status_id: 0, name: Status.all.getTitle())]
+        statusList.append(contentsOf: data)
+        return statusList
+    }
 }
 
 private extension TasksViewModel {
@@ -85,14 +91,16 @@ private extension TasksViewModel {
         .subscribe(onNext: { [unowned self] (dataWrapper) in
             guard let safeData = dataWrapper.data else {
                 self.output.endRefreshing.onNext(())
+                self.dependecies.modalDelegate?.dismissModal()
                 self.handleError(error: dataWrapper.error)
                 return
             }
             self.tasks = safeData.0
             self.tasksPreviews = safeData.1
-            self.taskStatusList.append(contentsOf: safeData.2)
+            self.taskStatusList = self.getTaskStatusList(data: safeData.2)
             self.output.endRefreshing.onNext(())
             self.output.setupSegmentedControl.onNext(())
+            self.dependecies.modalDelegate?.dismissModal()
         })
     }
     

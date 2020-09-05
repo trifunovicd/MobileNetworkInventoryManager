@@ -321,7 +321,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 74 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 76 localization keys.
     struct localizable {
       /// en translation: %s km
       ///
@@ -375,6 +375,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, hr
       static let error_alert_message = Rswift.StringResource(key: "error_alert_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
+      /// en translation: An error occurred while updating data.
+      ///
+      /// Locales: en, hr
+      static let post_error_alert_message = Rswift.StringResource(key: "post_error_alert_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
       /// en translation: Ascending
       ///
       /// Locales: en, hr
@@ -599,6 +603,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, hr
       static let users = Rswift.StringResource(key: "users", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
+      /// en translation: action_id=update_task_status&task_id=%d&recorded=%s
+      ///
+      /// Locales: en, hr
+      static let update_task_status = Rswift.StringResource(key: "update_task_status", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
       /// en translation: action_id=update_user_location&user_id=%d&lat=%f&lng=%f&recorded=%s
       ///
       /// Locales: en, hr
@@ -825,6 +833,21 @@ struct R: Rswift.Validatable {
 
         let format = NSLocalizedString("error_alert_message", bundle: bundle, comment: "")
         return String(format: format, locale: locale, value1)
+      }
+
+      /// en translation: An error occurred while updating data.
+      ///
+      /// Locales: en, hr
+      static func post_error_alert_message(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("post_error_alert_message", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "post_error_alert_message"
+        }
+
+        return NSLocalizedString("post_error_alert_message", bundle: bundle, comment: "")
       }
 
       /// en translation: Ascending
@@ -1667,6 +1690,23 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("users", bundle: bundle, comment: "")
+      }
+
+      /// en translation: action_id=update_task_status&task_id=%d&recorded=%s
+      ///
+      /// Locales: en, hr
+      static func update_task_status(_ value1: Int, _ value2: UnsafePointer<CChar>, preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          let format = NSLocalizedString("update_task_status", bundle: hostingBundle, comment: "")
+          return String(format: format, locale: applicationLocale, value1, value2)
+        }
+
+        guard let (locale, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "update_task_status"
+        }
+
+        let format = NSLocalizedString("update_task_status", bundle: bundle, comment: "")
+        return String(format: format, locale: locale, value1, value2)
       }
 
       /// en translation: action_id=update_user_location&user_id=%d&lat=%f&lng=%f&recorded=%s

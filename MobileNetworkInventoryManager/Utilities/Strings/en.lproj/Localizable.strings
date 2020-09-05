@@ -13,7 +13,7 @@
 "get_task_status" = "?action=get_task_status";
 "get_site_status" = "?action=get_site_status";
 "update_user_location" = "action_id=update_user_location&user_id=%d&lat=%f&lng=%f&recorded=%s";
-
+"update_task_status" = "action_id=update_task_status&task_id=%d&recorded=%s";
 
 "sites" = "Sites";
 "tasks" = "Tasks";
@@ -27,6 +27,7 @@
 "search_sites_placeholder" = "Search sites";
 "error_alert_title" = "Error";
 "error_alert_message" = "An error occurred while fetching data. %s";
+"post_error_alert_message" = "An error occurred while updating data.";
 "no_data_available" = "No data available.";
 "cannot_process_data" = "Cannot process data.";
 "no_internet_connection" = "No internet connection.";

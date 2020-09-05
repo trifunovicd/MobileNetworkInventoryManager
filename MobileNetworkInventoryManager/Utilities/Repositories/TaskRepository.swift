@@ -19,9 +19,16 @@ public class TaskRepositoryImpl: TaskRepository, UrlMaker {
         let observable: Observable<[TaskStatus]> = RestManager.getRequest(url: makeUrl(action: .getTaskStatus, userId: nil))
         return observable.mapToDataWrapperAndHandleError()
     }
+    
+    public func setTaskStatus(taskId: Int) -> Observable<Int> {
+        let postString = R.string.localizable.update_task_status(taskId, Date().getMSSQLVariant())
+        let observable: Observable<Int> = RestManager.postRequest(url: Urls.baseUrlPost.rawValue, postString: postString)
+        return observable
+    }
 }
 
 public protocol TaskRepository {
     func getTasks(userId: Int) -> Observable<DataWrapper<[Task]>>
     func getTaskStatuses() -> Observable<DataWrapper<[TaskStatus]>>
+    func setTaskStatus(taskId: Int) -> Observable<Int>
 }

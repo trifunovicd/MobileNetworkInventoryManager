@@ -10,9 +10,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TasksViewController: UIViewController, AlertView {
+public class TasksViewController: UIViewController, AlertView {
 
-    private let viewModel: TasksViewModel
+    public let viewModel: TasksViewModel
     private let disposeBag: DisposeBag = DisposeBag()
     
     private let myRefreshControl: UIRefreshControl = {
@@ -68,7 +68,7 @@ class TasksViewController: UIViewController, AlertView {
         printDeinit()
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         initializeVM()
@@ -276,11 +276,11 @@ private extension TasksViewController {
 }
 
 extension TasksViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.output.filteredTasksPreviews.value.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CardTableViewCell.identifier, for: indexPath) as? CardTableViewCell else{
             fatalError(R.string.localizable.cell_error(CardTableViewCell.identifier))
         }
@@ -298,20 +298,20 @@ extension TasksViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension TasksViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         viewModel.output.filterAction.onNext(false)
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         viewModel.output.filterAction.onNext(false)
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard let index = TasksSelectedScope(rawValue: searchBar.selectedScopeButtonIndex) else { return }
         viewModel.handleTextChange(searchText: searchText, index: index)
     }
     
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+    public func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         guard let searchText = searchBar.text, let index = TasksSelectedScope(rawValue: selectedScope) else { return }
         viewModel.handleTextChange(searchText: searchText, index: index)
     }

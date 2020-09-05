@@ -93,7 +93,9 @@ public class LocationService: NSObject, AlertView, TopViewController {
     private func makeRequest() {
         guard let location = self.latestLocation else { return }
         let postString = R.string.localizable.update_user_location(self.userId, location.latitude, location.longitude, Date().getMSSQLVariant())
-        RestManager.postRequest(url: Urls.baseUrlPost.rawValue, postString: postString)
+        _ = RestManager.postRequest(url: Urls.baseUrlPost.rawValue, postString: postString).subscribe(onNext: { (result) in
+            print(result)
+        })
     }
 }
 

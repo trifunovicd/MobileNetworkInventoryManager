@@ -41,7 +41,7 @@ extension SitesCoordinator {
 
 extension SitesCoordinator: SiteDetailsDelegate {
     public func openSiteDetails(siteDetails: SiteDetails) {
-        let viewModel = DetailsViewModel(dependecies: DetailsViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), details: siteDetails, locationService: LocationService.instance, screenType: .site))
+        let viewModel = DetailsViewModel(dependecies: DetailsViewModel.Dependecies(subscribeScheduler: ConcurrentDispatchQueueScheduler(qos: .background), taskRepository: TaskRepositoryImpl(), details: siteDetails, locationService: LocationService.instance, screenType: .site))
         let siteDetailsViewController = DetailsViewController(viewModel: viewModel)
         presenter.present(siteDetailsViewController, animated: true, completion: nil)
     }

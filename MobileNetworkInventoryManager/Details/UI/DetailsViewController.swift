@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import MapKit
 
-public class DetailsViewController: UIViewController, TransformData {
+public class DetailsViewController: UIViewController, TransformData, AlertView {
 
     private let viewModel: DetailsViewModel
     private let disposeBag: DisposeBag = DisposeBag()
@@ -112,8 +112,8 @@ public class DetailsViewController: UIViewController, TransformData {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
         initializeVM()
+        setup()
         viewModel.input.loadDataSubject.onNext(())
     }
 }
@@ -133,13 +133,19 @@ private extension DetailsViewController {
         siteLocationButton.frame = CGRect(origin: CGPoint(x: view.frame.width - 40, y: 215), size: CGSize(width: 35, height: 35))
         mapView.addSubviews(userLocationButton, siteLocationButton)
         
-        switch viewModel.dependecies.screenType {
-        case .site:
+        if let taskDetails = viewModel.dependecies.details as? TaskDetails {
+            viewModel.output.taskId = taskDetails.taskId
+            let closingTime = taskDetails.taskClosingTime
+            if closingTime.isEmpty {
+                completedButton.isHidden = false
+                tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
+            } else {
+                completedButton.isHidden = true
+                tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+            }
+        } else {
             completedButton.isHidden = true
             tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
-        case .task:
-            completedButton.isHidden = false
-            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
         }
 
         view.addSubviews(mapView, closeButton, distanceView, distanceLabel, tableView, completedButton)
@@ -180,7 +186,7 @@ private extension DetailsViewController {
 
 private extension DetailsViewController {
     func initializeVM() {
-        let input = DetailsViewModel.Input(loadDataSubject: ReplaySubject.create(bufferSize: 1))
+        let input = DetailsViewModel.Input(loadDataSubject: ReplaySubject.create(bufferSize: 1), completeTaskSubject: PublishSubject())
         let output = viewModel.transform(input: input)
         disposeBag.insert(output.disposables)
         subscribeToScreenData()
@@ -188,6 +194,18 @@ private extension DetailsViewController {
         initializeAddSiteMarkerObserver(for: output.addSiteMarker)
         initializeCenterMapViewObserver(for: output.centerMapView)
         initializeUpdateDistanceObserver(for: output.updateDistance)
+        initializeErrorObserver(for: output.alertOfError)
+    }
+    
+    func initializeErrorObserver(for subject: PublishSubject<()>) {
+        subject
+        .observeOn(MainScheduler.instance)
+        .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+        .subscribe(onNext: { [unowned self] in
+            let alert = self.getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.post_error_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
+            self.present(alert, animated: true, completion: nil)
+        })
+        .disposed(by: disposeBag)
     }
 
     func subscribeToScreenData() {
@@ -245,7 +263,7 @@ private extension DetailsViewController {
 
 private extension DetailsViewController {
     @objc func completed() {
-        print("completed")
+        viewModel.input.completeTaskSubject.onNext(viewModel.output.taskId)
     }
     
     @objc func closeModal() {

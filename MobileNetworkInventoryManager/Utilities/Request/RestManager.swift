@@ -63,18 +63,25 @@ public class RestManager {
 }
 
 extension RestManager {
-    static func postRequest(url: String, postString: String) {
-        guard let url = URL(string: url) else { return }
+    static func postRequest(url: String, postString: String) -> Observable<Int> {
+        guard let url = URL(string: url) else { return Observable.error(NetworkError.noDataAvailable)}
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = postString.data(using: .utf8)
-
-        AF.request(request).validate().responseData { response in
-            switch response.result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
+        
+        return Observable.create { observer in
+            let request = AF.request(request).validate().responseData { response in
+                switch response.result {
+                case .success(_):
+                    observer.onNext(1)
+                    observer.onCompleted()
+                case .failure(_):
+                    observer.onNext(0)
+                    observer.onCompleted()
+                }
+            }
+            return Disposables.create{
+                request.cancel()
             }
         }
     }

@@ -15,11 +15,14 @@ public class DetailsViewModel: ViewModelType {
     
     public struct Input {
         let loadDataSubject: ReplaySubject<()>
+        let completeTaskSubject: PublishSubject<Int>
     }
     
     public struct Output {
         var disposables: [Disposable]
         var shouldFollowUser: Bool = false
+        var taskId: Int = -1
+        let alertOfError: PublishSubject<()>
         let closeModal: PublishSubject<()>
         let addSiteMarker: PublishSubject<()>
         let centerMapView: PublishSubject<CLLocationCoordinate2D>
@@ -29,6 +32,8 @@ public class DetailsViewModel: ViewModelType {
     
     public struct Dependecies {
         let subscribeScheduler: SchedulerType
+        weak var tasksCoordinatorDelegate: ModalDelegate?
+        let taskRepository: TaskRepository
         var details: Details!
         let locationService: LocationService
         let screenType: DetailsScreenType
@@ -50,8 +55,8 @@ public class DetailsViewModel: ViewModelType {
     public func transform(input: Input) -> Output {
         var disposables = [Disposable]()
         disposables.append(initializeLoadDataObservable(for: input.loadDataSubject))
-        
-        let output = Output(disposables: disposables, closeModal: PublishSubject(), addSiteMarker: PublishSubject(), centerMapView: PublishSubject(), updateDistance: PublishSubject(), screenData: BehaviorRelay.init(value: []))
+        disposables.append(initializeCompleteTaskObservable(for: input.completeTaskSubject))
+        let output = Output(disposables: disposables, alertOfError: PublishSubject(), closeModal: PublishSubject(), addSiteMarker: PublishSubject(), centerMapView: PublishSubject(), updateDistance: PublishSubject(), screenData: BehaviorRelay.init(value: []))
         
         self.input = input
         self.output = output
@@ -127,5 +132,22 @@ private extension DetailsViewModel {
         return [
             SectionItem<DetailsSectionType, DetailsItemType, ItemDetails>(type: .task, items: taskRows, headerTitle: R.string.localizable.task_details()),
             SectionItem<DetailsSectionType, DetailsItemType, ItemDetails>(type: .site, items: siteRows, headerTitle: R.string.localizable.site_details())]
+    }
+}
+
+private extension DetailsViewModel {
+    func initializeCompleteTaskObservable(for subject: PublishSubject<Int>) -> Disposable {
+        return subject.flatMap {[unowned self] (taskId) -> Observable<Int> in
+            return self.dependecies.taskRepository.setTaskStatus(taskId: taskId)
+        }
+        .observeOn(MainScheduler.instance)
+        .subscribeOn(dependecies.subscribeScheduler)
+        .subscribe(onNext: { [unowned self] (result) in
+            if result == 1 {
+                self.dependecies.tasksCoordinatorDelegate?.getTasks()
+            } else {
+                self.output.alertOfError.onNext(())
+            }
+        })
     }
 }
