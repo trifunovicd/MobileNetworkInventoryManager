@@ -208,10 +208,6 @@ extension MapViewController: MKMapViewDelegate {
 
         if annotationView == nil {
             let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            pin.pinTintColor = .systemRed
-            if locationAnnotation.siteHasActiveTask == false {
-                pin.pinTintColor = .systemGreen
-            }
             pin.canShowCallout = true
             annotationView = pin
             
@@ -220,6 +216,13 @@ extension MapViewController: MKMapViewDelegate {
             
         } else {
             annotationView?.annotation = annotation
+        }
+        
+        let pinAnnotation = annotationView as? MKPinAnnotationView
+        if locationAnnotation.siteHasActiveTask == false {
+            pinAnnotation?.pinTintColor = MKPinAnnotationView.greenPinColor()
+        } else {
+            pinAnnotation?.pinTintColor = MKPinAnnotationView.redPinColor()
         }
         
         return annotationView
