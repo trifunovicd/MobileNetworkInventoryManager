@@ -321,7 +321,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 76 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 80 localization keys.
     struct localizable {
       /// en translation: %s km
       ///
@@ -379,6 +379,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, hr
       static let post_error_alert_message = Rswift.StringResource(key: "post_error_alert_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
+      /// en translation: Are you sure you want to complete this task?
+      ///
+      /// Locales: en, hr
+      static let complete_task_message = Rswift.StringResource(key: "complete_task_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
       /// en translation: Ascending
       ///
       /// Locales: en, hr
@@ -395,6 +399,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, hr
       static let task_closing_time = Rswift.StringResource(key: "task_closing_time", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
+      /// en translation: Complete task
+      ///
+      /// Locales: en, hr
+      static let complete_task_title = Rswift.StringResource(key: "complete_task_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
       /// en translation: Completed
       ///
       /// Locales: en, hr
@@ -495,6 +503,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, hr
       static let user_name = Rswift.StringResource(key: "user_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
+      /// en translation: No
+      ///
+      /// Locales: en, hr
+      static let no_action = Rswift.StringResource(key: "no_action", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
       /// en translation: No data available.
       ///
       /// Locales: en, hr
@@ -603,6 +615,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, hr
       static let users = Rswift.StringResource(key: "users", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
+      /// en translation: Yes
+      ///
+      /// Locales: en, hr
+      static let yes_action = Rswift.StringResource(key: "yes_action", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "hr"], comment: nil)
       /// en translation: action_id=update_task_status&task_id=%d&recorded=%s
       ///
       /// Locales: en, hr
@@ -850,6 +866,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("post_error_alert_message", bundle: bundle, comment: "")
       }
 
+      /// en translation: Are you sure you want to complete this task?
+      ///
+      /// Locales: en, hr
+      static func complete_task_message(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("complete_task_message", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "complete_task_message"
+        }
+
+        return NSLocalizedString("complete_task_message", bundle: bundle, comment: "")
+      }
+
       /// en translation: Ascending
       ///
       /// Locales: en, hr
@@ -908,6 +939,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("task_closing_time", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Complete task
+      ///
+      /// Locales: en, hr
+      static func complete_task_title(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("complete_task_title", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "complete_task_title"
+        }
+
+        return NSLocalizedString("complete_task_title", bundle: bundle, comment: "")
       }
 
       /// en translation: Completed
@@ -1283,6 +1329,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("user_name", bundle: bundle, comment: "")
+      }
+
+      /// en translation: No
+      ///
+      /// Locales: en, hr
+      static func no_action(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("no_action", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "no_action"
+        }
+
+        return NSLocalizedString("no_action", bundle: bundle, comment: "")
       }
 
       /// en translation: No data available.
@@ -1690,6 +1751,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("users", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Yes
+      ///
+      /// Locales: en, hr
+      static func yes_action(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("yes_action", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "yes_action"
+        }
+
+        return NSLocalizedString("yes_action", bundle: bundle, comment: "")
       }
 
       /// en translation: action_id=update_task_status&task_id=%d&recorded=%s

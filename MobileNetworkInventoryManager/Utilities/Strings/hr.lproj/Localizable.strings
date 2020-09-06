@@ -42,6 +42,10 @@
 "location_restricted_alert_title" = "Lokacija je ograničena";
 "location_restricted_alert_message" = "Aplikacija nije ovlaštena za upotrebu lokacijskih usluga.";
 "alert_ok_action" = "U redu";
+"complete_task_title" = "Završi zadatak";
+"complete_task_message" = "Jeste li sigurni da želite završiti ovaj zadatak?";
+"yes_action" = "Da";
+"no_action" = "Ne";
 "cell_error" = "The dequeued cell is not an instance of %s.";
 "notification_name" = "LocationsUpdated";
 "notification_info" = "locations";

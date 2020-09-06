@@ -42,6 +42,10 @@
 "location_restricted_alert_title" = "Location is restricted";
 "location_restricted_alert_message" = "The app is not authorized to use location services.";
 "alert_ok_action" = "OK";
+"complete_task_title" = "Complete task";
+"complete_task_message" = "Are you sure you want to complete this task?";
+"yes_action" = "Yes";
+"no_action" = "No";
 "cell_error" = "The dequeued cell is not an instance of %s.";
 "notification_name" = "LocationsUpdated";
 "notification_info" = "locations";

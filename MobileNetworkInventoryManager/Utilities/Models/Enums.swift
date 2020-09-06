@@ -36,6 +36,11 @@ public enum Action {
     case getSiteStatus
 }
 
+public enum AlertType {
+    case error
+    case action
+}
+
 public enum Status: Int {
     case all = 0
     case completed = 1

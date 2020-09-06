@@ -22,7 +22,7 @@ public class DetailsViewModel: ViewModelType {
         var disposables: [Disposable]
         var shouldFollowUser: Bool = false
         var taskId: Int = -1
-        let alertOfError: PublishSubject<()>
+        let alertSubject: PublishSubject<AlertType>
         let closeModal: PublishSubject<()>
         let addSiteMarker: PublishSubject<()>
         let centerMapView: PublishSubject<CLLocationCoordinate2D>
@@ -56,7 +56,7 @@ public class DetailsViewModel: ViewModelType {
         var disposables = [Disposable]()
         disposables.append(initializeLoadDataObservable(for: input.loadDataSubject))
         disposables.append(initializeCompleteTaskObservable(for: input.completeTaskSubject))
-        let output = Output(disposables: disposables, alertOfError: PublishSubject(), closeModal: PublishSubject(), addSiteMarker: PublishSubject(), centerMapView: PublishSubject(), updateDistance: PublishSubject(), screenData: BehaviorRelay.init(value: []))
+        let output = Output(disposables: disposables, alertSubject: PublishSubject(), closeModal: PublishSubject(), addSiteMarker: PublishSubject(), centerMapView: PublishSubject(), updateDistance: PublishSubject(), screenData: BehaviorRelay.init(value: []))
         
         self.input = input
         self.output = output
@@ -146,7 +146,7 @@ private extension DetailsViewModel {
             if result == 1 {
                 self.dependecies.tasksCoordinatorDelegate?.getTasks()
             } else {
-                self.output.alertOfError.onNext(())
+                self.output.alertSubject.onNext(.error)
             }
         })
     }

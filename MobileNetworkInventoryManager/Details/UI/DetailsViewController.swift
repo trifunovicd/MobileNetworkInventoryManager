@@ -194,16 +194,22 @@ private extension DetailsViewController {
         initializeAddSiteMarkerObserver(for: output.addSiteMarker)
         initializeCenterMapViewObserver(for: output.centerMapView)
         initializeUpdateDistanceObserver(for: output.updateDistance)
-        initializeErrorObserver(for: output.alertOfError)
+        initializeAlertObserver(for: output.alertSubject)
     }
     
-    func initializeErrorObserver(for subject: PublishSubject<()>) {
+    func initializeAlertObserver(for subject: PublishSubject<AlertType>) {
         subject
         .observeOn(MainScheduler.instance)
         .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-        .subscribe(onNext: { [unowned self] in
-            let alert = self.getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.post_error_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
-            self.present(alert, animated: true, completion: nil)
+        .subscribe(onNext: { [unowned self] (type) in
+            switch type {
+            case .error:
+                let alert = self.getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.post_error_alert_message(), actionTitle: R.string.localizable.alert_ok_action())
+                self.present(alert, animated: true, completion: nil)
+            case .action:
+                let alert = self.getActionAlert(title: R.string.localizable.complete_task_title(), message: R.string.localizable.complete_task_message(), actionTitle: R.string.localizable.yes_action(), cancelTitle: R.string.localizable.no_action(), subject: self.viewModel.input.completeTaskSubject, event: self.viewModel.output.taskId)
+                self.present(alert, animated: true, completion: nil)
+            }
         })
         .disposed(by: disposeBag)
     }
@@ -263,7 +269,7 @@ private extension DetailsViewController {
 
 private extension DetailsViewController {
     @objc func completed() {
-        viewModel.input.completeTaskSubject.onNext(viewModel.output.taskId)
+        viewModel.output.alertSubject.onNext(.action)
     }
     
     @objc func closeModal() {
