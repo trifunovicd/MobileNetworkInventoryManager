@@ -395,7 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				B98D18BC2475952B0053ABF5 /* AppDelegate.swift */,
-				B98D18EF2475973C0053ABF5 /* Coordinators */,
+				B98D18EF2475973C0053ABF5 /* Coordinator */,
 				B98D19242475CD560053ABF5 /* Login */,
 				B98D18F42475A2A00053ABF5 /* Sites */,
 				B98D19092475B61F0053ABF5 /* Tasks */,
@@ -453,12 +453,12 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		B98D18EF2475973C0053ABF5 /* Coordinators */ = {
+		B98D18EF2475973C0053ABF5 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
 				B98D18F02475975E0053ABF5 /* AppCoordinator.swift */,
 			);
-			path = Coordinators;
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		B98D18F42475A2A00053ABF5 /* Sites */ = {
