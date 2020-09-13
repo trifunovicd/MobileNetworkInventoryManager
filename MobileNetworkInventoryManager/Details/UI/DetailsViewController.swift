@@ -151,20 +151,20 @@ private extension DetailsViewController {
         view.addSubviews(mapView, closeButton, distanceView, distanceLabel, tableView, completedButton)
         setConstraints()
     }
-     
+    
     func setConstraints() {
         mapView.snp.makeConstraints { (maker) in
-            maker.top.leading.trailing.equalToSuperview()
+            maker.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             maker.height.equalTo(300)
         }
         
         closeButton.snp.makeConstraints { (maker) in
-            maker.top.trailing.equalToSuperview().inset(8)
+            maker.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(8)
             maker.height.width.equalTo(30)
         }
         
         distanceView.snp.makeConstraints { (maker) in
-            maker.top.leading.equalToSuperview().inset(UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 0))
+            maker.top.leading.equalTo(view.safeAreaLayoutGuide).inset(UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 0))
             maker.trailing.equalTo(distanceLabel.snp.trailing).offset(8)
         }
         
