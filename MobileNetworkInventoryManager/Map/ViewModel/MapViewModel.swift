@@ -25,6 +25,7 @@ public class MapViewModel: ViewModelType, TransformData {
         let removeMarkers: PublishSubject<()>
         let centerMapView: PublishSubject<CLLocationCoordinate2D>
         let fitMapView: PublishSubject<()>
+        let spinnerSubject: PublishSubject<Bool>
     }
     
     public struct Dependecies {
@@ -61,7 +62,7 @@ public class MapViewModel: ViewModelType, TransformData {
         var disposables = [Disposable]()
         disposables.append(initializeLoadDataObservable(for: input.loadDataSubject))
         disposables.append(initializeSiteDetailsObservable(for: input.siteDetailsSubject))
-        let output = Output(disposables: disposables, alertOfError: PublishSubject(), addMarker: PublishSubject(), removeMarkers: PublishSubject(), centerMapView: PublishSubject(), fitMapView: PublishSubject())
+        let output = Output(disposables: disposables, alertOfError: PublishSubject(), addMarker: PublishSubject(), removeMarkers: PublishSubject(), centerMapView: PublishSubject(), fitMapView: PublishSubject(), spinnerSubject: PublishSubject())
         
         self.input = input
         self.output = output
@@ -80,11 +81,13 @@ public class MapViewModel: ViewModelType, TransformData {
 private extension MapViewModel {
     func initializeLoadDataObservable(for subject: ReplaySubject<()>) -> Disposable {
         return subject.flatMap {[unowned self] (_) -> Observable<DataWrapper<([Site], [SiteStatus], [UserPreview], User)>> in
+            self.output.spinnerSubject.onNext(true)
             return self.combineObservables(sitesObservable: self.dependecies.siteRepository.getSites(), sitesStatusObservable: self.dependecies.siteRepository.getSitesStatus(), usersObservable: self.dependecies.userRepository.getAllUsers())
         }
         .observeOn(MainScheduler.instance)
         .subscribeOn(dependecies.subscribeScheduler)
         .subscribe(onNext: { [unowned self] (dataWrapper) in
+            self.output.spinnerSubject.onNext(false)
             guard let safeData = dataWrapper.data else {
                 self.handleError(error: dataWrapper.error)
                 return

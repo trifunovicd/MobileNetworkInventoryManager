@@ -23,6 +23,7 @@ public class UserViewModel: ViewModelType {
         let alertOfError: PublishSubject<LoadError>
         let addUserMarker: PublishSubject<()>
         let centerMapView: PublishSubject<CLLocationCoordinate2D>
+        let spinnerSubject: PublishSubject<Bool>
         var screenData: BehaviorRelay<[SectionItem<DetailsSectionType, DetailsItemType, ItemDetails>]>
         var userData: UserPreview!
     }
@@ -54,7 +55,7 @@ public class UserViewModel: ViewModelType {
         var disposables = [Disposable]()
         disposables.append(initializeLoadDataObservable(for: input.loadDataSubject))
         
-        let output = Output(disposables: disposables, alertOfError: PublishSubject(), addUserMarker: PublishSubject(), centerMapView: PublishSubject(), screenData: BehaviorRelay.init(value: []))
+        let output = Output(disposables: disposables, alertOfError: PublishSubject(), addUserMarker: PublishSubject(), centerMapView: PublishSubject(), spinnerSubject: PublishSubject(), screenData: BehaviorRelay.init(value: []))
         
         self.input = input
         self.output = output
@@ -87,6 +88,7 @@ public class UserViewModel: ViewModelType {
 private extension UserViewModel {
     func initializeLoadDataObservable(for subject: ReplaySubject<()>) -> Disposable {
         return subject.flatMap {[unowned self] (_) -> Observable<DataWrapper<[User]>> in
+            self.output.spinnerSubject.onNext(true)
             return self.dependecies.userRepository.getUserData(userId: self.dependecies.userId)
         }
         .flatMap({ (dataWrapper) -> Observable<DataWrapper<UserPreview>> in
@@ -107,6 +109,7 @@ private extension UserViewModel {
         .observeOn(MainScheduler.instance)
         .subscribeOn(dependecies.subscribeScheduler)
         .subscribe(onNext: { [unowned self] (dataWrapper) in
+            self.output.spinnerSubject.onNext(false)
             guard let safeData = dataWrapper.data else {
                 self.handleError(error: dataWrapper.error)
                 return

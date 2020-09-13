@@ -41,6 +41,11 @@ public enum AlertType {
     case action
 }
 
+public enum RefreshType {
+    case automatic
+    case manual
+}
+
 public enum Status: Int {
     case all = 0
     case completed = 1

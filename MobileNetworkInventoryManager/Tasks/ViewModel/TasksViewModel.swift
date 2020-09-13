@@ -15,7 +15,7 @@ import CoreLocation
 public class TasksViewModel: ViewModelType, TransformData {
     
     public struct Input {
-        let loadDataSubject: ReplaySubject<()>
+        let loadDataSubject: ReplaySubject<RefreshType>
         let taskDetailsSubject: PublishSubject<TaskPreview>
     }
     
@@ -29,6 +29,7 @@ public class TasksViewModel: ViewModelType, TransformData {
         let endRefreshing: PublishSubject<()>
         let resignResponder: PublishSubject<()>
         let setupSegmentedControl: PublishSubject<()>
+        let spinnerSubject: PublishSubject<Bool>
     }
     
     public struct Dependecies {
@@ -61,7 +62,7 @@ public class TasksViewModel: ViewModelType, TransformData {
         var disposables = [Disposable]()
         disposables.append(initializeLoadDataObservable(for: input.loadDataSubject))
         disposables.append(initializeTaskDetailsObservable(for: input.taskDetailsSubject))
-        let output = Output(disposables: disposables, alertOfError: PublishSubject(), filteredTasksPreviews: BehaviorRelay.init(value: []), filterAction: PublishSubject(), showNavigationButtons: PublishSubject(), endRefreshing: PublishSubject(), resignResponder: PublishSubject(), setupSegmentedControl: PublishSubject())
+        let output = Output(disposables: disposables, alertOfError: PublishSubject(), filteredTasksPreviews: BehaviorRelay.init(value: []), filterAction: PublishSubject(), showNavigationButtons: PublishSubject(), endRefreshing: PublishSubject(), resignResponder: PublishSubject(), setupSegmentedControl: PublishSubject(), spinnerSubject: PublishSubject())
         
         self.input = input
         self.output = output
@@ -82,13 +83,17 @@ public class TasksViewModel: ViewModelType, TransformData {
 }
 
 private extension TasksViewModel {
-    func initializeLoadDataObservable(for subject: ReplaySubject<()>) -> Disposable {
-        return subject.flatMap {[unowned self] (_) -> Observable<DataWrapper<([Task], [TaskPreview], [TaskStatus])>> in
+    func initializeLoadDataObservable(for subject: ReplaySubject<RefreshType>) -> Disposable {
+        return subject.flatMap {[unowned self] (type) -> Observable<DataWrapper<([Task], [TaskPreview], [TaskStatus])>> in
+            if type == .automatic {
+                self.output.spinnerSubject.onNext(true)
+            }
             return self.combineObservables(tasksObservable: self.dependecies.taskRepository.getTasks(userId: self.dependecies.userId), userObservable: self.dependecies.userRepository.getUserData(userId: self.dependecies.userId), statusObservable: self.dependecies.taskRepository.getTaskStatuses())
         }
         .observeOn(MainScheduler.instance)
         .subscribeOn(dependecies.subscribeScheduler)
         .subscribe(onNext: { [unowned self] (dataWrapper) in
+            self.output.spinnerSubject.onNext(false)
             guard let safeData = dataWrapper.data else {
                 self.output.endRefreshing.onNext(())
                 self.dependecies.modalDelegate?.dismissModal()
@@ -98,8 +103,8 @@ private extension TasksViewModel {
             self.tasks = safeData.0
             self.tasksPreviews = safeData.1
             self.taskStatusList = self.getTaskStatusList(data: safeData.2)
-            self.output.endRefreshing.onNext(())
             self.output.setupSegmentedControl.onNext(())
+            self.output.endRefreshing.onNext(())
             self.dependecies.modalDelegate?.dismissModal()
         })
     }

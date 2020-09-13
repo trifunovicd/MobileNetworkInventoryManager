@@ -141,6 +141,7 @@ private extension MapViewController {
         initializeRemoveMarkersObserver(for: output.removeMarkers)
         initializeCenterMapViewObserver(for: output.centerMapView)
         initializeFitMapViewObserver(for: output.fitMapView)
+        initializeSpinnerObserver(for: output.spinnerSubject)
     }
 
     func initializeErrorObserver(for subject: PublishSubject<LoadError>) {
@@ -195,6 +196,20 @@ private extension MapViewController {
         .subscribe(onNext: { [unowned self] in
             self.mapView.fitMapViewToAnnotaionList()
         })
+        .disposed(by: disposeBag)
+    }
+    
+    func initializeSpinnerObserver(for subject: PublishSubject<Bool>) {
+        subject
+        .asDriver(onErrorJustReturn: false)
+        .do(onNext: { [unowned self] shouldShow in
+            if shouldShow {
+                self.showSpinner(on: self.view)
+            } else {
+                self.removeSpinner()
+            }
+        })
+        .drive()
         .disposed(by: disposeBag)
     }
 }

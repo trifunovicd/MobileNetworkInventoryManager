@@ -195,6 +195,7 @@ private extension DetailsViewController {
         initializeCenterMapViewObserver(for: output.centerMapView)
         initializeUpdateDistanceObserver(for: output.updateDistance)
         initializeAlertObserver(for: output.alertSubject)
+        initializeSpinnerObserver(for: output.spinnerSubject)
     }
     
     func initializeAlertObserver(for subject: PublishSubject<AlertType>) {
@@ -263,6 +264,20 @@ private extension DetailsViewController {
         .subscribe(onNext: { [unowned self] coordinate in
             self.updateDistance(coordinate: coordinate)
         })
+        .disposed(by: disposeBag)
+    }
+    
+    func initializeSpinnerObserver(for subject: PublishSubject<Bool>) {
+        subject
+        .asDriver(onErrorJustReturn: false)
+        .do(onNext: { [unowned self] shouldShow in
+            if shouldShow {
+                self.showSpinner(on: self.view)
+            } else {
+                self.removeSpinner()
+            }
+        })
+        .drive()
         .disposed(by: disposeBag)
     }
 }

@@ -77,7 +77,7 @@ public class TasksViewController: UIViewController, AlertView {
         tableView.dataSource = self
         tableView.refreshControl = myRefreshControl
         viewModel.setupSortView(frame: view.frame)
-        viewModel.input.loadDataSubject.onNext(())
+        viewModel.input.loadDataSubject.onNext(.automatic)
         viewModel.output.showNavigationButtons.onNext(true)
     }
     
@@ -188,6 +188,7 @@ private extension TasksViewController {
         initializeFilterActionObserver(for: output.filterAction)
         initializeNavigationButtonsObserver(for: output.showNavigationButtons)
         initializeResignResponderObserver(for: output.resignResponder)
+        initializeSpinnerObserver(for: output.spinnerSubject)
     }
     
     func initializeErrorObserver(for subject: PublishSubject<LoadError>) {
@@ -209,7 +210,7 @@ private extension TasksViewController {
         myRefreshControl.rx.controlEvent(.valueChanged)
         .asObservable()
         .subscribe(onNext: { [unowned self] in
-            self.viewModel.input.loadDataSubject.onNext(())
+            self.viewModel.input.loadDataSubject.onNext(.manual)
         }).disposed(by: disposeBag)
     }
     
@@ -271,6 +272,20 @@ private extension TasksViewController {
         .subscribe(onNext: { [unowned self] in
             self.searchBar.resignFirstResponder()
         })
+        .disposed(by: disposeBag)
+    }
+    
+    func initializeSpinnerObserver(for subject: PublishSubject<Bool>) {
+        subject
+        .asDriver(onErrorJustReturn: false)
+        .do(onNext: { [unowned self] shouldShow in
+            if shouldShow {
+                self.showSpinner(on: self.view)
+            } else {
+                self.removeSpinner()
+            }
+        })
+        .drive()
         .disposed(by: disposeBag)
     }
 }

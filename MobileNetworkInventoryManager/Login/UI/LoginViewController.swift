@@ -180,9 +180,10 @@ private extension LoginViewController {
         let output = viewModel.transform(input: input)
         disposeBag.insert(output.disposables)
         initializeErrorObserver(for: output.alertOfError)
+        initializeSpinnerObserver(for: output.spinnerSubject)
     }
     
-    func initializeErrorObserver(for subject: PublishSubject<LoginError>){
+    func initializeErrorObserver(for subject: PublishSubject<LoginError>) {
         subject
             .asDriver(onErrorJustReturn: .failedLoad(text: .empty))
         .do(onNext: { [unowned self] (error) in
@@ -198,6 +199,20 @@ private extension LoginViewController {
             }
             
             self.present(alert, animated: true, completion: nil)
+        })
+        .drive()
+        .disposed(by: disposeBag)
+    }
+    
+    func initializeSpinnerObserver(for subject: PublishSubject<Bool>) {
+        subject
+        .asDriver(onErrorJustReturn: false)
+        .do(onNext: { [unowned self] shouldShow in
+            if shouldShow {
+                self.showSpinner(on: self.view)
+            } else {
+                self.removeSpinner()
+            }
         })
         .drive()
         .disposed(by: disposeBag)

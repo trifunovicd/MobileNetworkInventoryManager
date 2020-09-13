@@ -112,6 +112,7 @@ private extension UserViewController {
         initializeAddUserMarkerObserver(for: output.addUserMarker)
         initializeCenterMapViewObserver(for: output.centerMapView)
         initializeErrorObserver(for: output.alertOfError)
+        initializeSpinnerObserver(for: output.spinnerSubject)
     }
 
     func subscribeToScreenData() {
@@ -157,6 +158,20 @@ private extension UserViewController {
                 alert = self.getAlert(title: R.string.localizable.error_alert_title(), message: R.string.localizable.error_alert_message(text), actionTitle: R.string.localizable.alert_ok_action())
             }
             self.present(alert, animated: true, completion: nil)
+        })
+        .drive()
+        .disposed(by: disposeBag)
+    }
+    
+    func initializeSpinnerObserver(for subject: PublishSubject<Bool>) {
+        subject
+        .asDriver(onErrorJustReturn: false)
+        .do(onNext: { [unowned self] shouldShow in
+            if shouldShow {
+                self.showSpinner(on: self.view)
+            } else {
+                self.removeSpinner()
+            }
         })
         .drive()
         .disposed(by: disposeBag)

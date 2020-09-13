@@ -20,6 +20,7 @@ public class LoginViewModel: ViewModelType {
     public struct Output {
         var disposables: [Disposable]
         let alertOfError: PublishSubject<LoginError>
+        let spinnerSubject: PublishSubject<Bool>
     }
     
     public struct Dependecies {
@@ -40,7 +41,7 @@ public class LoginViewModel: ViewModelType {
         var disposables = [Disposable]()
         disposables.append(initializeLoginObserver(for: input.loginSubject))
         
-        let output = Output(disposables: disposables, alertOfError: PublishSubject())
+        let output = Output(disposables: disposables, alertOfError: PublishSubject(), spinnerSubject: PublishSubject())
         
         self.input = input
         self.output = output
@@ -60,11 +61,13 @@ public class LoginViewModel: ViewModelType {
 private extension LoginViewModel {
     func initializeLoginObserver(for subject: PublishSubject<(String, String)>) -> Disposable {
         return subject.flatMap {[unowned self] (username, password) -> Observable<DataWrapper<[Login]>> in
+            self.output.spinnerSubject.onNext(true)
             return self.dependecies.userRepository.login(username: username, password: password)
         }
         .observeOn(MainScheduler.instance)
         .subscribeOn(dependecies.subscribeScheduler)
         .subscribe(onNext: { [unowned self] (dataWrapper) in
+            self.output.spinnerSubject.onNext(false)
             guard let safeData = dataWrapper.data else {
                 self.handleError(error: dataWrapper.error)
                 return

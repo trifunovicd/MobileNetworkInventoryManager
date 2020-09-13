@@ -53,7 +53,7 @@ public class SitesTableViewController: UITableViewController, AlertView {
         initializeVM()
         searchBar.delegate = self
         viewModel.setupSortView(frame: view.frame)
-        viewModel.input.loadDataSubject.onNext(())
+        viewModel.input.loadDataSubject.onNext(.automatic)
         viewModel.output.showNavigationButtons.onNext(true)
     }
     
@@ -143,6 +143,7 @@ private extension SitesTableViewController {
         initializeFilterActionObserver(for: output.filterAction)
         initializeNavigationButtonsObserver(for: output.showNavigationButtons)
         initializeResignResponderObserver(for: output.resignResponder)
+        initializeSpinnerObserver(for: output.spinnerSubject)
     }
     
     func initializeErrorObserver(for subject: PublishSubject<LoadError>) {
@@ -164,7 +165,7 @@ private extension SitesTableViewController {
         myRefreshControl.rx.controlEvent(.valueChanged)
         .asObservable()
         .subscribe(onNext: { [unowned self] in
-            self.viewModel.input.loadDataSubject.onNext(())
+            self.viewModel.input.loadDataSubject.onNext(.manual)
         }).disposed(by: disposeBag)
     }
     
@@ -215,6 +216,20 @@ private extension SitesTableViewController {
         .subscribe(onNext: { [unowned self] in
             self.searchBar.resignFirstResponder()
         })
+        .disposed(by: disposeBag)
+    }
+    
+    func initializeSpinnerObserver(for subject: PublishSubject<Bool>) {
+        subject
+        .asDriver(onErrorJustReturn: false)
+        .do(onNext: { [unowned self] shouldShow in
+            if shouldShow {
+                self.showSpinner(on: self.view)
+            } else {
+                self.removeSpinner()
+            }
+        })
+        .drive()
         .disposed(by: disposeBag)
     }
 }

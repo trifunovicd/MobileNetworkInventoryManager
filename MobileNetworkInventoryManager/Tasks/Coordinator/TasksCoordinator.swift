@@ -57,7 +57,7 @@ extension TasksCoordinator: CoordinatorDelegate {
 
 extension TasksCoordinator: ModalDelegate {
     func getTasks() {
-        controller.viewModel.input.loadDataSubject.onNext(())
+        controller.viewModel.input.loadDataSubject.onNext(.manual)
     }
     
     func dismissModal() {

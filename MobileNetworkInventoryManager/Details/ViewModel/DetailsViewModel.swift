@@ -27,6 +27,7 @@ public class DetailsViewModel: ViewModelType {
         let addSiteMarker: PublishSubject<()>
         let centerMapView: PublishSubject<CLLocationCoordinate2D>
         let updateDistance: PublishSubject<CLLocationCoordinate2D>
+        let spinnerSubject: PublishSubject<Bool>
         var screenData: BehaviorRelay<[SectionItem<DetailsSectionType, DetailsItemType, ItemDetails>]>
     }
     
@@ -56,7 +57,7 @@ public class DetailsViewModel: ViewModelType {
         var disposables = [Disposable]()
         disposables.append(initializeLoadDataObservable(for: input.loadDataSubject))
         disposables.append(initializeCompleteTaskObservable(for: input.completeTaskSubject))
-        let output = Output(disposables: disposables, alertSubject: PublishSubject(), closeModal: PublishSubject(), addSiteMarker: PublishSubject(), centerMapView: PublishSubject(), updateDistance: PublishSubject(), screenData: BehaviorRelay.init(value: []))
+        let output = Output(disposables: disposables, alertSubject: PublishSubject(), closeModal: PublishSubject(), addSiteMarker: PublishSubject(), centerMapView: PublishSubject(), updateDistance: PublishSubject(), spinnerSubject: PublishSubject(), screenData: BehaviorRelay.init(value: []))
         
         self.input = input
         self.output = output
@@ -78,11 +79,13 @@ public class DetailsViewModel: ViewModelType {
 private extension DetailsViewModel {
     func initializeLoadDataObservable(for subject: ReplaySubject<()>) -> Disposable {
         return subject.map {[unowned self] (_) -> [SectionItem<DetailsSectionType, DetailsItemType, ItemDetails>] in
+            self.output.spinnerSubject.onNext(true)
             return self.createScreenData(self.dependecies.screenType, details: self.dependecies.details)
         }
         .observeOn(MainScheduler.instance)
         .subscribeOn(dependecies.subscribeScheduler)
         .subscribe(onNext: { [unowned self] (items) in
+            self.output.spinnerSubject.onNext(false)
             self.output.screenData.accept(items)
         })
     }
@@ -138,11 +141,13 @@ private extension DetailsViewModel {
 private extension DetailsViewModel {
     func initializeCompleteTaskObservable(for subject: PublishSubject<Int>) -> Disposable {
         return subject.flatMap {[unowned self] (taskId) -> Observable<Int> in
+            self.output.spinnerSubject.onNext(true)
             return self.dependecies.taskRepository.setTaskStatus(taskId: taskId)
         }
         .observeOn(MainScheduler.instance)
         .subscribeOn(dependecies.subscribeScheduler)
         .subscribe(onNext: { [unowned self] (result) in
+            self.output.spinnerSubject.onNext(false)
             if result == 1 {
                 self.dependecies.tasksCoordinatorDelegate?.getTasks()
             } else {

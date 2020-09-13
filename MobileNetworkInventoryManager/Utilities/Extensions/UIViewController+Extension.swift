@@ -25,23 +25,19 @@ public extension UIViewController {
     
     func showSpinner(on view: UIView) {
         let spinnerView = UIView.init(frame: view.bounds)
-        spinnerView.backgroundColor = UIColor.darkGray.withAlphaComponent(0.5)
+        spinnerView.backgroundColor = UIColor.darkGray.withAlphaComponent(0.4)
         let activityIndicator = UIActivityIndicatorView.init(style: .whiteLarge)
         activityIndicator.startAnimating()
         activityIndicator.center = spinnerView.center
         
-        DispatchQueue.main.async {
-            spinnerView.addSubview(activityIndicator)
-            view.addSubview(spinnerView)
-        }
+        spinnerView.addSubview(activityIndicator)
+        view.addSubview(spinnerView)
         
         UIViewController.spinner = spinnerView
     }
     
     func removeSpinner() {
-        DispatchQueue.main.async {
-            UIViewController.spinner?.removeFromSuperview()
-            UIViewController.spinner = nil
-        }
+        UIViewController.spinner?.removeFromSuperview()
+        UIViewController.spinner = nil
     }
 }

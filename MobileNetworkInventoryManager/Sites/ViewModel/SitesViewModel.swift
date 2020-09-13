@@ -15,7 +15,7 @@ import CoreLocation
 public class SitesViewModel: ViewModelType, TransformData {
     
     public struct Input {
-        let loadDataSubject: ReplaySubject<()>
+        let loadDataSubject: ReplaySubject<RefreshType>
         let siteDetailsSubject: PublishSubject<SitePreview>
     }
     
@@ -28,6 +28,7 @@ public class SitesViewModel: ViewModelType, TransformData {
         let showNavigationButtons: PublishSubject<Bool>
         let endRefreshing: PublishSubject<()>
         let resignResponder: PublishSubject<()>
+        let spinnerSubject: PublishSubject<Bool>
     }
     
     public struct Dependecies {
@@ -56,7 +57,7 @@ public class SitesViewModel: ViewModelType, TransformData {
         var disposables = [Disposable]()
         disposables.append(initializeLoadDataObservable(for: input.loadDataSubject))
         disposables.append(initializeSiteDetailsObservable(for: input.siteDetailsSubject))
-        let output = Output(disposables: disposables, alertOfError: PublishSubject(), filteredSitesPreviews: BehaviorRelay.init(value: []), filterAction: PublishSubject(), showNavigationButtons: PublishSubject(), endRefreshing: PublishSubject(), resignResponder: PublishSubject())
+        let output = Output(disposables: disposables, alertOfError: PublishSubject(), filteredSitesPreviews: BehaviorRelay.init(value: []), filterAction: PublishSubject(), showNavigationButtons: PublishSubject(), endRefreshing: PublishSubject(), resignResponder: PublishSubject(), spinnerSubject: PublishSubject())
         
         self.input = input
         self.output = output
@@ -71,13 +72,17 @@ public class SitesViewModel: ViewModelType, TransformData {
 }
 
 private extension SitesViewModel {
-    func initializeLoadDataObservable(for subject: ReplaySubject<()>) -> Disposable {
-        return subject.flatMap {[unowned self] (_) -> Observable<DataWrapper<([Site], [SitePreview])>> in
+    func initializeLoadDataObservable(for subject: ReplaySubject<RefreshType>) -> Disposable {
+        return subject.flatMap {[unowned self] (type) -> Observable<DataWrapper<([Site], [SitePreview])>> in
+            if type == .automatic {
+                self.output.spinnerSubject.onNext(true)
+            }
             return self.combineObservables(sitesObservable: self.dependecies.siteRepository.getSites(), userObservable: self.dependecies.userRepository.getUserData(userId: self.dependecies.userId))
         }
         .observeOn(MainScheduler.instance)
         .subscribeOn(dependecies.subscribeScheduler)
         .subscribe(onNext: { [unowned self] (dataWrapper) in
+            self.output.spinnerSubject.onNext(false)
             guard let safeData = dataWrapper.data else {
                 self.output.endRefreshing.onNext(())
                 self.handleError(error: dataWrapper.error)
@@ -85,8 +90,8 @@ private extension SitesViewModel {
             }
             self.sites = safeData.0
             self.sitesPreviews = safeData.1
-            self.output.endRefreshing.onNext(())
             self.getSortSettings()
+            self.output.endRefreshing.onNext(())
         })
     }
     
