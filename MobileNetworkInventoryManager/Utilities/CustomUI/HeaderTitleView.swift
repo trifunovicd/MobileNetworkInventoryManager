@@ -34,12 +34,12 @@ public class HeaderTitleView: UITableViewHeaderFooterView {
 
 private extension HeaderTitleView {
     func setupUI() {
-        tintColor = .systemBlue
+        contentView.backgroundColor = .systemBlue
         contentView.addSubview(titleLabel)
-        setupConstraints()
+        setConstraints()
     }
     
-    func setupConstraints() {
+    func setConstraints() {
         titleLabel.snp.makeConstraints { (maker) in
             maker.top.leading.trailing.bottom.equalToSuperview().inset(UIEdgeInsets(top: 7, left: 16, bottom: 5, right: 0))
         }

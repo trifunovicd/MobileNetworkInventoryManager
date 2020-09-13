@@ -107,6 +107,9 @@ public class CardTableViewCell: UITableViewCell {
 
 private extension CardTableViewCell {
     func setupLayout() {
+        selectionStyle = .none
+        contentView.backgroundColor = .white
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellClicked))
         containerView.addGestureRecognizer(tapGesture)
         
@@ -116,10 +119,7 @@ private extension CardTableViewCell {
         stackView.spacing = 8
         
         containerView.addSubviews(titleLabel, subtitleLabel, infoLabel, stackView)
-        
         contentView.addSubview(containerView)
-        contentView.backgroundColor = .white
-        
         setConstraints(stackView: stackView)
     }
     

@@ -51,7 +51,7 @@ class DetailsTableViewCell: UITableViewCell {
 private extension DetailsTableViewCell {
     func setupLayout() {
         selectionStyle = .none
-        backgroundColor = .clear
+        contentView.backgroundColor = .white
         contentView.addSubviews(itemLabel, itemText)
         setConstraints()
     }
