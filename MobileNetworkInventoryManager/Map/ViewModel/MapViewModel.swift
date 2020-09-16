@@ -110,7 +110,10 @@ private extension MapViewModel {
                 for user in users {
                     if user.user_id == self.dependecies.userId {
                         currentUser = user
-                    } else {
+                    }
+                }
+                for user in users {
+                    if user.user_id != self.dependecies.userId {
                         let distance = self.getDistance(userLocation: (currentUser.lat, currentUser.lng), siteLocation: (user.lat, user.lng))
                         let userPreview = UserPreview(name: user.name, surname: user.surname, username: user.username, lat: user.lat, lng: user.lng, recorded: user.recorded, distance: distance.getDistanceString())
                         uPreviews.append(userPreview)
